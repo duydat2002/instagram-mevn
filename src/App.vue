@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { RouterView, useRoute } from "vue-router";
-import Test from "@/components/Test.vue";
 
 const route = useRoute();
 </script>

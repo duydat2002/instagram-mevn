@@ -2,8 +2,7 @@
 
 <template>
   <section class="dashboard w-full min-h-screen bg-bgColor-primary">
-    <main>
-      App Layout
+    <main class="">
       <slot />
     </main>
   </section>

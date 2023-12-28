@@ -1,3 +1,4 @@
+import { useUserStore } from "@/store";
 import routes from "./routes";
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -17,6 +18,18 @@ const router = createRouter({
       }
     }
   },
+});
+
+const authPath = ["/accounts/login", "/accounts/emailsignup"];
+
+router.beforeEach(async (to, from) => {
+  const { isLogged } = useUserStore();
+
+  if (to.meta.requiresAuth && !isLogged) return "/accounts/login";
+
+  if (authPath.includes(to.path) && isLogged) return "/";
+
+  return;
 });
 
 export default router;
