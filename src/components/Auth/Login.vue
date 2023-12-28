@@ -30,6 +30,7 @@ const handleSubmitLogin = async () => {
     console.log(data.message);
   } else {
     if (route.path != "/") router.push("/");
+    else router.go(0);
   }
 
   loading.value = false;

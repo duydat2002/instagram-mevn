@@ -57,6 +57,7 @@ const handleSubmitRegister = async () => {
     console.log(data);
   } else {
     if (route.path != "/") router.push("/");
+    else router.go(0);
   }
 
   loading.value = false;

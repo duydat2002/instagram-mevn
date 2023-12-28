@@ -2,10 +2,9 @@
 import HomePage from "./homePage.vue";
 import HomeLogin from "./homeLogin.vue";
 
-import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store";
 
-const { isLogged } = storeToRefs(useUserStore());
+const { isLogged } = useUserStore();
 </script>
 
 <template>

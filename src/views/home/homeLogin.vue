@@ -53,7 +53,6 @@ onBeforeUnmount(() => {
       </div>
       <Login class="mb-10" />
     </div>
-    <Footer />
   </div>
 </template>
 

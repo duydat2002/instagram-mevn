@@ -37,7 +37,6 @@ export const useUserStore = defineStore("user", {
       } else {
         this.user = null;
         this.isLogged = false;
-        console.log("Lấy thông tin không thành công!");
       }
     },
     async logout() {
