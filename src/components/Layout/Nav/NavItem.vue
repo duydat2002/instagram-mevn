@@ -24,7 +24,7 @@ const handleChangeTab = (nav: ENavTab) => {
   <component
     :is="nav.path ? 'RouterLink' : 'div'"
     :to="nav.path"
-    class="nav-item group/nav-item flex items-center p-3 my-0 min-[768px]:my-[2px] rounded-lg cursor-pointer min-[768px]:hover:bg-hover transition-colors duration-300"
+    class="nav-item group/nav-item flex items-center p-3 my-0 tablet:my-[2px] rounded-lg cursor-pointer tablet:hover:bg-hover transition-colors duration-300 select-none"
     :class="{ active: currentNav == nav.name }"
     @click="handleChangeTab(nav.name)"
   >
@@ -45,7 +45,7 @@ const handleChangeTab = (nav: ENavTab) => {
       />
     </div>
     <span
-      class="hidden min-[1264px]:block parent-[.is-narrow]:hidden min-w-max pl-4 text-base text-textColor-primary parent-[.active]:font-bold"
+      class="hidden desktop:block parent-[.is-narrow]:hidden min-w-max pl-4 text-base text-textColor-primary parent-[.active]:font-bold"
       >{{ nav.title }}</span
     >
     <div class="tooltip">
