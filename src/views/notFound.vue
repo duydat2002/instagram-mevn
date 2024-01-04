@@ -1,4 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from "vue";
+
+onMounted(() => {
+  document.title = "Không tìm thấy trang • Instagram";
+});
+</script>
 
 <template>
   <div class="p-10 text-center text-textColor-primary">

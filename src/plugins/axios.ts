@@ -28,7 +28,7 @@ service.interceptors.response.use(
     if (error?.response.status == 401 && refreshToken) {
       const res = await refreshTokenFn(refreshToken);
 
-      error.config.headers.Authorization = `Bearer ${res.result.accessToken}`;
+      error.config.headers.Authorization = `Bearer ${res.result?.accessToken}`;
 
       return api.request(error.config);
     }

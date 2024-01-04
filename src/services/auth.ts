@@ -8,15 +8,15 @@ interface ITokenResult {
   refreshToken: string;
 }
 
-export async function login(email: String, password: String) {
+export async function login(email: string, password: string) {
   const data = await api.post<any, IServerData<ITokenResult>>(prefix + "login", {
     email,
     password,
   });
 
   if (data.success) {
-    localStorage.setItem("access_token", data.result.accessToken);
-    localStorage.setItem("refresh_token", data.result.refreshToken);
+    localStorage.setItem("access_token", data.result!.accessToken);
+    localStorage.setItem("refresh_token", data.result!.refreshToken);
   }
 
   return data;
@@ -36,8 +36,8 @@ export async function register(
   });
 
   if (data.success) {
-    localStorage.setItem("access_token", data.result.accessToken);
-    localStorage.setItem("refresh_token", data.result.refreshToken);
+    localStorage.setItem("access_token", data.result!.accessToken);
+    localStorage.setItem("refresh_token", data.result!.refreshToken);
   }
 
   return data;
@@ -69,7 +69,7 @@ export async function refreshToken(refreshToken: string) {
   });
 
   if (data.success) {
-    localStorage.setItem("access_token", data.result.accessToken);
+    localStorage.setItem("access_token", data.result!.accessToken);
   }
 
   return data;

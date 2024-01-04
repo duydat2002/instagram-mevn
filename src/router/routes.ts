@@ -2,6 +2,7 @@ import AuthLayout from "@/layouts/AuthLayout.vue";
 import AppLayout from "@/layouts/AppLayout.vue";
 import { RouteRecordRaw } from "vue-router";
 import { useUserStore } from "@/store";
+import profile from "./profile";
 
 const routes: Readonly<RouteRecordRaw[]> = [
   {
@@ -35,12 +36,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
     component: () => import("@/views/messenger.vue"),
     meta: { layout: AppLayout, requiresAuth: true },
   },
-  {
-    path: "/:username",
-    name: "Profile",
-    component: () => import("@/views/profile/index.vue"),
-    meta: { layout: AppLayout, requiresAuth: true },
-  },
+  profile,
   {
     path: "/accounts/login",
     name: "Login",

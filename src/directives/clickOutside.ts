@@ -24,7 +24,7 @@ const checkClickOutside = (el: ExtendHTMLElement, elClick: ExtendHTMLElement) =>
 export const ClickOuside: Directive = {
   mounted(el: ExtendHTMLElement, binding: DirectiveBinding) {
     if (!binding.modifiers.short) {
-      let mouseDownPosition: IPoint | null = null;
+      let mouseDownPosition: Nullable<IPoint> = null;
 
       el._mouseDownEvent = (event: MouseEvent) => {
         if (checkClickOutside(el, event.target as ExtendHTMLElement)) {

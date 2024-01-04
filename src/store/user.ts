@@ -4,7 +4,7 @@ import { login, register, logout } from "@/services/auth";
 import { getUser } from "@/services/user";
 
 interface IState {
-  user: IUser | null;
+  user: Nullable<IUser>;
   isLogged: boolean;
 }
 
@@ -14,7 +14,7 @@ export const useUserStore = defineStore("user", {
     isLogged: !!localStorage.getItem("refresh_token"),
   }),
   actions: {
-    async login(username: String, password: String) {
+    async login(username: string, password: string) {
       const data = await login(username, password);
 
       await this.fetchUserInfo();
@@ -29,10 +29,11 @@ export const useUserStore = defineStore("user", {
       return data;
     },
     async fetchUserInfo() {
+      console.log("fetchUserInfo");
       const data = await getUser();
 
       if (data.success) {
-        this.user = data.result.user;
+        this.user = data.result!.user;
         this.isLogged = true;
       } else {
         this.user = null;

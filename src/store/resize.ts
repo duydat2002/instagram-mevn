@@ -5,8 +5,8 @@ interface IState {
   screen: "mobile" | "tablet" | "desktop";
   dimensions: ISize;
   timeout: {
-    width: NodeJS.Timeout | null;
-    height: NodeJS.Timeout | null;
+    width: Nullable<NodeJS.Timeout>;
+    height: Nullable<NodeJS.Timeout>;
   };
 }
 

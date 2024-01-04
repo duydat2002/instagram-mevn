@@ -9,7 +9,7 @@ import ReportIcon from "@icons/report.svg";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
-import { useThemeStore } from "@/store";
+import { useThemeStore, useUserStore } from "@/store";
 import USwitchButton from "@/components/UI/USwitchButton.vue";
 
 const router = useRouter();
@@ -26,7 +26,12 @@ const tabHeight = computed(() => {
     : mainTab.value?.clientHeight + "px";
 });
 
-const logout = () => {};
+const logout = async () => {
+  const { logout } = useUserStore();
+
+  await logout();
+  router.go(0);
+};
 </script>
 
 <template>

@@ -4,6 +4,7 @@ import { RouterView, useRoute } from "vue-router";
 import { useResize } from "./composables";
 import { storeToRefs } from "pinia";
 import { useResizeStore, useThemeStore } from "./store";
+import LoadingProgress from "./components/Common/LoadingProgress.vue";
 
 useResize();
 const route = useRoute();
@@ -21,6 +22,8 @@ watch(darkMode, (theme) => {
   <div :class="[screen]">
     <KeepAlive>
       <component :is="route.meta.layout || 'div'">
+        <LoadingProgress />
+
         <RouterView />
       </component>
     </KeepAlive>

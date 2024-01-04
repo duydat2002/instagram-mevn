@@ -75,7 +75,7 @@ export default {
     },
   },
   plugins: [
-    plugin(function ({ matchVariant, addUtilities }) {
+    plugin(function ({ addVariant, matchVariant, addUtilities }) {
       matchVariant("has", (value) => {
         return `&.${value}`;
       });
@@ -85,6 +85,8 @@ export default {
       matchVariant("pseudo", (value) => {
         return `&::${value}`;
       });
+      addVariant("not-lastchild", `&>*:not(:last-child)`);
+      addVariant("not-firstchild", `&>*:not(:first-child)`);
       addUtilities({
         ".flex-center": {
           "align-items": "center",
