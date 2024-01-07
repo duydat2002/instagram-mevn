@@ -36,7 +36,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
     component: () => import("@/views/messenger.vue"),
     meta: { layout: AppLayout, requiresAuth: true },
   },
-  profile,
+  ...profile,
   {
     path: "/accounts/login",
     name: "Login",

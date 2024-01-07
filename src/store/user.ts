@@ -5,15 +5,20 @@ import { getUser } from "@/services/user";
 
 interface IState {
   user: Nullable<IUser>;
+  profileUser: Nullable<IUser>;
   isLogged: boolean;
 }
 
 export const useUserStore = defineStore("user", {
   state: (): IState => ({
+    profileUser: null,
     user: null,
     isLogged: !!localStorage.getItem("refresh_token"),
   }),
   actions: {
+    setProfileUser(user: Nullable<IUser>) {
+      this.profileUser = user;
+    },
     async login(username: string, password: string) {
       const data = await login(username, password);
 

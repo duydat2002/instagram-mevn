@@ -1,4 +1,4 @@
-import { useLoadingStore, useUserStore } from "@/store";
+import { useLoadingStore, useModalStore, useUserStore } from "@/store";
 import routes from "./routes";
 import { createRouter, createWebHistory } from "vue-router";
 

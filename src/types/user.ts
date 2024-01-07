@@ -13,3 +13,8 @@ export interface IUser {
   liked_posts: string[];
   isPrivate: boolean;
 }
+
+export interface IFollowUser extends IUser {
+  isFollowed: boolean;
+  followOrder: number;
+}

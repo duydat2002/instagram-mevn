@@ -1,12 +1,18 @@
 <script lang="ts">
 import { getUserByUsername } from "@/services/user";
 import { useUserStore } from "@/store";
+import Modal from "@/components/Modal/Modal.vue";
+
+const { setProfileUser } = useUserStore();
 
 export default {
   beforeRouteEnter: async function (to) {
     const data = await getUserByUsername(to.params.username as string);
 
     to.meta.data = data;
+
+    setProfileUser(data.result?.user || null);
+
     if (data.success)
       to.meta.title = data.result?.user.fullname
         ? `${data.result.user.fullname} (@${data.result.user.username}) • Instagram`
@@ -42,24 +48,22 @@ const props = defineProps({
 
 const route = useRoute();
 
-const { user } = storeToRefs(useUserStore());
-const currentUser = ref<Nullable<IUser>>(props.data?.result?.user || null);
+const { user, profileUser } = storeToRefs(useUserStore());
 const mutualFollowed = ref<IUser[]>([]);
 const isLoadingFollow = ref(false);
 const isFollowed = ref(false);
 
 const isSameUser = computed(() => {
-  return (user.value && user.value?.id == currentUser.value!.id) as boolean;
+  return (user.value && user.value?.id == profileUser.value!.id) as boolean;
 });
-const threeMutual = computed(() => mutualFollowed?.value.slice(0, 3));
 
 const handleClickFollow = async () => {
   if (user.value) {
     isLoadingFollow.value = true;
 
-    const data = await followUser(user.value.id, currentUser.value!.id);
+    const data = await followUser(user.value.id, profileUser.value!.id);
     if (data.success) {
-      currentUser.value?.followers.push(user.value.id);
+      profileUser.value?.followers.push(user.value.id);
       isFollowed.value = true;
     }
 
@@ -71,10 +75,10 @@ const handleClickUnfollow = async () => {
   if (user.value) {
     isLoadingFollow.value = true;
 
-    const data = await unfollowUser(user.value.id, currentUser.value!.id);
+    const data = await unfollowUser(user.value.id, profileUser.value!.id);
     if (data.success) {
-      const index = currentUser.value!.followers.indexOf(user.value.id);
-      if (index != -1) currentUser.value?.followers.splice(index, 1);
+      const index = profileUser.value!.followers.indexOf(user.value.id);
+      if (index != -1) profileUser.value?.followers.splice(index, 1);
       isFollowed.value = false;
     }
 
@@ -83,14 +87,13 @@ const handleClickUnfollow = async () => {
 };
 
 watch(
-  currentUser,
+  profileUser,
   async (current) => {
     isFollowed.value = (user.value && current?.followers.includes(user.value.id)) as boolean;
 
     if (user.value && current && !isSameUser.value) {
-      const mutualData = await getMutualFollowedBy(current.id, user.value.id);
-      mutualFollowed.value = mutualData.result?.mutual || [];
-      console.log("mutualData", mutualFollowed.value);
+      const mutualData = await getMutualFollowedBy(current.id);
+      mutualFollowed.value = mutualData.result?.users || [];
     }
   },
   { immediate: true }
@@ -99,7 +102,7 @@ watch(
 onBeforeRouteUpdate(async (to, _from, next) => {
   const data = await getUserByUsername(to.params.username as string);
 
-  currentUser.value = data.result?.user || null;
+  setProfileUser(data.result?.user || null);
 
   if (data.success)
     to.meta.title = data.result?.user.fullname
@@ -113,16 +116,16 @@ onBeforeRouteUpdate(async (to, _from, next) => {
 <template>
   <div class="flex flex-col">
     <div class="flex-grow">
-      <div v-if="currentUser" class="max-w-[935px] h-full px-5 pt-[30px] mx-auto">
+      <div v-if="profileUser" class="max-w-[935px] h-full px-5 pt-[30px] mx-auto">
         <div class="general">
           <div class="flex">
             <div class="flex-[1_1_0%]">
-              <Avatar :avatarUrl="currentUser.avatar" width="150" class="mx-auto" />
+              <Avatar :avatarUrl="profileUser.avatar" width="150" class="mx-auto" />
             </div>
             <div class="flex-[2_1_0%] not-lastchild:mb-4">
               <div class="flex gap-x-5">
-                <RouterLink :to="`/${currentUser.username}`" class="text-xl">{{
-                  currentUser.username
+                <RouterLink :to="`/${profileUser.username}`" class="text-xl">{{
+                  profileUser.username
                 }}</RouterLink>
                 <div class="flex">
                   <UButton v-if="isSameUser" secondary>Chỉnh sửa trang cá nhân</UButton>
@@ -156,40 +159,41 @@ onBeforeRouteUpdate(async (to, _from, next) => {
               <div class="flex text-base not-lastchild:mr-10">
                 <span class="">
                   <span class="font-semibold">{{
-                    formatNumberToSuffix(currentUser.posts.length)
+                    formatNumberToSuffix(profileUser.posts.length)
                   }}</span>
                   bài viết
                 </span>
                 <component
-                  :is="currentUser.followers.length == 0 ? 'span' : 'RouterLink'"
-                  to="/"
+                  :is="profileUser.followers.length == 0 ? 'span' : 'RouterLink'"
+                  :to="{ name: 'Followers' }"
                   class=""
                 >
                   <span class="font-semibold">{{
-                    formatNumberToSuffix(currentUser.followers.length)
+                    formatNumberToSuffix(profileUser.followers.length)
                   }}</span>
                   người theo dõi
                 </component>
                 <component
-                  :is="currentUser.followings.length == 0 ? 'span' : 'RouterLink'"
-                  to="/"
+                  :is="profileUser.followings.length == 0 ? 'span' : 'RouterLink'"
+                  :to="{ name: 'Followings' }"
                   class=""
                 >
                   Đang theo dõi
                   <span class="font-semibold">{{
-                    formatNumberToSuffix(currentUser.followings.length)
+                    formatNumberToSuffix(profileUser.followings.length)
                   }}</span>
                   người dùng
                 </component>
               </div>
               <div class="flex flex-col gap-y-3">
-                <span v-if="currentUser.fullname" class="font-semibold">{{
-                  currentUser.fullname
+                <span v-if="profileUser.fullname" class="font-semibold">{{
+                  profileUser.fullname
                 }}</span>
-                <span v-if="currentUser.bio" class="">{{ currentUser.bio }}</span>
+                <span v-if="profileUser.bio" class="">{{ profileUser.bio }}</span>
               </div>
-              <span
-                v-if="mutualFollowed.length != 0"
+              <RouterLink
+                v-if="!isFollowed && mutualFollowed.length != 0"
+                :to="{ name: 'MutualFollowers' }"
                 class="text-xs text-textColor-secondary cursor-pointer"
               >
                 Có
@@ -203,7 +207,7 @@ onBeforeRouteUpdate(async (to, _from, next) => {
                   và {{ mutualFollowed.length - 3 }} người khác theo dõi</span
                 >
                 <span v-else> theo dõi</span>
-              </span>
+              </RouterLink>
             </div>
           </div>
           <div class=""></div>

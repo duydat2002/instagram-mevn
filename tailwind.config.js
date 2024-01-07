@@ -93,6 +93,13 @@ export default {
           "justify-content": "center",
         },
       });
+      addUtilities({
+        ".text-dots": {
+          overflow: "hidden",
+          "white-space": "nowrap",
+          "text-overflow": "ellipsis",
+        },
+      });
     }),
   ],
 };
