@@ -12,4 +12,7 @@ export default defineConfig({
       "@icons": fileURLToPath(new URL("./src/assets/icons", import.meta.url)),
     },
   },
+  build: {
+    target: "esnext",
+  },
 });

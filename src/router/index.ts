@@ -37,7 +37,7 @@ router.beforeEach(async (to, from) => {
   return;
 });
 
-router.afterEach((to, from) => {
+router.afterEach((to, _from) => {
   const { stopLoading, stopSplash } = useLoadingStore();
 
   document.title = (to.meta.title as string) || "Instagram";

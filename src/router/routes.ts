@@ -9,7 +9,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
     path: "/",
     name: "Home",
     component: () => import("@/views/home/index.vue"),
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (to, _from, next) => {
       const { isLogged } = useUserStore();
 
       if (isLogged) to.meta.layout = AppLayout;
