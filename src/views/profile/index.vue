@@ -99,16 +99,17 @@ watch(
   { immediate: true }
 );
 
-onBeforeRouteUpdate(async (to, _from, next) => {
-  const data = await getUserByUsername(to.params.username as string);
+onBeforeRouteUpdate(async (to, from, next) => {
+  if (to.params.username != from.params.username) {
+    const data = await getUserByUsername(to.params.username as string);
 
-  setProfileUser(data.result?.user || null);
+    setProfileUser(data.result?.user || null);
 
-  if (data.success)
-    to.meta.title = data.result?.user.fullname
-      ? `${data.result.user.fullname} (@${data.result.user.username}) • Instagram`
-      : `@${data.result?.user.username} • Instagram`;
-
+    if (data.success)
+      to.meta.title = data.result?.user.fullname
+        ? `${data.result.user.fullname} (@${data.result.user.username}) • Instagram`
+        : `@${data.result?.user.username} • Instagram`;
+  }
   next();
 });
 </script>
