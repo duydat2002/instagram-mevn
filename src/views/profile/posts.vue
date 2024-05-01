@@ -3,7 +3,6 @@ import Loading from "@/components/Common/Loading.vue";
 import UButton from "@/components/UI/UButton.vue";
 
 import { ref, watch, onBeforeMount } from "vue";
-import { onBeforeRouteUpdate } from "vue-router";
 import { useUserStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { getPostsByAuthor } from "@/services/post";
@@ -17,14 +16,8 @@ const fetchPosts = async () => {
 
   const data = await getPostsByAuthor(profileUser.value?.id || "");
 
-  console.log(data);
-
   isLoading.value = false;
 };
-
-onBeforeRouteUpdate(async () => {
-  await fetchPosts();
-});
 
 onBeforeMount(async () => {
   await fetchPosts();

@@ -66,7 +66,7 @@ watch(screen, (value) => {
           class="opacity-100 parent-[.is-narrow]:opacity-0 w-[103px] transition-opacity duration-300"
         />
         <Logo
-          class="absolute top-5 bottom-0 left-3 right-0 opacity-0 parent-[.is-narrow]:opacity-100 transition-opacity duration-300"
+          class="absolute top-5 bottom-0 left-3 right-0 opacity-0 parent-[.is-narrow]:opacity-100 fill-textColor-primary text-textColor-primary transition-opacity duration-300"
         />
       </RouterLink>
       <div class="flex flex-row flex-grow justify-evenly tablet:justify-normal tablet:flex-col">
@@ -91,7 +91,11 @@ watch(screen, (value) => {
     </div>
     <div v-if="screen != 'mobile'" class="fixed top-0 bottom-0 left-nav-narrow -z-10">
       <Transition name="fadeRight">
-        <SearchPanel v-if="currentPanel == 'Search'" v-click-outside="clickOutsideTab" />
+        <SearchPanel
+          v-if="currentPanel == 'Search'"
+          @close="clickOutsideTab"
+          v-click-outside="clickOutsideTab"
+        />
       </Transition>
       <Transition name="fadeRight">
         <NotificationPanel

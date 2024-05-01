@@ -7,17 +7,13 @@ interface ExtendHTMLElement extends HTMLElement {
   _clickEvent?: Fn<MouseEvent, void>;
 }
 
-const checkClickOutside = (el: ExtendHTMLElement, elClick: ExtendHTMLElement) => {
-  return el !== elClick && !el.contains(elClick);
-};
-
-export const ClickOutside: Directive = {
+export const ClickInside: Directive = {
   mounted(el: ExtendHTMLElement, binding: DirectiveBinding) {
     if (!binding.modifiers.short) {
       let mouseDownPosition: Nullable<IPoint> = null;
 
       el._mouseDownEvent = (event: MouseEvent) => {
-        if (checkClickOutside(el, event.target as ExtendHTMLElement)) {
+        if (el == event.target) {
           mouseDownPosition = { x: event.clientX, y: event.clientY };
         }
       };
@@ -40,7 +36,7 @@ export const ClickOutside: Directive = {
       document.body.addEventListener("mouseup", el._mouseUpEvent);
     } else {
       el._clickEvent = (event: MouseEvent) => {
-        if (checkClickOutside(el, event.target as ExtendHTMLElement)) {
+        if (el == event.target) {
           binding.value(event);
         }
       };

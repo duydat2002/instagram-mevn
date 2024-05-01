@@ -39,7 +39,6 @@ const handleBlur = async () => {
 
   if (!data.success && data.keyValue) {
     keyErrors.value = Array.isArray(data.keyValue) ? data.keyValue : [data.keyValue];
-    console.log(data);
   } else {
     keyErrors.value = [];
   }
@@ -54,7 +53,6 @@ const handleSubmitRegister = async () => {
 
   if (!data.success) {
     registerError.value = !Array.isArray(data.message) ? data.message : data.message[0].message;
-    console.log(data);
   } else {
     if (route.path != "/") router.push("/");
     else router.go(0);

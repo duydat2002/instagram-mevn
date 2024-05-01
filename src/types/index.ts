@@ -5,3 +5,4 @@ export * from "./user";
 export * from "./posts";
 export * from "./comment";
 export * from "./reply";
+export * from "./search";

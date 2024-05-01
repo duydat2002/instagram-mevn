@@ -27,7 +27,6 @@ const handleSubmitLogin = async () => {
 
   if (!data.success) {
     loginError.value = "Rất tiếc, mật khẩu của bạn không đúng.\nVui lòng kiểm tra lại mật khẩu.";
-    console.log(data.message);
   } else {
     if (route.path != "/") router.push("/");
     else router.go(0);

@@ -1,18 +1,56 @@
-# Vue 3 + TypeScript + Vite
+# instagram-vite
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This project is still under development 🔥🔥🔥
 
-## Recommended IDE Setup
+https://instagram-mevn.vercel.app/
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Stack used
 
-## Type Support For `.vue` Imports in TS
+1. Vue 3
+2. Vue router
+3. Pinia
+4. Typescript
+5. Axios - (Nodejs-Mongodb)
+6. Other - Swiper, Vuedraggable, some lodash functions, date-fns, fontawesome,...
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+## App Features
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+### Common
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+- Dark / light mode
+- Loading progress when change route
+- Route as modal: /:username/followers, /:username/followings,...
+
+### Auth
+
+- JWT with AccessToken/ RefreshToken
+- Login / Register
+- Unique username / email check
+
+### Nav
+
+- Automatically return to the previous tab when deactivating add-on tabs: (Search, Notify, Bar)
+- Automatically select the current tab according to the route
+- Show tooltip when hover tab 1s in narrow mode
+- Change nav when resizing to mobile
+
+### Search
+
+- Related search by username and full name, sorted by user relevance (follow)
+
+### Profile
+
+- Show modal followers, followings, mutual followers, mutual first followers by route
+
+### Other
+
+- ...
+
+## Installation
+
+1. npm install
+2. npm run dev
+
+## Notes
+
+- This project will be implemented by Pham Duy Dat from 28/12/2023.

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import Modal from "./Modal.vue";
-import UserItem from "@/components/Profile/UserItem.vue";
+// import UserItem from "@/components/Profile/UserItem.vue";
+import UserItem from "@/components/Account/UserItem.vue";
+import FollowButton from "@/components/Account/FollowButton.vue";
 
 import { ref, onMounted, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -12,7 +14,7 @@ import { IFollowUser } from "@/types";
 const route = useRoute();
 const router = useRouter();
 
-const { profileUser } = storeToRefs(useUserStore());
+const { profileUser, user: authUser } = storeToRefs(useUserStore());
 const followUsers = ref<IFollowUser[]>([]);
 const title = ref("");
 
@@ -37,7 +39,6 @@ onBeforeMount(async () => {
       break;
   }
 
-  console.log(data?.result?.users);
   followUsers.value = data?.result?.users || [];
 });
 </script>
@@ -52,7 +53,11 @@ onBeforeMount(async () => {
         </RouterLink>
       </div>
       <div class="flex-1 overflow-y-scroll">
-        <UserItem v-for="u in followUsers" :key="u.id" :user="u" />
+        <UserItem v-for="user in followUsers" :key="user.id" :user="user">
+          <div v-if="user.id != authUser?.id" class="ml-4">
+            <FollowButton :user="user" />
+          </div>
+        </UserItem>
       </div>
     </div>
   </Modal>

@@ -6,14 +6,15 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { FontAwesomeIcon } from "@/plugins/fontAwesome";
 import { useUserStore } from "./store";
-import { ClickOuside } from "@/directives";
+import { ClickOutside, ClickInside } from "@/directives";
 
 const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
 app.component("fa", FontAwesomeIcon);
-app.directive("click-outside", ClickOuside);
+app.directive("click-outside", ClickOutside);
+app.directive("click-inside", ClickInside);
 
 const { isLogged, fetchUserInfo } = useUserStore();
 

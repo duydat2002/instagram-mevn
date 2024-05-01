@@ -34,7 +34,6 @@ export const useUserStore = defineStore("user", {
       return data;
     },
     async fetchUserInfo() {
-      console.log("fetchUserInfo");
       const data = await getUser();
 
       if (data.success) {
