@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import LogoText from "@icons/logo-text.svg";
-import UButton from "../UI/UButton.vue";
+import UButton from "@/components/UI/UButton.vue";
 
 import { ref, computed } from "vue";
 import UInput from "../UI/UInput.vue";
