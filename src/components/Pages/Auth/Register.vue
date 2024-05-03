@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import LogoText from "@icons/logo-text.svg";
 import UButton from "@/components/UI/UButton.vue";
+import UInput from "@/components/UI/UInput.vue";
 
 import { ref, computed } from "vue";
-import UInput from "../UI/UInput.vue";
 import { useUserStore } from "@/store";
 import { checkRegister } from "@/services/auth";
 import { useRoute, useRouter } from "vue-router";
