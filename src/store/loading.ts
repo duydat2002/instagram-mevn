@@ -3,7 +3,6 @@ import { defineStore } from "pinia";
 export const useLoadingStore = defineStore("loading", {
   state: () => ({
     isLoadingProgress: false,
-    isLoadingSplash: false,
   }),
   actions: {
     startLoading() {
@@ -11,13 +10,6 @@ export const useLoadingStore = defineStore("loading", {
     },
     stopLoading() {
       this.isLoadingProgress = false;
-    },
-
-    startSplash() {
-      this.isLoadingSplash = true;
-    },
-    stopSplash() {
-      this.isLoadingSplash = false;
     },
   },
 });

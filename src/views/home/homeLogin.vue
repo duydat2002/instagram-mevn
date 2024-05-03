@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Login from "@/components/Auth/Login.vue";
+import Login from "@/components/Pages/Auth/Login.vue";
 import Footer from "@/components/Layout/Footer.vue";
 
 import { ref, onMounted, onBeforeUnmount } from "vue";

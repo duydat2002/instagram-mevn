@@ -40,13 +40,13 @@ const routes: Readonly<RouteRecordRaw[]> = [
   {
     path: "/accounts/login",
     name: "Login",
-    component: () => import("@/components/Auth/Login.vue"),
+    component: () => import("@/components/Pages/Auth/Login.vue"),
     meta: { title: "Đăng nhập • Instagram", layout: AuthLayout },
   },
   {
     path: "/accounts/emailsignup",
     name: "Register",
-    component: () => import("@/components/Auth/Register.vue"),
+    component: () => import("@/components/Pages/Auth/Register.vue"),
     meta: { title: "Đăng ký • Instagram", layout: AuthLayout },
   },
   {

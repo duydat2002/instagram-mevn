@@ -3,7 +3,7 @@ import { IServerData } from "@/types";
 
 const prefix = "/auth/";
 
-interface ITokenResult {
+export interface ITokenResult {
   accessToken: string;
   refreshToken: string;
 }

@@ -23,13 +23,11 @@ const router = createRouter({
 const authPath = ["/accounts/login", "/accounts/emailsignup"];
 
 router.beforeEach(async (to, from) => {
-  const { startLoading, startSplash } = useLoadingStore();
+  const { startLoading } = useLoadingStore();
   const { isLogged } = useUserStore();
 
   if (from.name) {
     startLoading();
-  } else {
-    startSplash();
   }
 
   if (to.meta.requiresAuth && !isLogged) return "/accounts/login";
@@ -38,11 +36,10 @@ router.beforeEach(async (to, from) => {
 });
 
 router.afterEach((to, _from) => {
-  const { stopLoading, stopSplash } = useLoadingStore();
+  const { stopLoading } = useLoadingStore();
 
   document.title = (to.meta.title as string) || "Instagram";
   stopLoading();
-  stopSplash();
 });
 
 export default router;

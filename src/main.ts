@@ -7,10 +7,14 @@ import { createPinia } from "pinia";
 import { FontAwesomeIcon } from "@/plugins/fontAwesome";
 import { useUserStore } from "./store";
 import { ClickOutside, ClickInside } from "@/directives";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
 
 const app = createApp(App);
 
-app.use(createPinia());
+app.use(pinia);
 app.use(router);
 app.component("fa", FontAwesomeIcon);
 app.directive("click-outside", ClickOutside);

@@ -1,3 +1,2 @@
-<script lang="ts" setup></script>
-
-<template></template>
+<script setup lang="ts"></script>
+<template>Explore</template>

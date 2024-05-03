@@ -5,6 +5,7 @@ import SearchPanel from "@/components/Layout/Nav/NavPanel/SearchPanel.vue";
 import NavItem from "./NavItem.vue";
 import NotificationPanel from "./NavPanel/NotificationPanel.vue";
 import NavExtend from "./NavExtend.vue";
+import CreatePost from "@/components/Pages/CreatePost/index.vue";
 
 import { ref, computed, watch } from "vue";
 import { storeToRefs } from "pinia";
@@ -12,10 +13,12 @@ import { useResizeStore } from "@/store";
 import { useNav } from "@/composables/useNav";
 import { ENavTab } from "@/types";
 import { useRoute } from "vue-router";
+import { useCreatePostStore } from "@/store/createPost";
 
 const route = useRoute();
 
 const { screen } = storeToRefs(useResizeStore());
+const { currentTab, isShowModal, removePostPopupShow } = storeToRefs(useCreatePostStore());
 const { navs, bottomNav } = useNav();
 const currentNav = ref<ENavTab>(ENavTab.Home);
 const currentPanel = ref<ENavTab.Search | ENavTab.Notification | ENavTab.Bar | null>(null);
@@ -28,7 +31,9 @@ const isNarrow = computed(() => {
 });
 
 const changeTab = (nav: ENavTab) => {
-  if (nav == ENavTab.Search || nav == ENavTab.Notification || nav == ENavTab.Bar) {
+  if (nav == ENavTab.CreatePost) {
+    isShowModal.value = true;
+  } else if (nav == ENavTab.Search || nav == ENavTab.Notification || nav == ENavTab.Bar) {
     currentPanel.value = currentPanel.value == nav ? null : nav;
   } else currentPanel.value = null;
 
@@ -38,6 +43,14 @@ const changeTab = (nav: ENavTab) => {
 const clickOutsideTab = () => {
   currentPanel.value = null;
   currentNav.value = route.matched[0].name as ENavTab;
+};
+
+const handleClickOutsideCreatePost = () => {
+  if (["CropPost", "FilterPost", "CaptionPost"].includes(currentTab.value.tab))
+    removePostPopupShow.value = true;
+  else isShowModal.value = false;
+
+  clickOutsideTab();
 };
 
 watch(
@@ -104,5 +117,6 @@ watch(screen, (value) => {
         />
       </Transition>
     </div>
+    <CreatePost v-if="isShowModal" @clickOutside="handleClickOutsideCreatePost()" />
   </div>
 </template>
