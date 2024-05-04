@@ -17,26 +17,39 @@ const routes: Readonly<RouteRecordRaw[]> = [
 
       next();
     },
+    meta: { title: "Instagram" },
   },
   {
     path: "/explore",
     name: "Explore",
     component: () => import("@/views/explore.vue"),
-    meta: { layout: AppLayout, requiresAuth: true },
+    meta: { title: "Instagram", layout: AppLayout, requiresAuth: true },
   },
   {
     path: "/reels",
     name: "Reels",
     component: () => import("@/views/reels.vue"),
-    meta: { layout: AppLayout, requiresAuth: true },
+    meta: { title: "Instagram", layout: AppLayout, requiresAuth: true },
   },
   {
     path: "/inbox",
     name: "Messenger",
     component: () => import("@/views/messenger.vue"),
-    meta: { layout: AppLayout, requiresAuth: true },
+    meta: { title: "Hộp thư • Chat", layout: AppLayout, requiresAuth: true },
   },
   ...profile,
+  {
+    path: "/p/:postId",
+    name: "Post",
+    component: () => import("@/views/post.vue"),
+    meta: { layout: AppLayout, requiresAuth: true },
+  },
+  {
+    path: "/:username/saved/all-posts/",
+    name: "AllSavedPost",
+    component: () => import("@/views/allSavedPost.vue"),
+    meta: { title: "Tất cả bài viết • Instagram", layout: AppLayout, requiresAuth: true },
+  },
   {
     path: "/accounts/login",
     name: "Login",
@@ -53,7 +66,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("@/views/notFound.vue"),
-    meta: { title: "Không tìm thấy trang - Instagram" },
+    meta: { title: "Không tìm thấy trang • Instagram" },
   },
 ];
 

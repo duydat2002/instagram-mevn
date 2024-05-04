@@ -12,5 +12,15 @@ export async function createPost(data: FormData) {
 }
 
 export async function getPostsByAuthor(authorId: string) {
-  return await api.get<any, IServerData>(prefix + "get-posts/" + authorId);
+  return await api.get<any, IServerData<{ posts: IPost[] }>>(prefix + "get-posts/" + authorId);
+}
+
+export async function getSavedPosts() {
+  return await api.get<any, IServerData<{ posts: IPost[] }>>(prefix + "get-saved-posts/");
+}
+
+export async function getTaggedPostsByUserId(authorId: string) {
+  return await api.get<any, IServerData<{ posts: IPost[] }>>(
+    prefix + "get-tagged-posts/" + authorId
+  );
 }

@@ -1,4 +1,4 @@
-import { useLoadingStore, useModalStore, useUserStore } from "@/store";
+import { useCommonStore, useLoadingStore, useModalStore, useUserStore } from "@/store";
 import routes from "./routes";
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -37,8 +37,10 @@ router.beforeEach(async (to, from) => {
 
 router.afterEach((to, _from) => {
   const { stopLoading } = useLoadingStore();
+  const { title, setTitle } = useCommonStore();
 
-  document.title = (to.meta.title as string) || "Instagram";
+  if (to.meta.title) setTitle(to.meta.title as string);
+  // document.title = (to.meta.title as string) || "Instagram";
   stopLoading();
 });
 

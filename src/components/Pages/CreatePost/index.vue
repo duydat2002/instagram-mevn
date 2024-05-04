@@ -7,15 +7,16 @@ import EditorPost from "./EditorPost.vue";
 import SharePost from "./SharePost.vue";
 import ConfirmPopup from "@/components/Popup/ConfirmPopup.vue";
 
-import { ref, computed, watch, onBeforeUnmount, onMounted } from "vue";
+import { ref, computed, watch, onBeforeUnmount, onMounted, onUnmounted } from "vue";
 import { storeToRefs } from "pinia";
-import { useCreatePostStore } from "@/store";
+import { useCommonStore, useCreatePostStore } from "@/store";
 
 defineProps<{
   onClickOutside: Fn<any, any>;
 }>();
 
 const { prevTab, nextTab, resetCreatePost } = useCreatePostStore();
+const { title: documentTitle } = useCommonStore();
 const {
   title,
   currentTab,
@@ -64,6 +65,11 @@ watch(currentTab, () => {
 
 onMounted(() => {
   resetCreatePost();
+  document.title = "Tạo bài viết mới • Instagram";
+});
+
+onUnmounted(() => {
+  document.title = documentTitle;
 });
 </script>
 

@@ -1,7 +1,6 @@
 <script lang="ts">
 import { getUserByUsername } from "@/services/user";
 import { useUserStore } from "@/store";
-import Modal from "@/components/Modal/Modal.vue";
 
 const { setProfileUser } = useUserStore();
 
@@ -33,20 +32,12 @@ import NotFound from "@/views/notFound.vue";
 import Footer from "@/components/Layout/Footer.vue";
 import UButton from "@/components/UI/UButton.vue";
 
-import { type PropType, ref, computed, watch, onBeforeMount } from "vue";
-import { useRoute, useRouter, onBeforeRouteUpdate } from "vue-router";
+import { ref, computed, watch } from "vue";
+import { onBeforeRouteUpdate } from "vue-router";
 import { storeToRefs } from "pinia";
-import { IServerData, IUser } from "@/types";
+import { IUser } from "@/types";
 import { followUser, unfollowUser, getMutualFollowedBy } from "@/services/user";
 import { formatNumberToSuffix } from "@/helpers";
-
-const props = defineProps({
-  data: {
-    type: Object as PropType<IServerData<{ user: IUser }>>,
-  },
-});
-
-const route = useRoute();
 
 const { user, profileUser } = storeToRefs(useUserStore());
 const mutualFollowed = ref<IUser[]>([]);
@@ -217,10 +208,10 @@ onBeforeRouteUpdate(async (to, from, next) => {
           <div class="flex flex-center mt-[-1px] not-lastchild:mr-[60px]">
             <RouterLink
               :to="{ name: 'Posts' }"
-              class="flex flex-center h-[52px] border-t border-transparent has-[exact-link-active]:border-black"
+              class="flex flex-center h-[52px] border-t border-transparent has-[exact-link-active]:border-textColor-primary"
             >
               <GridIcon
-                class="w-3 h-3 text-textColor-secondary fill-textColor-secondary parent-[.exact-link-active]:text-textColor-primary parent-[.exact-link-active]:fill-textColor-primary"
+                class="w-3 h-3 text-textColor-secondary fill-textColor-secondary parent-[.exact-link-active]:text-textColor-primary"
               />
               <span
                 class="ml-[6px] text-textColor-secondary parent-[.exact-link-active]:text-textColor-primary"
@@ -228,11 +219,12 @@ onBeforeRouteUpdate(async (to, from, next) => {
               >
             </RouterLink>
             <RouterLink
+              v-if="user?.id == profileUser.id"
               :to="{ name: 'Saved' }"
-              class="flex flex-center h-[52px] border-t border-transparent has-[exact-link-active]:border-black"
+              class="flex flex-center h-[52px] border-t border-transparent has-[exact-link-active]:border-textColor-primary"
             >
               <BookmarkIcon
-                class="w-3 h-3 text-textColor-secondary fill-textColor-secondary parent-[.exact-link-active]:text-textColor-primary parent-[.exact-link-active]:fill-textColor-primary"
+                class="w-3 h-3 text-textColor-secondary fill-textColor-secondary parent-[.exact-link-active]:text-textColor-primary"
               />
               <span
                 class="ml-[6px] text-textColor-secondary parent-[.exact-link-active]:text-textColor-primary"
@@ -241,10 +233,10 @@ onBeforeRouteUpdate(async (to, from, next) => {
             </RouterLink>
             <RouterLink
               :to="{ name: 'Tagged' }"
-              class="flex flex-center h-[52px] border-t border-transparent has-[exact-link-active]:border-black"
+              class="flex flex-center h-[52px] border-t border-transparent has-[exact-link-active]:border-textColor-primary"
             >
               <TagIcon
-                class="w-3 h-3 text-textColor-secondary fill-textColor-secondary parent-[.exact-link-active]:text-textColor-primary parent-[.exact-link-active]:fill-textColor-primary"
+                class="w-3 h-3 text-textColor-secondary fill-textColor-secondary parent-[.exact-link-active]:text-textColor-primary"
               />
               <span
                 class="ml-[6px] text-textColor-secondary parent-[.exact-link-active]:text-textColor-primary"
