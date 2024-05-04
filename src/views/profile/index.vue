@@ -1,6 +1,7 @@
 <script lang="ts">
 import { getUserByUsername } from "@/services/user";
 import { useUserStore } from "@/store";
+import Loading from "@/components/Common/Loading.vue";
 
 const { setProfileUser } = useUserStore();
 
@@ -31,22 +32,79 @@ import Avatar from "@/components/Common/Avatar.vue";
 import NotFound from "@/views/notFound.vue";
 import Footer from "@/components/Layout/Footer.vue";
 import UButton from "@/components/UI/UButton.vue";
+import ChangeAvatarPopup from "@/components/Popup/Profile/ChangeAvatarPopup.vue";
 
 import { ref, computed, watch } from "vue";
 import { onBeforeRouteUpdate } from "vue-router";
 import { storeToRefs } from "pinia";
 import { IUser } from "@/types";
-import { followUser, unfollowUser, getMutualFollowedBy } from "@/services/user";
+import {
+  followUser,
+  unfollowUser,
+  getMutualFollowedBy,
+  updateUserAvatar,
+  deleteUserAvatar,
+} from "@/services/user";
 import { formatNumberToSuffix } from "@/helpers";
 
 const { user, profileUser } = storeToRefs(useUserStore());
 const mutualFollowed = ref<IUser[]>([]);
 const isLoadingFollow = ref(false);
 const isFollowed = ref(false);
+const inputAvatar = ref<HTMLInputElement>();
+const isLoadingAvatar = ref(false);
+const avatarPopupActive = ref(false);
 
 const isSameUser = computed(() => {
-  return (user.value && user.value?.id == profileUser.value!.id) as boolean;
+  return (user.value && user.value?.id == profileUser.value?.id) as boolean;
 });
+
+const hanldeClickChangeAvatar = () => {
+  if (isSameUser.value) {
+    if (user.value!.avatar == "") inputAvatar.value?.click();
+    else {
+      avatarPopupActive.value = true;
+    }
+  }
+};
+
+const getInputAvatar = async (event: Event) => {
+  if (user.value) {
+    avatarPopupActive.value = false;
+    isLoadingAvatar.value = true;
+
+    const file = (event.target as HTMLInputElement).files![0];
+
+    if (file && file.type.includes("image")) {
+      const formData = new FormData();
+      formData.append("avatar", file);
+
+      const data = await updateUserAvatar(user.value.id, formData);
+      if (data.success) {
+        profileUser.value!.avatar = data.result!.avatar;
+        user.value.avatar = data.result!.avatar;
+      }
+    }
+
+    isLoadingAvatar.value = false;
+  }
+};
+
+const deleteAvatar = async () => {
+  if (user.value) {
+    avatarPopupActive.value = false;
+    isLoadingAvatar.value = true;
+
+    const data = await deleteUserAvatar(user.value.id);
+
+    if (data.success) {
+      profileUser.value!.avatar = "";
+      user.value.avatar = "";
+    }
+
+    isLoadingAvatar.value = false;
+  }
+};
 
 const handleClickFollow = async () => {
   if (user.value) {
@@ -112,7 +170,23 @@ onBeforeRouteUpdate(async (to, from, next) => {
         <div class="general">
           <div class="flex">
             <div class="flex-[1_1_0%]">
-              <Avatar :avatarUrl="profileUser.avatar" width="150" class="mx-auto" />
+              <div class="relative">
+                <Loading v-if="isLoadingAvatar" class="absolute-center" />
+                <Avatar
+                  :avatarUrl="profileUser.avatar"
+                  width="150"
+                  class="mx-auto cursor-pointer"
+                  :class="{ 'opacity-50': isLoadingAvatar }"
+                  @click="hanldeClickChangeAvatar"
+                />
+                <input
+                  class="hidden"
+                  ref="inputAvatar"
+                  accept="image/jpeg,image/png,image/jpg"
+                  type="file"
+                  @change="getInputAvatar"
+                />
+              </div>
             </div>
             <div class="flex-[2_1_0%] not-lastchild:mb-4">
               <div class="flex gap-x-5">
@@ -247,6 +321,20 @@ onBeforeRouteUpdate(async (to, from, next) => {
           <RouterView></RouterView>
           <RouterView name="modal"></RouterView>
         </div>
+        <ChangeAvatarPopup
+          v-if="avatarPopupActive"
+          @upload-avatar="
+            () => {
+              inputAvatar?.click();
+            }
+          "
+          @delete-avatar="deleteAvatar"
+          @close="
+            () => {
+              avatarPopupActive = false;
+            }
+          "
+        />
       </div>
       <NotFound v-else />
     </div>

@@ -88,10 +88,7 @@ onUnmounted(() => {
         >
           <ArrowBackIcon class="text-textColor-primary fill-textColor-primary" />
         </div>
-        <span
-          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-semibold whitespace-nowrap"
-          >{{ title }}</span
-        >
+        <span class="absolute-center text-base font-semibold whitespace-nowrap">{{ title }}</span>
         <UButton v-if="currentTab.nextButton" variant="text" @click="nextTab">
           <span class="text-buttonColor-primary select-none hover:text-link">{{
             currentTab.nextButton
