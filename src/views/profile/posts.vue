@@ -3,7 +3,7 @@ import Loading from "@/components/Common/Loading.vue";
 import UButton from "@/components/UI/UButton.vue";
 import PostReviewItem from "@/components/Pages/Profile/PostReviewItem.vue";
 
-import { ref, onMounted } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useCreatePostStore, useUserStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { getPostsByAuthor } from "@/services/post";
@@ -24,6 +24,10 @@ const fetchPosts = async () => {
 
   isLoading.value = false;
 };
+
+watch(profileUser, async () => {
+  await fetchPosts();
+});
 
 onMounted(async () => {
   await fetchPosts();

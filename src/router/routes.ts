@@ -47,7 +47,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
   {
     path: "/:username/saved/all-posts/",
     name: "AllSavedPost",
-    component: () => import("@/views/allSavedPost.vue"),
+    component: () => import("@/views/profile/allSavedPost.vue"),
     meta: { title: "Tất cả bài viết • Instagram", layout: AppLayout, requiresAuth: true },
   },
   {
