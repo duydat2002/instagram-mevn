@@ -50,8 +50,8 @@ onMounted(async () => {
       "
     >
       <div class="flex flex-wrap">
-        <div v-for="post in posts" :key="post.id" class="w-1/2">
-          <img class="w-full h-full" :src="post.contents[0]" />
+        <div v-for="post in posts" :key="post.id" class="relative w-1/2 pt-[50%]">
+          <img class="absolute top-0 left-0 w-full h-full object-cover" :src="post.contents[0]" />
         </div>
       </div>
       <div

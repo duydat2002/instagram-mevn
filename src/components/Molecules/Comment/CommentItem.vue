@@ -1,0 +1,105 @@
+<script lang="ts" setup>
+import EllipsisIcon from "@icons/ellipsis.svg";
+import LikeIcon from "@icons/heart.svg";
+import LikeActiveIcon from "@icons/heart-active.svg";
+import Avatar from "@/components/Common/Avatar.vue";
+
+import { ref, computed, onBeforeMount, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { usePostStore, useUserStore } from "@/store";
+import {
+  dateDistanceToNow,
+  dateDistanceToNowMaxWeek,
+  convertToFullDate,
+  convertTagUser,
+} from "@/helpers";
+import type { IAction, IComment, IReply, IUser } from "@/types";
+import { likeComment, unlikeComment } from "@/services/comment";
+
+const props = defineProps<{
+  comment: IComment | IReply;
+}>();
+
+const { user } = storeToRefs(useUserStore());
+const isLoadingLike = ref(false);
+
+const handleClickLikeCount = () => {};
+
+const handleReply = () => {
+  const { setReply } = usePostStore();
+  setReply(props.comment.id, props.comment.author.username);
+};
+
+const handleLike = async () => {
+  isLoadingLike.value = true;
+
+  const data = await likeComment(props.comment.id);
+  if (data.success) {
+    props.comment.likes.push(user.value!.id);
+  }
+
+  isLoadingLike.value = false;
+};
+
+const handleUnlike = async () => {
+  isLoadingLike.value = true;
+
+  const data = await unlikeComment(props.comment.id);
+  if (data.success) {
+    props.comment.likes = props.comment.likes.filter((l) => l != user.value!.id);
+  }
+
+  isLoadingLike.value = false;
+};
+</script>
+
+<template>
+  <div class="flex items-center group/comment mb-4 mt-2">
+    <div class="">
+      <Avatar width="32" :avatar-url="comment.author.avatar" />
+    </div>
+    <div class="flex flex-grow flex-col ml-3 mt-[2px]">
+      <div class="">
+        <RouterLink :to="{ name: 'Profile', params: { username: comment.author.username } }">
+          <span class="font-semibold mr-1">{{ comment.author.username }}</span>
+        </RouterLink>
+        <div class="inline-flex items-center">
+          <span class="leading-tight" v-html="convertTagUser(comment.content)"></span>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center mt-1 text-xs text-textColor-secondary">
+        <span
+          class="mr-3 cursor-pointer"
+          :title="convertToFullDate(comment.createdAt).toUpperCase()"
+          >{{ dateDistanceToNowMaxWeek(comment.createdAt, false, false) }}</span
+        >
+        <span
+          v-if="comment.likes.length > 0"
+          class="font-semibold mr-3 cursor-pointer"
+          @click="handleClickLikeCount"
+          >{{ comment.likes.length }} lượt thích</span
+        >
+        <span class="font-semibold mr-5 cursor-pointer" @click="handleReply">Trả lời</span>
+        <div class="relative w-4 h-4 invisible group-hover/comment:visible cursor-pointer">
+          <EllipsisIcon
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-textColor-secondary fill-textColor-secondary"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="ml-1 cursor-pointer">
+      <LikeIcon
+        v-if="!comment.likes.includes(user?.id ?? '')"
+        @click="handleLike"
+        class="w-4 hover:opacity-60 animate-[0.45s_like-button-animation_ease-in-out]"
+        :class="isLoadingLike ? 'pointer-events-none' : 'pointer-events-auto'"
+      />
+      <LikeActiveIcon
+        v-else
+        @click="handleUnlike"
+        class="w-4 fill-error animate-[0.45s_like-button-animation_ease-in-out]"
+        :class="isLoadingLike ? 'pointer-events-none' : 'pointer-events-auto'"
+      />
+    </div>
+  </div>
+</template>

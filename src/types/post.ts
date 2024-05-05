@@ -3,6 +3,7 @@ export interface IPost {
   author: {
     id: string;
     username: string;
+    avatar: string;
   };
   caption: string;
   contents: string[];

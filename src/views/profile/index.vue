@@ -279,7 +279,9 @@ onBeforeRouteUpdate(async (to, from, next) => {
           <div class=""></div>
         </div>
         <div class="mt-10 border-t border-borderColor">
-          <div class="flex flex-center mt-[-1px] not-lastchild:mr-[60px]">
+          <div
+            class="flex flex-center mt-[-1px] text-xs font-semibold uppercase tracking-[1px] not-lastchild:mr-[60px]"
+          >
             <RouterLink
               :to="{ name: 'Posts' }"
               class="flex flex-center h-[52px] border-t border-transparent has-[exact-link-active]:border-textColor-primary"

@@ -11,6 +11,26 @@ export async function createPost(data: FormData) {
   });
 }
 
+export async function getPostById(postId: string) {
+  return await api.get<any, IServerData<{ post: IPost }>>(prefix + postId);
+}
+
+export async function likePost(postId: string) {
+  return await api.post<any, IServerData>(prefix + postId + "/like");
+}
+
+export async function unlikePost(postId: string) {
+  return await api.post<any, IServerData>(prefix + postId + "/unlike");
+}
+
+export async function savePost(postId: string) {
+  return await api.post<any, IServerData>(prefix + postId + "/save");
+}
+
+export async function unsavePost(postId: string) {
+  return await api.post<any, IServerData>(prefix + postId + "/unsave");
+}
+
 export async function getPostsByAuthor(authorId: string) {
   return await api.get<any, IServerData<{ posts: IPost[] }>>(prefix + "get-posts/" + authorId);
 }

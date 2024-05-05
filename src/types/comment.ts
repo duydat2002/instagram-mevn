@@ -1,7 +1,9 @@
 export interface IComment {
+  id: string;
   author: {
     id: string;
     username: string;
+    avatar: string;
   };
   content: string;
   likes: string[];

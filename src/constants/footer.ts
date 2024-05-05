@@ -7,7 +7,7 @@ export const FOOTER_LINKS = [
   { path: "/", name: "API" },
   { path: "/", name: "Quyền riêng tư" },
   { path: "/", name: "Điều khoản" },
-  { path: "/", name: "Tài khoản liên quan nhất" },
+  { path: "/", name: "Tài khoản" },
   { path: "/", name: "Vị trí" },
   { path: "/", name: "Instagram Lite" },
   {

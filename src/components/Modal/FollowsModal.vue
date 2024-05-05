@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import Modal from "./Modal.vue";
-// import UserItem from "@/components/Profile/UserItem.vue";
-import UserItem from "@/components/Account/UserItem.vue";
-import FollowButton from "@/components/Account/FollowButton.vue";
+import UserItem from "@/components/Molecules/User/UserItem.vue";
+import FollowButton from "@/components/Molecules/User/FollowButton.vue";
 
 import { ref, onMounted, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";

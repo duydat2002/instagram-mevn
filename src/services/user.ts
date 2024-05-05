@@ -50,3 +50,7 @@ export async function getFollowers(userId: string) {
 export async function getFollowings(userId: string) {
   return await api.get<any, IServerData<{ users: IFollowUser[] }>>(prefix + userId + "/followings");
 }
+
+export async function checkIsFollowing(otherUserId: string) {
+  return await api.post<any, IServerData<boolean>>(prefix + otherUserId + "/check-following");
+}

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Avatar from "../Common/Avatar.vue";
+import Avatar from "@/components/Common/Avatar.vue";
 
 import { IUser } from "@/types";
 import { useSlots } from "vue";

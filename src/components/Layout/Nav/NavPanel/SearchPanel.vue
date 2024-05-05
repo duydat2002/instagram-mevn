@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Loading from "@/components/Common/Loading.vue";
-import UserItem from "@/components/Account/UserItem.vue";
+import UserItem from "@/components/Molecules/User/UserItem.vue";
 
 import { ref, onMounted } from "vue";
 import {
