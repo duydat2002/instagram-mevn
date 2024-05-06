@@ -18,42 +18,44 @@ import BarActive from "@icons/bar-active.svg";
 import { shallowRef, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore, useResizeStore } from "@/store";
-import { type INav, ENavTab } from "@/types";
+import { type INav } from "@/types";
 
 export const useNav = () => {
   const { user } = useUserStore();
 
   const NAVS: INav[] = [
-    { icon: Home, iconActive: HomeActive, title: "Trang chủ", name: ENavTab.Home, path: "/" },
+    { icon: Home, iconActive: HomeActive, title: "Trang chủ", name: "Home", path: "/" },
     {
       icon: Search,
       iconActive: SearchActive,
       title: "Tìm kiếm",
-      name: ENavTab.Search,
+      name: "Search",
+      hasExtend: true,
     },
     {
       icon: Explore,
       iconActive: ExploreActive,
       title: "Khám phá",
-      name: ENavTab.Explore,
+      name: "Explore",
       path: "/explore",
     },
-    { icon: Reel, iconActive: ReelActive, title: "Reels", name: ENavTab.Reels, path: "/reels" },
+    { icon: Reel, iconActive: ReelActive, title: "Reels", name: "Reels", path: "/reels" },
     {
       icon: Messenger,
       iconActive: MessengerActive,
       title: "Tin nhắn",
-      name: ENavTab.Messenger,
+      name: "Messenger",
       path: "/inbox",
     },
     {
       icon: Heart,
       iconActive: HeartActive,
       title: "Thông báo",
-      name: ENavTab.Notification,
+      name: "Notification",
+      hasExtend: true,
     },
-    { icon: Plus, iconActive: PlusActive, title: "Tạo", name: ENavTab.CreatePost },
-    { title: "Trang cá nhân", name: ENavTab.Profile, path: `/${user?.username}` },
+    { icon: Plus, iconActive: PlusActive, title: "Tạo", name: "CreatePost" },
+    { title: "Trang cá nhân", name: "Profile", path: `/${user?.username}` },
   ];
 
   const NAVS_MOBILE: INav[] = [
@@ -61,34 +63,35 @@ export const useNav = () => {
       icon: Home,
       iconActive: HomeActive,
       title: "Trang chủ",
-      name: ENavTab.Home,
+      name: "Home",
       path: "/",
     },
     {
       icon: Explore,
       iconActive: ExploreActive,
       title: "Khám phá",
-      name: ENavTab.Explore,
+      name: "Explore",
       path: "/explore",
     },
-    { icon: Reel, iconActive: ReelActive, title: "Reels", name: ENavTab.Reels, path: "/reels" },
-    { icon: Plus, iconActive: PlusActive, title: "Tạo", name: ENavTab.CreatePost },
+    { icon: Reel, iconActive: ReelActive, title: "Reels", name: "Reels", path: "/reels" },
+    { icon: Plus, iconActive: PlusActive, title: "Tạo", name: "CreatePost" },
     {
       icon: Messenger,
       iconActive: MessengerActive,
       title: "Tin nhắn",
-      name: ENavTab.Messenger,
+      name: "Messenger",
       path: "/inbox",
     },
-    { title: "Trang cá nhân", name: ENavTab.Profile, path: `/${user?.username}` },
+    { title: "Trang cá nhân", name: "Profile", path: `/${user?.username}` },
   ];
 
   const bottomNav: INav[] = [
     {
-      name: ENavTab.Bar,
+      name: "Bar",
       title: "Xem thêm",
       icon: Bar,
       iconActive: BarActive,
+      hasExtend: true,
     },
   ];
 

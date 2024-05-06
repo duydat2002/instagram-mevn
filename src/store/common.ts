@@ -1,3 +1,4 @@
+import { INavTab } from "@/types";
 import { defineStore } from "pinia";
 
 interface IState {

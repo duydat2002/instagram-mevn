@@ -109,7 +109,7 @@ watch(caption, (newCaption, oldCaption) => {
         placeholder="Thêm vị trí"
       />
       <div class="ml-2">
-        <LocationIcon v-if="true" class="text-textColor-primary fill-textColor-primary" />
+        <LocationIcon v-if="true" />
         <fa v-else :icon="['far', 'circle-xmark']" />
       </div>
     </div>

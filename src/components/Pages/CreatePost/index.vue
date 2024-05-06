@@ -86,7 +86,7 @@ onUnmounted(() => {
           class="ml-2 p-2 cursor-pointer select-none"
           @click="handlePrevTab"
         >
-          <ArrowBackIcon class="text-textColor-primary fill-textColor-primary" />
+          <ArrowBackIcon />
         </div>
         <span class="absolute-center text-base font-semibold whitespace-nowrap">{{ title }}</span>
         <UButton v-if="currentTab.nextButton" variant="text" @click="nextTab">

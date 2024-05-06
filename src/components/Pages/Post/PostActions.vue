@@ -71,7 +71,7 @@ onMounted(async () => {});
         <div class="p-2 cursor-pointer select-none">
           <LikeIcon
             v-if="!user?.liked_posts.includes(post!.id)"
-            class="w-6 fill-textColor-primary animate-[0.45s_like-button-animation_ease-in-out]"
+            class="w-6 animate-[0.45s_like-button-animation_ease-in-out]"
             :class="isLoadingLike ? 'pointer-events-none' : 'pointer-events-auto'"
             @click="handleLikePost"
           />
@@ -83,25 +83,22 @@ onMounted(async () => {});
           />
         </div>
         <div class="p-2 cursor-pointer select-none">
-          <CommentIcon
-            class="text-textColor-primary fill-textColor-primary"
-            @click="commentIconClick"
-          />
+          <CommentIcon @click="commentIconClick" />
         </div>
         <div class="p-2 cursor-pointer select-none">
-          <SendIcon class="text-textColor-primary fill-textColor-primary" />
+          <SendIcon />
         </div>
       </div>
       <div class="p-2 cursor-pointer select-none">
         <BookmarkIcon
           v-if="!user?.saved_posts.includes(post!.id)"
-          class="w-6 h-6 fill-textColor-primary"
+          class="w-6 h-6"
           :class="isLoadingSave ? 'pointer-events-none' : 'pointer-events-auto'"
           @click="handleSavePost"
         />
         <BookmarkActiveIcon
           v-else
-          class="w-6 h-6 fill-textColor-primary"
+          class="w-6 h-6"
           :class="isLoadingSave ? 'pointer-events-none' : 'pointer-events-auto'"
           @click="handleUnsavePost"
         />

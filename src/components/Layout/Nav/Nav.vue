@@ -11,7 +11,7 @@ import { ref, computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useResizeStore } from "@/store";
 import { useNav } from "@/composables/useNav";
-import { ENavTab } from "@/types";
+import { INavTab } from "@/types";
 import { useRoute } from "vue-router";
 import { useCreatePostStore } from "@/store/createPost";
 
@@ -20,21 +20,22 @@ const route = useRoute();
 const { screen } = storeToRefs(useResizeStore());
 const { currentTab, isShowModal, removePostPopupShow } = storeToRefs(useCreatePostStore());
 const { navs, bottomNav } = useNav();
-const currentNav = ref<ENavTab>(ENavTab.Home);
-const currentPanel = ref<ENavTab.Search | ENavTab.Notification | ENavTab.Bar | null>(null);
+
+const currentNav = ref<INavTab>("Home");
+const currentPanel = ref<"Search" | "Notification" | "Bar" | null>(null);
 
 const isNarrow = computed(() => {
   if (screen.value == "mobile") return false;
-  return screen.value == "tablet" || (currentPanel.value && currentPanel.value != ENavTab.Bar)
+  return screen.value == "tablet" || (currentPanel.value && currentPanel.value != "Bar")
     ? true
     : false;
 });
 
-const changeTab = (nav: ENavTab) => {
-  if (nav == ENavTab.CreatePost) {
+const changeTab = (nav: INavTab) => {
+  if (nav == "CreatePost") {
     isShowModal.value = true;
-  } else if (nav == ENavTab.Search || nav == ENavTab.Notification || nav == ENavTab.Bar) {
-    currentPanel.value = currentPanel.value == nav ? null : nav;
+  } else if (nav == "Search" || nav == "Notification" || nav == "Bar") {
+    currentPanel.value = nav;
   } else currentPanel.value = null;
 
   currentNav.value = nav;
@@ -42,7 +43,7 @@ const changeTab = (nav: ENavTab) => {
 
 const clickOutsideTab = () => {
   currentPanel.value = null;
-  currentNav.value = route.matched[0].name as ENavTab;
+  currentNav.value = route.matched[0].name as INavTab;
 };
 
 const handleClickOutsideCreatePost = () => {
@@ -56,7 +57,7 @@ const handleClickOutsideCreatePost = () => {
 watch(
   route,
   (to) => {
-    currentNav.value = to.matched[0].name as ENavTab;
+    currentNav.value = to.matched[0].name as INavTab;
   },
   { immediate: true }
 );

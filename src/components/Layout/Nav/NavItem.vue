@@ -2,36 +2,46 @@
 import Avatar from "@/components/Common/Avatar.vue";
 
 import { useUserStore } from "@/store";
-import { ENavTab, INav } from "@/types";
+import { INav, INavTab } from "@/types";
 import { storeToRefs } from "pinia";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 
 const emit = defineEmits(["changeTab"]);
-defineProps<{
+const props = defineProps<{
   nav: INav;
-  currentNav: ENavTab;
+  currentNav: INavTab;
 }>();
 
 const route = useRoute();
 const { user } = storeToRefs(useUserStore());
 
-const handleChangeTab = (nav: ENavTab) => {
+const handleChangeTab = (nav: INavTab) => {
   emit("changeTab", nav);
 };
+
+const disableNavHasExtend = computed(() => {
+  if (props.nav.hasExtend && props.currentNav == props.nav.name) return "pointer-events-none";
+  else return "";
+});
 </script>
 
 <template>
   <component
     :is="nav.path ? 'RouterLink' : 'div'"
     :to="nav.path"
-    class="nav-item group/nav-item flex items-center p-3 my-0 tablet:my-[2px] rounded-lg cursor-pointer tablet:hover:bg-hover transition-colors duration-300 select-none"
-    :class="{ active: currentNav == nav.name }"
-    @click="handleChangeTab(nav.name)"
+    class="relative nav-item group/nav-item flex items-center p-3 my-0 tablet:my-[2px] rounded-lg cursor-pointer tablet:hover:bg-hover transition-colors duration-300 select-none"
+    :class="[{ active: currentNav == nav.name }]"
   >
+    <div
+      class="absolute top-0 left-0 w-full h-full z-10"
+      :class="disableNavHasExtend"
+      @click="handleChangeTab(nav.name)"
+    ></div>
     <component
-      v-if="nav.name != ENavTab.Profile"
+      v-if="nav.name != 'Profile'"
       :is="currentNav == nav.name ? nav.iconActive : nav.icon"
-      class="w-6 flex-shrink-0 fill-textColor-primary text-textColor-primary group-hover/nav-item:scale-105 transition-transform duration-300"
+      class="w-6 flex-shrink-0 group-hover/nav-item:scale-105 transition-transform duration-300"
     />
     <div v-else class="w-6 h-6 relative flex-shrink-0">
       <Avatar
@@ -39,7 +49,7 @@ const handleChangeTab = (nav: ENavTab) => {
         class="absolute-center"
         :class="{
           'shadow-[inset_0_0_0_2px_#000]':
-            currentNav == ENavTab.Profile && route.params.username == user?.username,
+            currentNav == 'Profile' && route.params.username == user?.username,
         }"
         width="26"
       />

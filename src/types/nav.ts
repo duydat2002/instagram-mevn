@@ -1,19 +1,19 @@
-export enum ENavTab {
-  Home = "Home",
-  Search = "Search",
-  Explore = "Explore",
-  Reels = "Reels",
-  Messenger = "Messenger",
-  Notification = "Notification",
-  CreatePost = "CreatePost",
-  Profile = "Profile",
-  Bar = "Bar",
-}
+export type INavTab =
+  | "Home"
+  | "Search"
+  | "Explore"
+  | "Reels"
+  | "Messenger"
+  | "Notification"
+  | "CreatePost"
+  | "Profile"
+  | "Bar";
 
 export interface INav {
-  name: ENavTab;
+  name: INavTab;
   title: string;
   path?: string;
   icon?: any;
   iconActive?: any;
+  hasExtend?: boolean;
 }

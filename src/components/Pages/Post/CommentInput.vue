@@ -89,7 +89,7 @@ const handleComment = async () => {
         @input="handleInputComment"
         @keydown.enter.exact.prevent="handleComment"
       />
-      <Loading v-if="loadingComment" class="absolute top-0 left-0 w-full h-full" />
+      <Loading v-if="loadingComment" width="16px" class="absolute top-0 left-0 w-full h-full" />
     </div>
     <button
       class="flex-shrink-0 p-2 font-semibold text-buttonColor-primary hover:text-link disabled:opacity-40 disabled:hover:text-buttonColor-primary disabled:cursor-default cursor-pointer"
