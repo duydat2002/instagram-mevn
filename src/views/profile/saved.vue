@@ -45,7 +45,7 @@ onMounted(async () => {
       class="relative w-[300px] h-[300px]"
       @click="
         () => {
-          router.push({ name: 'AllSavedPost' , params: { userId: profileUser!.id }});
+          router.push({ name: 'AllSavedPost' , params: { username: profileUser!.username }});
         }
       "
     >

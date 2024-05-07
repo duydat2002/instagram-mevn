@@ -5,6 +5,8 @@ import { useCreatePostStore } from "@/store";
 import { canvasToFile, getDynamicImage } from "@/helpers";
 import { createPost } from "@/services/post";
 
+const { resetCreatePost } = useCreatePostStore();
+
 const { title, medias, caption, cropperSize } = storeToRefs(useCreatePostStore());
 const isUploadding = ref(true);
 
@@ -51,7 +53,6 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => {
-  const { resetCreatePost } = useCreatePostStore();
   resetCreatePost();
 });
 </script>

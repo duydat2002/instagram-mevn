@@ -2,7 +2,7 @@
 import CommentItem from "./CommentItem.vue";
 import Loading from "@/components/Common/Loading.vue";
 
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { IComment, IReply } from "@/types";
 import { getCommentReplies } from "@/services/comment";
 
@@ -14,18 +14,28 @@ const replies = ref<IReply[]>([]);
 const loadingReply = ref(false);
 const isShowReply = ref(false);
 
+const getReplies = async (commentId: string) => {
+  loadingReply.value = true;
+  const data = await getCommentReplies(commentId);
+
+  if (data.success) {
+    replies.value = data.result!.replies;
+  }
+  loadingReply.value = false;
+};
+
 const toggleReplies = async () => {
   isShowReply.value = !isShowReply.value;
   if (isShowReply.value) {
-    loadingReply.value = true;
-    const data = await getCommentReplies(props.comment.id);
-
-    if (data.success) {
-      replies.value = data.result!.replies;
-    }
-    loadingReply.value = false;
+    await getReplies(props.comment.id);
   }
 };
+
+watch(props.comment, async (comment) => {
+  if (isShowReply.value) {
+    await getReplies(comment.id);
+  }
+});
 </script>
 <template>
   <div class="">

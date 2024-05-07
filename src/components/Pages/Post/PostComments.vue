@@ -2,17 +2,27 @@
 import Comment from "@/components/Molecules/Comment/Comment.vue";
 import Avatar from "@/components/Common/Avatar.vue";
 import Loading from "@/components/Common/Loading.vue";
+import ConfirmPopUpOnlyBtn from "@/components/Popup/ConfirmPopUpOnlyBtn.vue";
 
-import { ref, computed, onBeforeMount } from "vue";
-import { IComment, IPost } from "@/types";
-import { getPostComments } from "@/services/comment";
+import { ref, onBeforeMount } from "vue";
+import { deleteComment, getPostComments } from "@/services/comment";
 import { convertTagUser, convertToFullDate, dateDistanceToNowMaxWeek } from "@/helpers";
 import { storeToRefs } from "pinia";
 import { usePostStore } from "@/store";
 
-const { post, comments } = storeToRefs(usePostStore());
+const { deleteComment: deleteCommentStore } = usePostStore();
+const { post, comments, removeComment, removeCommentPopup, reportCommentPopup } = storeToRefs(
+  usePostStore()
+);
 
 const isLoading = ref(true);
+
+const handleDeleteComment = async () => {
+  if (removeComment.value) {
+    const data = await deleteComment(removeComment.value);
+    if (data.success) deleteCommentStore(removeComment.value);
+  }
+};
 
 onBeforeMount(async () => {
   const data = await getPostComments(post.value!.id);
@@ -27,7 +37,7 @@ onBeforeMount(async () => {
 <template>
   <div class="relative flex-grow border-b border-borderColor h-[200px] min-[736px]:h-auto">
     <div
-      class="absolute top-0 left-0 w-full h-full flex flex-col pt-[10px] px-[10px] no-scrollbar overflow-y-scroll"
+      class="absolute top-0 left-0 w-full h-full flex flex-col p-[10px] no-scrollbar overflow-y-scroll"
     >
       <div class="flex pt-2 pb-4">
         <Avatar width="32" :avatar-url="post!.author.avatar" />
@@ -51,4 +61,23 @@ onBeforeMount(async () => {
       <Comment v-else v-for="comment in comments" :key="comment.id" :comment="comment" />
     </div>
   </div>
+  <ConfirmPopUpOnlyBtn
+    v-if="removeCommentPopup"
+    confirm-message="Xóa"
+    @confirm="handleDeleteComment"
+    @cancel="
+      () => {
+        removeCommentPopup = false;
+      }
+    "
+  />
+  <ConfirmPopUpOnlyBtn
+    v-if="reportCommentPopup"
+    confirm-message="Báo cáo"
+    @cancel="
+      () => {
+        reportCommentPopup = false;
+      }
+    "
+  />
 </template>

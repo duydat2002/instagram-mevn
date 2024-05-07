@@ -76,7 +76,7 @@ button[primary]:hover {
 }
 
 button[secondary] {
-  color: #000;
+  color: var(--primary-text-color);
   background: var(--secondary-button-color);
 }
 
@@ -99,7 +99,7 @@ button[secondary]:hover {
 }
 
 .button--variant-text[secondary] {
-  color: #000;
+  color: var(--primary-text-color);
 }
 .button--variant-text[secondary]:hover {
   opacity: 0.6;

@@ -15,6 +15,10 @@ export async function getPostById(postId: string) {
   return await api.get<any, IServerData<{ post: IPost }>>(prefix + postId);
 }
 
+export async function deletePost(postId: string) {
+  return await api.delete<any, IServerData<{ post: IPost }>>(prefix + postId);
+}
+
 export async function likePost(postId: string) {
   return await api.post<any, IServerData>(prefix + postId + "/like");
 }

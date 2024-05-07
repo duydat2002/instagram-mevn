@@ -4,7 +4,7 @@ import LikeIcon from "@icons/heart.svg";
 import LikeActiveIcon from "@icons/heart-active.svg";
 import Avatar from "@/components/Common/Avatar.vue";
 
-import { ref, computed, onBeforeMount, onMounted } from "vue";
+import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { usePostStore, useUserStore } from "@/store";
 import {
@@ -20,14 +20,22 @@ const props = defineProps<{
   comment: IComment | IReply;
 }>();
 
+const { setReply } = usePostStore();
+
 const { user } = storeToRefs(useUserStore());
+const { removeComment, removeCommentPopup, reportCommentPopup, removeCommentRef } = storeToRefs(
+  usePostStore()
+);
 const isLoadingLike = ref(false);
+const item = ref<HTMLDivElement>();
 
 const handleClickLikeCount = () => {};
 
 const handleReply = () => {
-  const { setReply } = usePostStore();
-  setReply(props.comment.id, props.comment.author.username);
+  let commentId = props.comment.id; // comment is Comment
+  // comment is Reply
+  if ("comment" in props.comment) commentId = props.comment.comment;
+  setReply(commentId, props.comment.author.username);
 };
 
 const handleLike = async () => {
@@ -51,10 +59,20 @@ const handleUnlike = async () => {
 
   isLoadingLike.value = false;
 };
+
+const handleClickEllipsis = (commentId: string) => {
+  if (user.value?.id == props.comment.author.id) {
+    removeCommentPopup.value = true;
+    removeComment.value = commentId;
+    removeCommentRef.value = item.value!;
+  } else {
+    reportCommentPopup.value = true;
+  }
+};
 </script>
 
 <template>
-  <div class="flex items-center group/comment mb-4 mt-2">
+  <div ref="item" class="flex items-center group/comment mb-4 mt-2">
     <div class="">
       <Avatar width="32" :avatar-url="comment.author.avatar" />
     </div>
@@ -83,6 +101,7 @@ const handleUnlike = async () => {
         <div class="relative w-4 h-4 invisible group-hover/comment:visible cursor-pointer">
           <EllipsisIcon
             class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-textColor-secondary fill-textColor-secondary"
+            @click="handleClickEllipsis(comment.id)"
           />
         </div>
       </div>

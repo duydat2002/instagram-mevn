@@ -10,6 +10,6 @@ export interface ISize {
 
 export interface IAction {
   title: string;
-  classes?: any;
+  classes?: string;
   action?: () => void;
 }

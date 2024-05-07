@@ -47,8 +47,12 @@ onBeforeUnmount(() => {
       :style="{ background: overlayBackground }"
       v-click-inside="handleClickOutsideModal"
     >
-      <div class="m-5 flex flex-center w-screen min-[500px]:w-auto">
-        <slot />
+      <div class="modal-container m-5 flex flex-center w-screen min-[500px]:w-auto">
+        <Transition name="modal" appear>
+          <div class="slot" v-if="$slots.default">
+            <slot />
+          </div>
+        </Transition>
       </div>
     </div>
   </Teleport>

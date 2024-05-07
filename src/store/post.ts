@@ -1,5 +1,6 @@
 import type { IComment, IPost, IReply, IUser } from "@/types";
 import { defineStore } from "pinia";
+import { __String } from "typescript";
 
 interface IState {
   post: Nullable<IPost>;
@@ -7,6 +8,11 @@ interface IState {
   comments: IComment[];
   commentRef: Nullable<HTMLInputElement>;
   replyTo: Nullable<string>;
+
+  reportCommentPopup: boolean;
+  removeCommentPopup: boolean;
+  removeComment: Nullable<string>;
+  removeCommentRef: Nullable<HTMLDivElement>;
 }
 
 export const usePostStore = defineStore("post", {
@@ -16,13 +22,32 @@ export const usePostStore = defineStore("post", {
     comments: [],
     commentRef: null,
     replyTo: null,
+
+    reportCommentPopup: false,
+    removeCommentPopup: false,
+    removeComment: null,
+    removeCommentRef: null,
   }),
   actions: {
     addComment(comment: IComment) {
       this.comments.unshift(comment);
     },
     deleteComment(commentId: string) {
-      this.comments = this.comments.filter((c) => c.id != commentId);
+      if (commentId) {
+        const commentIndex = this.comments.findIndex((c) => c.id == commentId);
+
+        if (commentIndex != -1) {
+          this.comments.splice(commentIndex, 1);
+        } else {
+          this.deleteReply(commentId);
+        }
+
+        this.removeCommentRef?.remove();
+
+        this.removeCommentPopup = false;
+        this.removeComment = null;
+        this.removeCommentRef = null;
+      }
     },
     setReply(replyTo: string, replyUsername: string) {
       this.replyTo = replyTo;
@@ -32,6 +57,13 @@ export const usePostStore = defineStore("post", {
     addReply(reply: IReply) {
       const index = this.comments.findIndex((c) => c.id == reply.comment);
       if (index != -1) this.comments![index].replies.unshift(reply.id);
+    },
+    deleteReply(replyId: string) {
+      const commentIndex = this.comments.findIndex((c) => c.replies.includes(this.removeComment!));
+      if (commentIndex != -1)
+        this.comments[commentIndex].replies = this.comments[commentIndex].replies.filter(
+          (r) => r != replyId
+        );
     },
   },
 });
