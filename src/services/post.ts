@@ -43,6 +43,12 @@ export async function getPostsByAuthor(authorId: string) {
   return await api.get<any, IServerData<{ posts: IPost[] }>>(prefix + "get-posts/" + authorId);
 }
 
+export async function getOtherPostsByAuthor(postId: string, authorId: string) {
+  return await api.get<any, IServerData<{ posts: IPost[] }>>(
+    prefix + postId + "/get-other-posts/" + authorId
+  );
+}
+
 export async function getSavedPosts() {
   return await api.get<any, IServerData<{ posts: IPost[] }>>(prefix + "get-saved-posts/");
 }

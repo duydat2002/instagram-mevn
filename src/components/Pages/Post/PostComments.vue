@@ -4,7 +4,7 @@ import Avatar from "@/components/Common/Avatar.vue";
 import Loading from "@/components/Common/Loading.vue";
 import ConfirmPopUpOnlyBtn from "@/components/Popup/ConfirmPopUpOnlyBtn.vue";
 
-import { ref, onBeforeMount } from "vue";
+import { ref, watch } from "vue";
 import { deleteComment, getPostComments } from "@/services/comment";
 import { convertTagUser, convertToFullDate, dateDistanceToNowMaxWeek } from "@/helpers";
 import { storeToRefs } from "pinia";
@@ -24,14 +24,18 @@ const handleDeleteComment = async () => {
   }
 };
 
-onBeforeMount(async () => {
-  const data = await getPostComments(post.value!.id);
+watch(
+  post,
+  async () => {
+    const data = await getPostComments(post.value!.id);
 
-  if (data.success) {
-    comments.value = data.result!.comments;
-  }
-  isLoading.value = false;
-});
+    if (data.success) {
+      comments.value = data.result!.comments;
+    }
+    isLoading.value = false;
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

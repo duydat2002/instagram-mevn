@@ -8,7 +8,7 @@ import UpdatePost from "@/components/Pages/CreatePost/UpdatePost.vue";
 
 import { computed, onBeforeMount } from "vue";
 import { getPostById } from "@/services/post";
-import { useRoute } from "vue-router";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import { useCommonStore, usePostStore } from "@/store";
 import { storeToRefs } from "pinia";
 
@@ -24,6 +24,17 @@ const postContainerWidth = computed(() => {
     const widthTemp = 600 * post.value!.ratio + 335;
     return { maxWidth: Math.max(widthTemp, 480) + "px" };
   }
+});
+
+onBeforeRouteUpdate(async (to, _, next) => {
+  const data = await getPostById(to.params.postId as string);
+
+  if (data.success) {
+    post.value = data.result!.post;
+    setTitle(post.value.caption != "" ? post.value.caption : "Instagram");
+  }
+
+  next();
 });
 
 onBeforeMount(async () => {
