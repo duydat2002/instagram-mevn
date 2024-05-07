@@ -66,17 +66,8 @@ const imgCoverStyle = computed(() => ({
 }));
 
 const handleChangeScale = () => {
-  const { updateMedia } = useCreatePostStore();
-
   stick().then(() => {
-    drawCanvas();
-
-    const media = {
-      ...currentMedia.value,
-      scale: scaleValue.value,
-    };
-
-    updateMedia({ index: currentMediaIndex.value, data: media as IMedia });
+    drawAndUpdateMedia();
   });
 };
 
@@ -100,18 +91,11 @@ const mouseMoveImage = (event: MouseEvent) => {
     mouseDownPosition.value.y + (event.clientY - mousePosition.value.y) / 2;
 };
 const mouseUpImage = () => {
-  const { updateMedia } = useCreatePostStore();
   document.body.style.cursor = "auto";
   isDragging.value = false;
 
   stick().then(() => {
-    drawCanvas();
-    const media = {
-      ...currentMedia.value,
-      translate: { ...translatePosition.value },
-    };
-
-    updateMedia({ index: currentMediaIndex.value, data: media as IMedia });
+    drawAndUpdateMedia();
   });
 };
 
@@ -181,17 +165,18 @@ const stick = () => {
   });
 };
 
-const drawCanvas = () => {
-  if (currentMedia.value) {
+const drawCanvas = (media?: IMedia | null) => {
+  if (!media) media = currentMedia.value;
+  if (media) {
     const cropperRect = cropperRef.value!.getBoundingClientRect();
     const imageRect = imageRef.value!.getBoundingClientRect();
 
-    const ratioCrop = getRatioCrop(currentMedia.value.image, cropperSize.value, scaleValue.value);
+    const ratioCrop = getRatioCrop(media.image, cropperSize.value, scaleValue.value);
 
-    currentMedia.value.canvas.width = cropperSize.value.width * ratioCrop;
-    currentMedia.value.canvas.height = cropperSize.value.height * ratioCrop;
+    media.canvas.width = cropperSize.value.width * ratioCrop;
+    media.canvas.height = cropperSize.value.height * ratioCrop;
 
-    const ctx = currentMedia.value.canvas.getContext("2d");
+    const ctx = media.canvas.getContext("2d");
     if (ctx) {
       ctx.clearRect(0, 0, 9999, 9999);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -201,15 +186,27 @@ const drawCanvas = () => {
         (imageRect.y - cropperRect.y) * ratioCrop
       );
 
-      ctx.filter = currentMedia.value.filters!.filter;
-      ctx.drawImage(currentMedia.value.image, 0, 0);
+      ctx.filter = media.filters!.filter;
+      ctx.drawImage(media.image, 0, 0);
 
-      if (currentMedia.value.filters!.background) {
-        ctx.fillStyle = currentMedia.value.filters!.background;
+      if (media.filters!.background) {
+        ctx.fillStyle = media.filters!.background;
         ctx.fillRect(0, 0, 9999, 9999);
       }
     }
+    return media;
   }
+};
+
+const drawAndUpdateMedia = () => {
+  const { updateMedia } = useCreatePostStore();
+  drawCanvas();
+  const media = {
+    ...currentMedia.value,
+    translate: { ...translatePosition.value },
+  };
+
+  updateMedia({ index: currentMediaIndex.value, data: media as IMedia });
 };
 
 const handlePrevMedia = () => {

@@ -4,9 +4,9 @@ import PostSwiper from "./PostSwiper.vue";
 import PostComments from "./PostComments.vue";
 import PostActions from "./PostActions.vue";
 import CommentInput from "./CommentInput.vue";
+import UpdatePost from "@/components/Pages/CreatePost/UpdatePost.vue";
 
-import { ref, computed, onMounted, onBeforeMount } from "vue";
-import { IPost } from "@/types";
+import { computed, onBeforeMount } from "vue";
 import { getPostById } from "@/services/post";
 import { useRoute } from "vue-router";
 import { useCommonStore, usePostStore } from "@/store";
@@ -15,7 +15,7 @@ import { storeToRefs } from "pinia";
 const { setTitle } = useCommonStore();
 
 const route = useRoute();
-const { post } = storeToRefs(usePostStore());
+const { post, updatePostModal } = storeToRefs(usePostStore());
 
 const postContainerWidth = computed(() => {
   if (post.value!.ratio >= 1) {
@@ -60,5 +60,13 @@ onBeforeMount(async () => {
         </div>
       </div>
     </div>
+    <UpdatePost
+      v-if="updatePostModal"
+      @cancel="
+        () => {
+          updatePostModal = false;
+        }
+      "
+    />
   </div>
 </template>

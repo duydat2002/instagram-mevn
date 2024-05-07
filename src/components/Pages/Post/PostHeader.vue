@@ -9,13 +9,13 @@ import { ref, computed, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { usePostStore, useUserStore } from "@/store";
 import { IAction, IPost } from "@/types";
-import { checkIsFollowing } from "@/services/user";
+import { checkIsFollowing, followUser, unfollowUser } from "@/services/user";
 import { deletePost } from "@/services/post";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const { post } = storeToRefs(usePostStore());
+const { post, updatePostModal } = storeToRefs(usePostStore());
 const { user } = storeToRefs(useUserStore());
 const isLoadingFollow = ref(false);
 const deletePopupActive = ref(false);
@@ -35,6 +35,9 @@ const userPostActions = computed(() => {
       },
       {
         title: "Chỉnh sửa",
+        action: () => {
+          updatePostModal.value = true;
+        },
       },
       {
         title: "Hiển thị lượt thích",
@@ -77,6 +80,9 @@ const userPostActions = computed(() => {
 const follow = async () => {
   if (user.value) {
     isLoadingFollow.value = true;
+    const data = await followUser(user.value.id, post.value!.author.id);
+    if (data.success) isFollow.value = true;
+
     isLoadingFollow.value = false;
   }
 };
@@ -85,6 +91,9 @@ const unfollow = async () => {
   if (user.value) {
     unfollowPopupActive.value = false;
     isLoadingFollow.value = true;
+    const data = await unfollowUser(user.value.id, post.value!.author.id);
+    if (data.success) isFollow.value = false;
+
     isLoadingFollow.value = false;
   }
 };

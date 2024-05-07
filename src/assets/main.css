@@ -68,6 +68,9 @@
   --primary-text-color: #fff;
   --secondary-text-color: #737373;
 
+  --secondary-button-color: rgb(54, 54, 54);
+  --secondary-button-hover-color: rgb(38, 38, 38);
+
   --link-color: #e0f1ff;
   --error-color: #ed4956;
   --separator-color: #5555554d;

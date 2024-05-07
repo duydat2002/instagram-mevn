@@ -7,7 +7,7 @@ import EditorPost from "./EditorPost.vue";
 import SharePost from "./SharePost.vue";
 import ConfirmPopup from "@/components/Popup/ConfirmPopup.vue";
 
-import { ref, computed, watch, onBeforeUnmount, onMounted, onUnmounted } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useCommonStore, useCreatePostStore } from "@/store";
 

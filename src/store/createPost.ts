@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ICreatePostTabName, ICreatePostTab, IMedia, ISize, IFilters } from "@/types";
+import { ICreatePostTab, IMedia, ISize, IFilters } from "@/types";
 import { CREATE_POST_TABS } from "@/constants";
 import { DEFAULT_ADJUST, DEFAULT_FILTER } from "@/constants/filter";
 import { drawInitCanvas, getImage } from "@/helpers";
@@ -22,7 +22,7 @@ interface IState {
 }
 
 const defaultMedia = {
-  url: null,
+  url: "null",
   image: null,
   canvas: null,
   size: {

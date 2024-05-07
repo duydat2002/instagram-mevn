@@ -15,6 +15,10 @@ export async function getPostById(postId: string) {
   return await api.get<any, IServerData<{ post: IPost }>>(prefix + postId);
 }
 
+export async function updatePost(postId: string, caption?: string, tags?: string[]) {
+  return await api.patch<any, IServerData<{ post: IPost }>>(prefix + postId, { caption, tags });
+}
+
 export async function deletePost(postId: string) {
   return await api.delete<any, IServerData<{ post: IPost }>>(prefix + postId);
 }
