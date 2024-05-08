@@ -36,7 +36,7 @@ const logout = async () => {
 
 <template>
   <div
-    class="absolute bottom-full left-0 w-[266px] bg-modal rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] overflow-hidden parent-[.is-narrow]:bottom-0 parent-[.is-narrow]:left-full transition-[height] duration-200"
+    class="absolute bottom-full left-0 z-10 w-[266px] bg-modal rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] overflow-hidden parent-[.is-narrow]:bottom-0 parent-[.is-narrow]:left-full transition-[height] duration-200"
     :class="{ active: tabActive }"
     :style="{ height: tabHeight }"
   >

@@ -56,6 +56,7 @@ const handleComment = async () => {
 </script>
 <template>
   <div
+    v-if="isLogged"
     class="flex items-center pr-2 py-[6px]"
     v-click-outside="
       () => {
@@ -98,5 +99,11 @@ const handleComment = async () => {
     >
       Đăng
     </button>
+  </div>
+  <div v-else class="py-2 px-4 text-textColor-secondary">
+    <RouterLink :to="{ name: 'Login' }" class="text-buttonColor-primary hover:text-link"
+      >Đăng nhập</RouterLink
+    >
+    <span> để thích hoặc bình luận.</span>
   </div>
 </template>

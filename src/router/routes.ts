@@ -42,7 +42,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
     path: "/p/:postId",
     name: "Post",
     component: () => import("@/views/post.vue"),
-    meta: { layout: AppLayout, requiresAuth: true },
+    meta: { layout: AppLayout },
   },
   {
     path: "/:username/saved/all-posts/",

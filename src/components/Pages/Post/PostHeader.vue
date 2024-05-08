@@ -105,9 +105,11 @@ const handleDeletePost = async () => {
 };
 
 onMounted(async () => {
-  const data = await checkIsFollowing(post.value!.author.id);
+  if (user.value) {
+    const data = await checkIsFollowing(post.value!.author.id);
 
-  isFollow.value = !!data.result;
+    isFollow.value = !!data.result;
+  }
 });
 </script>
 

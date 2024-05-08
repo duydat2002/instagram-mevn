@@ -58,6 +58,7 @@ export async function logout(refreshToken: string) {
   if (data.success) {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
+    localStorage.removeItem("theme");
   }
 
   return data;

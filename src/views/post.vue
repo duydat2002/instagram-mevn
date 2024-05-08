@@ -26,13 +26,13 @@ watch(
 <template>
   <div class="flex-1 w-[calc(100%-40px)] max-w-[975px] py-6 px-5 mx-auto">
     <Post />
-    <div v-if="user?.id != post?.author.id" class="mt-12 pt-9 border-t border-borderColor">
+    <div v-if="post && user?.id != post.author.id" class="mt-12 pt-9 border-t border-borderColor">
       <div class="mb-5 text-textColor-secondary font-semibold">
         Thêm các bài viết từ
         <RouterLink
-          :to="{ name: 'Profile', params: { username: post?.author?.username ?? ' ' } }"
+          :to="{ name: 'Profile', params: { username: post.author?.username ?? ' ' } }"
           class="text-textColor-primary hover:opacity-60"
-          >{{ post?.author?.username }}</RouterLink
+          >{{ post.author?.username }}</RouterLink
         >
       </div>
       <div class="flex flex-wrap -mx-[2px]">

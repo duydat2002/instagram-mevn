@@ -37,10 +37,9 @@ router.beforeEach(async (to, from) => {
 
 router.afterEach((to, _from) => {
   const { stopLoading } = useLoadingStore();
-  const { title, setTitle } = useCommonStore();
+  const { setTitle } = useCommonStore();
 
   if (to.meta.title) setTitle(to.meta.title as string);
-  // document.title = (to.meta.title as string) || "Instagram";
   stopLoading();
 });
 
