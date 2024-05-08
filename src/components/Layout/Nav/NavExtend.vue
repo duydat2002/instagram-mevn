@@ -110,7 +110,7 @@ const logout = async () => {
           class="flex w-full p-4 items-center hover:bg-hover rounded-lg transition-colors duration-200 cursor-pointer"
         >
           <span class="leading-tight flex-grow">Chế độ tối</span>
-          <USwitchButton v-model:propValue="darkMode" />
+          <USwitchButton v-model:propValue="darkMode"/>
         </div>
       </div>
     </div>

@@ -8,12 +8,15 @@ import BookmarkActiveIcon from "@icons/bookmark-active.svg";
 
 import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
-import { dateDistanceToNow, convertToFullDate } from "@/helpers";
-import { usePostStore, useUserStore } from "@/store";
+import { useUserStore } from "@/store";
 import { likePost, savePost, unlikePost, unsavePost } from "@/services/post";
+import { IPost } from "@/types";
+
+const props = defineProps<{
+  post: IPost;
+}>();
 
 const { user } = storeToRefs(useUserStore());
-const { post, commentRef } = storeToRefs(usePostStore());
 
 const isLoadingLike = ref(false);
 const isLoadingSave = ref(false);
@@ -21,8 +24,8 @@ const isLoadingSave = ref(false);
 const handleLikePost = async () => {
   isLoadingLike.value = true;
 
-  const data = await likePost(post.value!.id);
-  if (data.success) user.value?.liked_posts.push(post.value!.id);
+  const data = await likePost(props.post.id);
+  if (data.success) user.value?.liked_posts.push(props.post.id);
 
   isLoadingLike.value = false;
 };
@@ -30,9 +33,9 @@ const handleLikePost = async () => {
 const handleUnlikePost = async () => {
   isLoadingLike.value = true;
 
-  const data = await unlikePost(post.value!.id);
+  const data = await unlikePost(props.post.id);
   if (data.success)
-    user.value!.liked_posts = user.value!.liked_posts.filter((p) => p != post.value!.id);
+    user.value!.liked_posts = user.value!.liked_posts.filter((p) => p != props.post.id);
 
   isLoadingLike.value = false;
 };
@@ -40,8 +43,8 @@ const handleUnlikePost = async () => {
 const handleSavePost = async () => {
   isLoadingSave.value = true;
 
-  const data = await savePost(post.value!.id);
-  if (data.success) user.value?.saved_posts.push(post.value!.id);
+  const data = await savePost(props.post.id);
+  if (data.success) user.value?.saved_posts.push(props.post.id);
 
   isLoadingSave.value = false;
 };
@@ -49,23 +52,21 @@ const handleSavePost = async () => {
 const handleUnsavePost = async () => {
   isLoadingSave.value = true;
 
-  const data = await unsavePost(post.value!.id);
+  const data = await unsavePost(props.post.id);
   if (data.success)
-    user.value!.saved_posts = user.value!.saved_posts.filter((p) => p != post.value!.id);
+    user.value!.saved_posts = user.value!.saved_posts.filter((p) => p != props.post.id);
 
   isLoadingSave.value = false;
 };
 
-const commentIconClick = () => {
-  commentRef.value?.focus();
-};
+const commentIconClick = () => {};
 
 onMounted(async () => {});
 </script>
 
 <template>
-  <div class="flex flex-col border-b border-borderColor">
-    <div class="flex justify-between px-[10px] py-[6px]">
+  <div class="flex flex-col">
+    <div class="flex justify-between my-1 -mx-2">
       <div class="flex">
         <div class="p-2 cursor-pointer select-none">
           <LikeIcon
@@ -103,15 +104,8 @@ onMounted(async () => {});
         />
       </div>
     </div>
-    <div class="flex flex-col px-4 mb-4">
-      <span class="text-sm font-semibold cursor-pointer"
-        >{{ post!.likes.length.toLocaleString("en-US").replace(",", ".") }} lượt thích</span
-      >
-      <span
-        class="text-[10px] uppercase text-textColor-secondary"
-        :title="convertToFullDate(post!.createdAt).toUpperCase()"
-        >{{ dateDistanceToNow(post!.createdAt) }}</span
-      >
-    </div>
+    <span class="text-sm font-semibold cursor-pointer"
+      >{{ post!.likes.length.toLocaleString("en-US").replace(",", ".") }} lượt thích</span
+    >
   </div>
 </template>

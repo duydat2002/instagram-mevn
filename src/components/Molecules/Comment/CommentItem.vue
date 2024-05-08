@@ -7,13 +7,8 @@ import Avatar from "@/components/Common/Avatar.vue";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { usePostStore, useUserStore } from "@/store";
-import {
-  dateDistanceToNow,
-  dateDistanceToNowMaxWeek,
-  convertToFullDate,
-  convertTagUser,
-} from "@/helpers";
-import type { IAction, IComment, IReply, IUser } from "@/types";
+import { dateDistanceToNowMaxWeek, convertToFullDate, convertTagUser } from "@/helpers";
+import type { IComment, IReply, IUser } from "@/types";
 import { likeComment, unlikeComment } from "@/services/comment";
 
 const props = defineProps<{
@@ -81,8 +76,8 @@ const handleClickEllipsis = (commentId: string) => {
         <RouterLink :to="{ name: 'Profile', params: { username: comment.author.username } }">
           <span class="font-semibold mr-1">{{ comment.author.username }}</span>
         </RouterLink>
-        <div class="inline-flex items-center">
-          <span class="leading-tight" v-html="convertTagUser(comment.content)"></span>
+        <div class="inline items-center whitespace-break-spaces">
+          <span class="leading-tight" v-dompurify-html="convertTagUser(comment.content)"></span>
         </div>
       </div>
       <div class="flex flex-wrap items-center mt-1 text-xs text-textColor-secondary">

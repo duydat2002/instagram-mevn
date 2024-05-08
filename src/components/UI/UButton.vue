@@ -65,7 +65,7 @@ const classes = computed(() => {
   </button>
 </template>
 
-<style scoped>
+<style lang="postcss" scoped>
 button[primary] {
   color: #fff;
   background: var(--primary-button-color);
@@ -114,21 +114,12 @@ button[secondary]:hover {
 }
 
 .button--size-small {
-  font-size: 13px;
-  line-height: 17px;
-  padding: 4px 10px;
-  border-radius: 6px;
+  @apply text-[13px] leading-[17px] py-[4px] px-[10px] rounded-md;
 }
 .button--size-medium {
-  font-size: 14px;
-  line-height: 18px;
-  padding: 7px 16px;
-  border-radius: 8px;
+  @apply text-sm py-[7px] px-4 rounded-lg;
 }
 .button--size-large {
-  font-size: 15px;
-  line-height: 19px;
-  padding: 8px 22px;
-  border-radius: 10px;
+  @apply text-[15px] leading-[19px] py-2 px-[22px] rounded-[10px];
 }
 </style>

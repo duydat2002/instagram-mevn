@@ -151,6 +151,7 @@ onMounted(async () => {
                 v-for="user in searchHistory"
                 :key="user.id"
                 :user="user"
+                class="px-6"
                 @click="handleClickHistoryItem(user.id)"
               >
                 <fa
@@ -177,6 +178,7 @@ onMounted(async () => {
             v-for="user in searchList"
             :key="user.id"
             :user="user"
+            class="px-6"
             @click="handleClickUserItem(user.id)"
           />
           <div v-else class="w-full h-full flex flex-center font-semibold text-textColor-secondary">

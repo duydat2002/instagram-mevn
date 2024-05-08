@@ -41,9 +41,9 @@ const commentCountComp = computed(() => {
         </div>
       </div>
       <div v-if="post.type != 'image'" class="absolute top-2 right-2">
-        <MultipleIcon v-if="post.type == 'multiple'" />
-        <ReelIcon v-if="post.type == 'reel'" />
-        <PlayIcon v-if="post.type == 'video'" />
+        <MultipleIcon v-if="post.type == 'multiple'" class="fill-white" />
+        <ReelIcon v-if="post.type == 'reel'" class="fill-white" />
+        <PlayIcon v-if="post.type == 'video'" class="fill-white" />
       </div>
     </div>
   </RouterLink>

@@ -11,6 +11,7 @@ export interface IPost {
   tags: string[];
   likes: string[];
   comments: string[];
+  viewers: string[];
   ratio: number;
   createdAt: string;
   updatedAt: string;

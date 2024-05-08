@@ -77,7 +77,7 @@ watch(screen, (value) => {
     >
       <RouterLink to="/" class="px-3 py-5 mb-3 relative hidden tablet:block">
         <LogoText
-          class="opacity-100 parent-[.is-narrow]:opacity-0 w-[103px] transition-opacity duration-300"
+          class="opacity-100 parent-[.is-narrow]:opacity-0 w-[103px] transition-opacity duration-300 parent-[.is-narrow]:pointer-events-none"
         />
         <Logo
           class="absolute top-5 bottom-0 left-3 right-0 opacity-0 parent-[.is-narrow]:opacity-100 text-textColor-primary hover:scale-105 transition-opacity duration-300"

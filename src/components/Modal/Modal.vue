@@ -31,7 +31,9 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  if (!document.querySelector("#popup > *")) {
+  const modal = document.querySelector("#modal > *:not(#popup)");
+  const popup = document.querySelector("#popup > *");
+  if ((!modal && popup) || !popup) {
     stopScroll.value = false;
   }
   document.documentElement.scrollTop = scrollPosition.value;

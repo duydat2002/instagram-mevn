@@ -3,7 +3,6 @@ import EmojiIcon from "@icons/emoji.svg";
 import Loading from "@/components/Common/Loading.vue";
 
 import { ref } from "vue";
-import { IPost } from "@/types";
 import EmojiPicker from "@/components/Common/EmojiPicker.vue";
 import { storeToRefs } from "pinia";
 import { usePostStore, useUserStore } from "@/store";
@@ -11,7 +10,7 @@ import { commentPost, replyComment } from "@/services/comment";
 
 const { addComment, addReply } = usePostStore();
 const { isLogged } = storeToRefs(useUserStore());
-const { post, replyTo, comment, comments, commentRef } = storeToRefs(usePostStore());
+const { post, replyTo, comment, commentRef } = storeToRefs(usePostStore());
 
 const emojiPickerActive = ref(false);
 const loadingComment = ref(false);

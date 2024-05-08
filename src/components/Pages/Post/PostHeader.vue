@@ -8,7 +8,7 @@ import ActionsPopup from "@/components/Popup/ActionsPopup.vue";
 import { ref, computed, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { usePostStore, useUserStore } from "@/store";
-import { IAction, IPost } from "@/types";
+import { IAction } from "@/types";
 import { checkIsFollowing, followUser, unfollowUser } from "@/services/user";
 import { deletePost } from "@/services/post";
 import { useRouter } from "vue-router";

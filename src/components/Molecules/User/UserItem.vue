@@ -14,9 +14,14 @@ defineProps<{
 <template>
   <RouterLink
     :to="{ name: 'Profile', params: { username: user.username } }"
-    class="flex items-center px-3 py-2 cursor-pointer"
+    class="flex items-center px-4 py-2 cursor-pointer"
   >
-    <Avatar :avatarUrl="user.avatar" width="44" class="mr-2 flex-shrink-0" />
+    <Avatar
+      :hasStory="Math.random() > 0.5"
+      :avatarUrl="user.avatar"
+      width="44"
+      class="-ml-1 mr-2 flex-shrink-0"
+    />
     <div class="flex flex-col justify-center flex-1 overflow-hidden">
       <div>
         <span class="block font-semibold text-dots">{{ user.username }}</span>

@@ -50,8 +50,8 @@ watch(
             <RouterLink :to="{ name: 'Profile', params: { username: post!.author.username } }">
               <span class="font-semibold mr-1">{{ post!.author.username }}</span>
             </RouterLink>
-            <div class="inline-flex items-center">
-              <span class="leading-tight" v-html="convertTagUser(post!.caption)"></span>
+            <div class="inline items-center whitespace-break-spaces">
+              <span class="leading-tight" v-dompurify-html="(convertTagUser(post!.caption))"></span>
             </div>
           </div>
           <span

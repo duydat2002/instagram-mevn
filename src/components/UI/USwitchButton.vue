@@ -11,6 +11,8 @@ const props = withDefaults(
     switchWider?: string;
     colorOn?: string;
     colorOff?: string;
+    dotColorOn?: string;
+    dotColorOff?: string;
   }>(),
   {
     propValue: false,
@@ -18,8 +20,10 @@ const props = withDefaults(
     height: "16px",
     switchWidth: "12px",
     switchWider: "14px",
-    colorOn: "#cccccc",
-    colorOff: "#4296f4",
+    colorOn: "#ffffff",
+    colorOff: "#cccccc",
+    dotColorOn: "#0f1419",
+    dotColorOff: "#ffffff",
   }
 );
 
@@ -35,8 +39,10 @@ const initStyle = computed(() => ({
   "--toggle-diameter": `${props.switchWidth}`,
   "--button-toggle-offset": `calc((${props.height} - ${props.switchWidth}) / 2)`,
   "--toggle-wider": `${props.switchWider}`,
-  "--color-grey": `${props.colorOn}`,
-  "--color-green": `${props.colorOff}`,
+  "--color-on": `${props.colorOn}`,
+  "--color-off": `${props.colorOff}`,
+  "--dot-color-on": `${props.dotColorOn}`,
+  "--dot-color-off": `${props.dotColorOff}`,
 }));
 </script>
 
@@ -57,7 +63,7 @@ const initStyle = computed(() => ({
   display: inline-block;
   width: var(--button-width);
   height: var(--button-height);
-  background-color: var(--color-grey);
+  background-color: var(--color-off);
   border-radius: calc(var(--button-height) / 2);
   position: relative;
   transition: 0.3s all ease-in-out;
@@ -68,7 +74,7 @@ const initStyle = computed(() => ({
   display: inline-block;
   width: var(--toggle-diameter);
   height: var(--toggle-diameter);
-  background-color: #fff;
+  background-color: var(--dot-color-off);
   border-radius: calc(var(--toggle-diameter) / 2);
   position: absolute;
   top: var(--button-toggle-offset);
@@ -77,10 +83,11 @@ const initStyle = computed(() => ({
 }
 
 .switch input[type="checkbox"]:checked + .slider {
-  background-color: var(--color-green);
+  background-color: var(--color-on);
 }
 
 .switch input[type="checkbox"]:checked + .slider::after {
+  background-color: var(--dot-color-on);
   transform: translateX(
     calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset))
   );

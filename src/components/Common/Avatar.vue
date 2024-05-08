@@ -23,11 +23,13 @@ const hanldeLoad = () => {
 
 const sizeAvatar = computed(() => {
   let width = props.width;
-  if (!!props.width && !isNaN(Number(props.width))) width = width + "px";
-  return {
-    width: `calc(${width} + 8px)`,
-    height: `calc(${width} + 8px)`,
-  };
+  if (width != "auto") {
+    if (!!props.width && !isNaN(Number(props.width))) width = width + "px";
+    return {
+      width: `calc(${width} + 8px)`,
+      height: `calc(${width} + 8px)`,
+    };
+  }
 });
 </script>
 
