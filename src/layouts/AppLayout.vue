@@ -3,8 +3,9 @@ import LogoText from "@icons/logo-text.svg";
 import Nav from "@/components/Layout/Nav/Nav.vue";
 import UButton from "@/components/UI/UButton.vue";
 import Footer from "@/components/Layout/Footer.vue";
+import UserReviewModal from "@/components/Modal/UserReviewModal.vue";
 
-import { useUserStore, useUsersModalStore } from "@/store";
+import { useUserStore } from "@/store";
 import { storeToRefs } from "pinia";
 
 const { isLogged } = storeToRefs(useUserStore());
@@ -42,4 +43,5 @@ const { isLogged } = storeToRefs(useUserStore());
       <Footer />
     </div>
   </section>
+  <UserReviewModal />
 </template>

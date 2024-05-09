@@ -1,14 +1,22 @@
 <script lang="ts" setup>
 import Avatar from "@/components/Common/Avatar.vue";
+import { useHoverUser } from "@/composables";
 
 import { IUser } from "@/types";
 import { useSlots } from "vue";
 
 const slots = useSlots();
 
-defineProps<{
+const { hoverTrigger } = useHoverUser();
+
+const props = defineProps<{
   user: IUser;
+  hasTrigger?: boolean;
 }>();
+
+const handleTrigger = (event: Event) => {
+  if (props.hasTrigger) hoverTrigger(event, props.user.id);
+};
 </script>
 
 <template>
@@ -21,10 +29,13 @@ defineProps<{
       :avatarUrl="user.avatar"
       width="44"
       class="-ml-1 mr-2 flex-shrink-0"
+      @mouseenter="handleTrigger($event)"
     />
     <div class="flex flex-col justify-center flex-1 overflow-hidden">
       <div>
-        <span class="block font-semibold text-dots">{{ user.username }}</span>
+        <span class="block font-semibold text-dots" @mouseenter="handleTrigger($event)">{{
+          user.username
+        }}</span>
         <slot name="top" />
       </div>
       <template v-if="slots.bottom">

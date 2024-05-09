@@ -15,6 +15,9 @@ const props = defineProps<{
 
 import { convertToFullDate, dateDistanceToNowMaxWeek } from "@/helpers";
 import ActionsPopup from "@/components/Popup/ActionsPopup.vue";
+import { useHoverUser } from "@/composables";
+
+const { hoverTrigger } = useHoverUser();
 
 const { user } = storeToRefs(useUserStore());
 
@@ -62,11 +65,18 @@ const follow = async () => {
 <template>
   <div class="flex items-center justify-between">
     <div class="flex items-center p-[10px]">
-      <RouterLink :to="{ name: 'Profile', params: { username: post?.author.username } }">
-        <Avatar width="32" :avatar-url="post?.author.avatar" />
+      <RouterLink :to="{ name: 'Profile', params: { username: post.author.username } }">
+        <Avatar
+          width="32"
+          :avatar-url="post?.author.avatar"
+          @mouseenter="hoverTrigger($event, post.author.id)"
+        />
       </RouterLink>
       <div class="ml-3 font-semibold leading-none">
-        <RouterLink :to="{ name: 'Profile', params: { username: post?.author.username } }">
+        <RouterLink
+          :to="{ name: 'Profile', params: { username: post.author.username } }"
+          @mouseenter="hoverTrigger($event, post.author.id)"
+        >
           <span class="hover:opacity-60">{{ post?.author.username }}</span>
         </RouterLink>
         <span

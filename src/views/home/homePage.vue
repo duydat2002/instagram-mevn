@@ -32,14 +32,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex-1 flex min-h-screen justify-center">
+  <div class="w-full flex min-h-screen justify-center">
     <div class="w-full max-w-[630px] mt-4">
       <StoryList class="py-2 mb-4" />
       <div class="flex flex-col items-center">
         <PostHome v-for="post in newFeeds" :key="post.id" :post="post" />
       </div>
     </div>
-    <div class="w-[320px] ml-16 flex flex-col mt-9">
+    <div class="hidden min-[1160px]:flex w-[320px] ml-16 flex-col mt-9">
       <UserItem :user="user!">
         <span class="text-xs font-semibold ml-3 text-buttonColor-primary hover:text-link"
           >Chuyển</span
@@ -53,7 +53,7 @@ onMounted(async () => {
           >
         </div>
         <div class="flex flex-col">
-          <UserItem v-for="i in 5" :key="i" :user="user!">
+          <UserItem v-for="i in 5" :key="i" :user="user!" hasTrigger>
             <span class="text-xs font-semibold ml-3 text-buttonColor-primary hover:text-link"
               >Theo dõi</span
             >

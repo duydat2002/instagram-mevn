@@ -12,9 +12,11 @@ import { IAction } from "@/types";
 import { checkIsFollowing, followUser, unfollowUser } from "@/services/user";
 import { deletePost } from "@/services/post";
 import { useRouter } from "vue-router";
+import { useHoverUser } from "@/composables";
+
+const { hoverTrigger } = useHoverUser();
 
 const router = useRouter();
-
 const { post, updatePostModal } = storeToRefs(usePostStore());
 const { user } = storeToRefs(useUserStore());
 const isLoadingFollow = ref(false);
@@ -117,10 +119,17 @@ onMounted(async () => {
   <div class="flex items-center justify-between border-b border-borderColor">
     <div class="flex items-center p-[10px]">
       <RouterLink :to="{ name: 'Profile', params: { username: post?.author.username } }">
-        <Avatar width="32" :avatar-url="post?.author.avatar" />
+        <Avatar
+          width="32"
+          :avatar-url="post?.author.avatar"
+          @mouseenter="hoverTrigger($event, post!.author.id)"
+        />
       </RouterLink>
       <div class="ml-3 font-semibold leading-none">
-        <RouterLink :to="{ name: 'Profile', params: { username: post?.author.username } }">
+        <RouterLink
+          :to="{ name: 'Profile', params: { username: post?.author.username } }"
+          @mouseenter="hoverTrigger($event, post!.author.id)"
+        >
           <span class="hover:opacity-60">{{ post?.author.username }}</span>
         </RouterLink>
         <template v-if="user && user.id != post!.author.id">
