@@ -1,5 +1,5 @@
 import api from "@/plugins/axios";
-import { IComment, IReply, IServerData } from "@/types";
+import { IComment, IFollowUser, IReply, IServerData } from "@/types";
 
 const prefix = "/comments/";
 
@@ -9,6 +9,10 @@ export async function getPostComments(postId: string) {
 
 export async function getCommentReplies(commentId: string) {
   return await api.get<any, IServerData<{ replies: IReply[] }>>(prefix + commentId + "/replies");
+}
+
+export async function getLikedUsersOfComment(commentId: string) {
+  return await api.get<any, IServerData<{ users: IFollowUser[] }>>(prefix + commentId + "/likes");
 }
 
 export async function likeComment(commentId: string) {

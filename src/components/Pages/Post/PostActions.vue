@@ -9,11 +9,12 @@ import BookmarkActiveIcon from "@icons/bookmark-active.svg";
 import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { dateDistanceToNow, convertToFullDate } from "@/helpers";
-import { usePostStore, useUserStore } from "@/store";
-import { likePost, savePost, unlikePost, unsavePost } from "@/services/post";
+import { usePostStore, useUserStore, useUsersModalStore } from "@/store";
+import { getLikedUsersOfPost, likePost, savePost, unlikePost, unsavePost } from "@/services/post";
 
 const { user } = storeToRefs(useUserStore());
 const { post, commentRef } = storeToRefs(usePostStore());
+const { isShow, title, users: usersLiked } = storeToRefs(useUsersModalStore());
 
 const isLoadingLike = ref(false);
 const isLoadingSave = ref(false);
@@ -60,7 +61,16 @@ const commentIconClick = () => {
   commentRef.value?.focus();
 };
 
-onMounted(async () => {});
+const showLikedUsers = async () => {
+  if (post.value!.likes.length > 0) {
+    isShow.value = true;
+    title.value = "Lượt thích";
+    const data = await getLikedUsersOfPost(post.value!.id);
+    if (data.success) {
+      usersLiked.value = data.result!.users;
+    }
+  }
+};
 </script>
 
 <template>
@@ -104,7 +114,7 @@ onMounted(async () => {});
       </div>
     </div>
     <div class="flex flex-col px-4 mb-4">
-      <span class="text-sm font-semibold cursor-pointer"
+      <span class="text-sm font-semibold cursor-pointer" @click="showLikedUsers"
         >{{ post!.likes.length.toLocaleString("en-US").replace(",", ".") }} lượt thích</span
       >
       <span

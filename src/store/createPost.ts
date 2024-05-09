@@ -6,6 +6,7 @@ import { drawInitCanvas, getImage } from "@/helpers";
 
 interface IState {
   isShowModal: boolean;
+  isUploadding: boolean;
   title: string;
   removePostPopupShow: boolean;
   removeMediaPopupShow: boolean;
@@ -48,6 +49,7 @@ const defaultMedia = {
 export const useCreatePostStore = defineStore("createPost", {
   state: (): IState => ({
     isShowModal: false,
+    isUploadding: false,
     title: CREATE_POST_TABS[0].title,
     removePostPopupShow: false,
     removeMediaPopupShow: false,
@@ -58,8 +60,8 @@ export const useCreatePostStore = defineStore("createPost", {
     currentMediaIndex: 0,
     currentRatio: "1:1",
     containerSize: {
-      height: 0,
-      width: 0,
+      height: 400,
+      width: 400,
     },
     cropperSize: {
       height: 0,

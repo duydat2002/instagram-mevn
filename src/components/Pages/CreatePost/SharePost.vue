@@ -7,8 +7,7 @@ import { createPost } from "@/services/post";
 
 const { resetCreatePost } = useCreatePostStore();
 
-const { title, medias, caption, cropperSize } = storeToRefs(useCreatePostStore());
-const isUploadding = ref(true);
+const { title, medias, caption, cropperSize, isUploadding } = storeToRefs(useCreatePostStore());
 
 const gifStyle = computed(() => {
   return {
@@ -43,6 +42,7 @@ const createPostData = async () => {
 };
 
 onMounted(async () => {
+  isUploadding.value = true;
   title.value = "Đang chia sẻ";
 
   const formData = await createPostData();

@@ -6,3 +6,4 @@ export * from "./modal";
 export * from "./createPost";
 export * from "./common";
 export * from "./post";
+export * from "./usersModal";

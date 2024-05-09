@@ -18,7 +18,9 @@ import { useCreatePostStore } from "@/store/createPost";
 const route = useRoute();
 
 const { screen } = storeToRefs(useResizeStore());
-const { currentTab, isShowModal, removePostPopupShow } = storeToRefs(useCreatePostStore());
+const { currentTab, isShowModal, removePostPopupShow, isUploadding } = storeToRefs(
+  useCreatePostStore()
+);
 const { navs, bottomNav } = useNav();
 
 const currentNav = ref<INavTab>("Home");
@@ -49,7 +51,7 @@ const clickOutsideTab = () => {
 const handleClickOutsideCreatePost = () => {
   if (["CropPost", "FilterPost", "CaptionPost"].includes(currentTab.value.tab))
     removePostPopupShow.value = true;
-  else isShowModal.value = false;
+  else if (!isUploadding.value) isShowModal.value = false;
 
   clickOutsideTab();
 };

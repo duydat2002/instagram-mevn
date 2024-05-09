@@ -5,17 +5,19 @@ import PostComments from "./PostComments.vue";
 import PostActions from "./PostActions.vue";
 import CommentInput from "./CommentInput.vue";
 import UpdatePost from "@/components/Pages/CreatePost/UpdatePost.vue";
+import UsersModal from "@/components/Modal/UsersModal.vue";
 
 import { computed, onBeforeMount } from "vue";
 import { getPostById } from "@/services/post";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
-import { useCommonStore, usePostStore } from "@/store";
+import { useCommonStore, usePostStore, useUsersModalStore } from "@/store";
 import { storeToRefs } from "pinia";
 
 const { setTitle } = useCommonStore();
 
 const route = useRoute();
 const { post, updatePostModal } = storeToRefs(usePostStore());
+const { isShow: isShowUsersModal } = storeToRefs(useUsersModalStore());
 
 const postContainerWidth = computed(() => {
   if (post.value!.ratio >= 1) {
@@ -76,6 +78,14 @@ onBeforeMount(async () => {
       @cancel="
         () => {
           updatePostModal = false;
+        }
+      "
+    />
+    <UsersModal
+      v-if="isShowUsersModal"
+      @cancel="
+        () => {
+          isShowUsersModal = false;
         }
       "
     />

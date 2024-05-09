@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import StoryItem from "@/components/Molecules/Story/StoryItem.vue";
 import StoryList from "@/components/Molecules/Story/StoryList.vue";
 import UserItem from "@/components/Molecules/User/UserItem.vue";
-import UButton from "@/components/UI/UButton.vue";
+import PostHome from "@/components/Pages/Home/Post/PostHome.vue";
+import UsersModal from "@/components/Modal/UsersModal.vue";
 
 import { ref, onMounted } from "vue";
-import { useUserStore } from "@/store";
+import { useUserStore, useUsersModalStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { getPostsIsFollow } from "@/services/post";
 import { IPost } from "@/types";
-import PostHome from "@/components/Pages/Home/Post/PostHome.vue";
 
 const router = useRouter();
 const { user } = storeToRefs(useUserStore());
+const { isShow: isShowUsersModal } = storeToRefs(useUsersModalStore());
 const newFeeds = ref<IPost[]>();
 
 const handleLogout = async () => {
@@ -62,6 +62,14 @@ onMounted(async () => {
       </div>
     </div>
   </div>
+  <UsersModal
+    v-if="isShowUsersModal"
+    @cancel="
+      () => {
+        isShowUsersModal = false;
+      }
+    "
+  />
 </template>
 
 <style>

@@ -6,10 +6,10 @@ import Avatar from "@/components/Common/Avatar.vue";
 
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
-import { usePostStore, useUserStore } from "@/store";
+import { usePostStore, useUserStore, useUsersModalStore } from "@/store";
 import { dateDistanceToNowMaxWeek, convertToFullDate, convertTagUser } from "@/helpers";
 import type { IComment, IReply, IUser } from "@/types";
-import { likeComment, unlikeComment } from "@/services/comment";
+import { getLikedUsersOfComment, likeComment, unlikeComment } from "@/services/comment";
 
 const props = defineProps<{
   comment: IComment | IReply;
@@ -21,10 +21,18 @@ const { user } = storeToRefs(useUserStore());
 const { removeComment, removeCommentPopup, reportCommentPopup, removeCommentRef } = storeToRefs(
   usePostStore()
 );
+const { isShow, title, users: usersLiked } = storeToRefs(useUsersModalStore());
 const isLoadingLike = ref(false);
 const item = ref<HTMLDivElement>();
 
-const handleClickLikeCount = () => {};
+const handleClickLikeCount = async () => {
+  isShow.value = true;
+  title.value = "Lượt thích";
+  const data = await getLikedUsersOfComment(props.comment.id);
+  if (data.success) {
+    usersLiked.value = data.result!.users;
+  }
+};
 
 const handleReply = () => {
   let commentId = props.comment.id; // comment is Comment

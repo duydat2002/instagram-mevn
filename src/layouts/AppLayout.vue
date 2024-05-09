@@ -4,7 +4,7 @@ import Nav from "@/components/Layout/Nav/Nav.vue";
 import UButton from "@/components/UI/UButton.vue";
 import Footer from "@/components/Layout/Footer.vue";
 
-import { useUserStore } from "@/store";
+import { useUserStore, useUsersModalStore } from "@/store";
 import { storeToRefs } from "pinia";
 
 const { isLogged } = storeToRefs(useUserStore());

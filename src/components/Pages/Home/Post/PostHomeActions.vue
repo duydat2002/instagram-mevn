@@ -8,8 +8,8 @@ import BookmarkActiveIcon from "@icons/bookmark-active.svg";
 
 import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
-import { useUserStore } from "@/store";
-import { likePost, savePost, unlikePost, unsavePost } from "@/services/post";
+import { useUserStore, useUsersModalStore } from "@/store";
+import { getLikedUsersOfPost, likePost, savePost, unlikePost, unsavePost } from "@/services/post";
 import { IPost } from "@/types";
 
 const props = defineProps<{
@@ -17,6 +17,7 @@ const props = defineProps<{
 }>();
 
 const { user } = storeToRefs(useUserStore());
+const { isShow, title, users: usersLiked } = storeToRefs(useUsersModalStore());
 
 const isLoadingLike = ref(false);
 const isLoadingSave = ref(false);
@@ -61,6 +62,17 @@ const handleUnsavePost = async () => {
 
 const commentIconClick = () => {};
 
+const showLikedUsers = async () => {
+  if (props.post.likes.length > 0) {
+    isShow.value = true;
+    title.value = "Lượt thích";
+    const data = await getLikedUsersOfPost(props.post.id);
+    if (data.success) {
+      usersLiked.value = data.result!.users;
+    }
+  }
+};
+
 onMounted(async () => {});
 </script>
 
@@ -104,7 +116,7 @@ onMounted(async () => {});
         />
       </div>
     </div>
-    <span class="text-sm font-semibold cursor-pointer"
+    <span class="text-sm font-semibold cursor-pointer" @click="showLikedUsers"
       >{{ post!.likes.length.toLocaleString("en-US").replace(",", ".") }} lượt thích</span
     >
   </div>

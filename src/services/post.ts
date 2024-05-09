@@ -1,5 +1,5 @@
 import api from "@/plugins/axios";
-import { IPost, IServerData } from "@/types";
+import { IFollowUser, IPost, IServerData } from "@/types";
 
 const prefix = "/posts/";
 
@@ -21,6 +21,10 @@ export async function updatePost(postId: string, caption?: string, tags?: string
 
 export async function deletePost(postId: string) {
   return await api.delete<any, IServerData<{ post: IPost }>>(prefix + postId);
+}
+
+export async function getLikedUsersOfPost(postId: string) {
+  return await api.get<any, IServerData<{ users: IFollowUser[] }>>(prefix + postId + "/likes");
 }
 
 export async function likePost(postId: string) {
