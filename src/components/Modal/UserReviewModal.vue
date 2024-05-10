@@ -9,7 +9,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserReviewStore, useUserStore } from "@/store";
 import { IPost, IUser } from "@/types";
-import { getUserPreview } from "@/services/user";
+import { followUser, getUserPreview, unfollowUser } from "@/services/user";
 import { useHoverUser } from "@/composables";
 import { formatNumberToSuffix } from "@/helpers";
 
@@ -20,11 +20,39 @@ const { leaveTrigger } = useHoverUser();
 const userReviewRef = ref<HTMLDivElement>();
 const userReview = ref<IUser>();
 const postsReview = ref<IPost[]>([]);
+const isLoadingFollow = ref(false);
 
 const position = computed(() => ({
   left: `${modalPosition.value.x}px`,
   top: `${modalPosition.value.y}px`,
 }));
+
+const handleClickFollow = async () => {
+  if (user.value && userReview.value) {
+    isLoadingFollow.value = true;
+
+    const data = await followUser(user.value.id, userReview.value.id);
+    if (data.success) {
+      user.value.followers.push(userReview.value.id);
+    }
+
+    isLoadingFollow.value = false;
+  }
+};
+
+const handleClickUnfollow = async () => {
+  if (user.value && userReview.value) {
+    isLoadingFollow.value = true;
+
+    const data = await unfollowUser(user.value.id, userReview.value.id);
+    if (data.success) {
+      const index = user.value!.followers.indexOf(userReview.value.id);
+      if (index != -1) user.value?.followers.splice(index, 1);
+    }
+
+    isLoadingFollow.value = false;
+  }
+};
 
 watch(
   hoveredUserId,
@@ -149,16 +177,28 @@ onBeforeUnmount(() => {
           <UButton v-if="user?.id == userReview.id" secondary class="flex-1"
             ><span>Theo dõi</span></UButton
           >
-          <template v-else-if="user?.followings.includes(userReview.id)">
+          <template v-else-if="user?.followers.includes(userReview.id)">
             <UButton primary class="flex-1">
               <div class="flex items-center justify-center">
                 <MessengerIcon class="mr-2 w-5 fill-white text-white" />
                 <span>Nhắn tin</span>
               </div>
             </UButton>
-            <UButton secondary class="flex-1"><span>Đang theo dõi</span></UButton>
+            <UButton
+              secondary
+              :isLoading="isLoadingFollow"
+              class="flex-1"
+              @click="handleClickUnfollow"
+              ><span>Đang theo dõi</span></UButton
+            >
           </template>
-          <UButton v-else primary class="flex-1">
+          <UButton
+            v-else
+            primary
+            class="flex-1"
+            :isLoading="isLoadingFollow"
+            @click="handleClickFollow"
+          >
             <div class="flex items-center justify-center">
               <UserPlusIcon class="mr-2 w-5 fill-white text-white" />
               <span>Theo dõi</span>
