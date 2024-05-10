@@ -79,11 +79,12 @@ const follow = async () => {
         >
           <span class="hover:opacity-60">{{ post?.author.username }}</span>
         </RouterLink>
-        <span
+        <RouterLink
+          :to="{ name: 'Post', params: { postId: post.id } }"
           class="text-sm text-textColor-secondary cursor-pointer"
           :title="convertToFullDate(post!.createdAt).toUpperCase()"
         >
-          • {{ dateDistanceToNowMaxWeek(post!.createdAt, false, false) }}</span
+          • {{ dateDistanceToNowMaxWeek(post!.createdAt, false, false) }}</RouterLink
         >
         <template v-if="!isFollow">
           <span class="mx-1 text-textColor-secondary">•</span>

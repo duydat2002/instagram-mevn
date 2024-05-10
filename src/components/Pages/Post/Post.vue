@@ -53,7 +53,7 @@ onBeforeMount(async () => {
 <template>
   <div v-if="post" class="mx-auto" :style="postContainerWidth">
     <div
-      class="flex flex-col min-[736px]:flex-row w-full mx-auto min-h-[480px] max-h-none min-[736px]:max-h-[600px] box-content border border-borderColor"
+      class="flex flex-col min-[736px]:flex-row w-full mx-auto min-h-[480px] max-h-none min-[736px]:max-h-[600px] box-content bg-bgColor-primary border border-borderColor"
     >
       <div class="flex-grow flex items-center overflow-hidden">
         <PostSwiper />

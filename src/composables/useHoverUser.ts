@@ -12,11 +12,6 @@ export const useHoverUser = () => {
     const rect = target.getBoundingClientRect();
     const bodyRect = document.body.getBoundingClientRect();
 
-    console.log({
-      x: rect.left - bodyRect.left,
-      y: rect.top + rect.height - bodyRect.top,
-    });
-
     setModalPosition({
       x: Math.min(rect.left - bodyRect.left, maxRectLeft),
       y: rect.top + rect.height - bodyRect.top,

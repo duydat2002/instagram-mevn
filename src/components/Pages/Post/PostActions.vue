@@ -117,10 +117,11 @@ const showLikedUsers = async () => {
       <span class="text-sm font-semibold cursor-pointer" @click="showLikedUsers"
         >{{ post!.likes.length.toLocaleString("en-US").replace(",", ".") }} lượt thích</span
       >
-      <span
+      <RouterLink
+        :to="{name: 'Post', params: {postId: post!.id}}"
         class="text-[10px] uppercase text-textColor-secondary"
         :title="convertToFullDate(post!.createdAt).toUpperCase()"
-        >{{ dateDistanceToNow(post!.createdAt) }}</span
+        >{{ dateDistanceToNow(post!.createdAt) }}</RouterLink
       >
     </div>
   </div>

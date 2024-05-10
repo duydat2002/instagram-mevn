@@ -8,10 +8,14 @@ import PlayIcon from "@icons/play.svg";
 import { computed } from "vue";
 import type { IPost } from "@/types";
 import { formatNumberToSuffix } from "@/helpers";
+import { storeToRefs } from "pinia";
+import { usePostStore } from "@/store";
 
 const props = defineProps<{
   post: IPost;
 }>();
+
+const { postIdModal } = storeToRefs(usePostStore());
 
 const likeCountComp = computed(() => {
   return formatNumberToSuffix(props.post.likes.length);
@@ -20,10 +24,14 @@ const likeCountComp = computed(() => {
 const commentCountComp = computed(() => {
   return formatNumberToSuffix(props.post.comments.length);
 });
+
+const handleClickReview = () => {
+  postIdModal.value = props.post.id;
+};
 </script>
 
 <template>
-  <RouterLink :to="{ name: 'Post', params: { postId: post.id } }">
+  <div @click="handleClickReview">
     <div class="relative group/review w-full pt-[100%] cursor-pointer overflow-hidden">
       <div class="absolute top-0 left-0 w-full h-full">
         <img class="w-full h-full object-cover" :src="post.contents[0]" :alt="post.caption" />
@@ -46,5 +54,5 @@ const commentCountComp = computed(() => {
         <PlayIcon v-if="post.type == 'video'" class="fill-white" />
       </div>
     </div>
-  </RouterLink>
+  </div>
 </template>

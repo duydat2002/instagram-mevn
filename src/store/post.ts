@@ -14,6 +14,9 @@ interface IState {
   removeComment: Nullable<string>;
   removeCommentRef: Nullable<HTMLDivElement>;
   updatePostModal: boolean;
+
+  postModal: boolean;
+  postIdModal: string | null;
 }
 
 export const usePostStore = defineStore("post", {
@@ -29,6 +32,9 @@ export const usePostStore = defineStore("post", {
     removeComment: null,
     removeCommentRef: null,
     updatePostModal: false,
+
+    postModal: false,
+    postIdModal: null,
   }),
   actions: {
     addComment(comment: IComment) {

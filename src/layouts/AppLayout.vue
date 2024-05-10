@@ -4,6 +4,7 @@ import Nav from "@/components/Layout/Nav/Nav.vue";
 import UButton from "@/components/UI/UButton.vue";
 import Footer from "@/components/Layout/Footer.vue";
 import UserReviewModal from "@/components/Modal/UserReviewModal.vue";
+import PostModal from "@/components/Modal/PostModal.vue";
 
 import { useUserStore } from "@/store";
 import { storeToRefs } from "pinia";
@@ -44,4 +45,5 @@ const { isLogged } = storeToRefs(useUserStore());
     </div>
   </section>
   <UserReviewModal />
+  <PostModal />
 </template>

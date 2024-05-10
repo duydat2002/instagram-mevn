@@ -8,7 +8,7 @@ import BookmarkActiveIcon from "@icons/bookmark-active.svg";
 
 import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
-import { useUserStore, useUsersModalStore } from "@/store";
+import { usePostStore, useUserStore, useUsersModalStore } from "@/store";
 import { getLikedUsersOfPost, likePost, savePost, unlikePost, unsavePost } from "@/services/post";
 import { IPost } from "@/types";
 
@@ -17,6 +17,7 @@ const props = defineProps<{
 }>();
 
 const { user } = storeToRefs(useUserStore());
+const { postIdModal } = storeToRefs(usePostStore());
 const { isShow, title, users: usersLiked } = storeToRefs(useUsersModalStore());
 
 const isLoadingLike = ref(false);
@@ -60,7 +61,9 @@ const handleUnsavePost = async () => {
   isLoadingSave.value = false;
 };
 
-const commentIconClick = () => {};
+const commentIconClick = () => {
+  postIdModal.value = props.post.id;
+};
 
 const showLikedUsers = async () => {
   if (props.post.likes.length > 0) {
