@@ -1,3 +1,5 @@
+import { IPost } from "./post";
+
 export interface IUser {
   id: string;
   username: string;
@@ -17,4 +19,9 @@ export interface IUser {
 export interface IFollowUser extends IUser {
   isFollowed: boolean;
   followOrder: number;
+}
+
+export interface IUserReview {
+  user: IUser;
+  posts: IPost[];
 }

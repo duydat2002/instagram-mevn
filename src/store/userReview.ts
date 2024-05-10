@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
-import { IPoint } from "@/types";
+import { IPoint, IUserReview } from "@/types";
 
 interface IState {
   hoveredUserId: string | null;
   modalPosition: IPoint;
   triggerRef: HTMLElement | null;
+  reviewCache: IUserReview[];
 }
 
-export const useUserHoverStore = defineStore("userHover", {
+export const useUserReviewStore = defineStore("userReview", {
   state: (): IState => ({
     hoveredUserId: null,
     modalPosition: {
@@ -15,6 +16,7 @@ export const useUserHoverStore = defineStore("userHover", {
       y: 0,
     },
     triggerRef: null,
+    reviewCache: [],
   }),
   actions: {
     setHoveredUserId(userId: string) {
@@ -25,6 +27,9 @@ export const useUserHoverStore = defineStore("userHover", {
     },
     setTriggerRef(elRef: HTMLElement) {
       this.triggerRef = elRef;
+    },
+    addUserReviewCache(review: IUserReview) {
+      this.reviewCache.push(review);
     },
     resetAll() {
       this.triggerRef = null;

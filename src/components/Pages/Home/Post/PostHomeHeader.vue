@@ -64,7 +64,7 @@ const follow = async () => {
 
 <template>
   <div class="flex items-center justify-between">
-    <div class="flex items-center p-[10px]">
+    <div class="flex items-center py-[10px]">
       <RouterLink :to="{ name: 'Profile', params: { username: post.author.username } }">
         <Avatar
           width="32"
@@ -93,7 +93,7 @@ const follow = async () => {
         </template>
       </div>
     </div>
-    <div class="p-2 cursor-pointer">
+    <div class="cursor-pointer">
       <EllipsisIcon
         @click="
           () => {

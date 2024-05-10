@@ -1,5 +1,5 @@
 import api from "@/plugins/axios";
-import { IFollowUser, IPost, IServerData, IUser } from "@/types";
+import { IFollowUser, IPost, IServerData, IUser, IUserReview } from "@/types";
 
 const prefix = "/users/";
 
@@ -16,9 +16,7 @@ export async function getUserByUsername(username: string) {
 }
 
 export async function getUserPreview(id: string) {
-  return await api.get<any, IServerData<{ user: IUser; posts: IPost[] }>>(
-    prefix + id + "/get-review"
-  );
+  return await api.get<any, IServerData<IUserReview>>(prefix + id + "/get-review");
 }
 
 // User profile

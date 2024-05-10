@@ -11,7 +11,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="w-[min(470px,100vw)]">
+  <div class="w-[min(470px,100vw)] pb-4 mb-4 border-b border-borderColor">
     <PostHomeHeader :post="post" />
     <PostHomeSwiper :post="post" />
     <div>

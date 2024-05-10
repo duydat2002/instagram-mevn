@@ -1,8 +1,8 @@
 import { ref } from "vue";
-import { useUserHoverStore } from "@/store";
+import { useUserReviewStore } from "@/store";
 
 export const useHoverUser = () => {
-  const { setHoveredUserId, setModalPosition, resetAll, setTriggerRef } = useUserHoverStore();
+  const { setHoveredUserId, setModalPosition, resetAll, setTriggerRef } = useUserReviewStore();
 
   const MODAL_WIDTH = 366;
   const maxRectLeft = window.innerWidth - MODAL_WIDTH - 20;

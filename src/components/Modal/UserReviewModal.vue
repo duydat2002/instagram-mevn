@@ -7,14 +7,14 @@ import UserReviewSkeleton from "@/components/Skeleton/UserReviewSkeleton.vue";
 
 import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import { storeToRefs } from "pinia";
-import { useUserHoverStore, useUserStore } from "@/store";
+import { useUserReviewStore, useUserStore } from "@/store";
 import { IPost, IUser } from "@/types";
 import { getUserPreview } from "@/services/user";
 import { useHoverUser } from "@/composables";
 import { formatNumberToSuffix } from "@/helpers";
 
 const { user } = storeToRefs(useUserStore());
-const { hoveredUserId, modalPosition, triggerRef } = storeToRefs(useUserHoverStore());
+const { hoveredUserId, modalPosition, triggerRef, reviewCache } = storeToRefs(useUserReviewStore());
 const { leaveTrigger } = useHoverUser();
 
 const userReviewRef = ref<HTMLDivElement>();
@@ -32,10 +32,17 @@ watch(
     if (hoveredUserId.value) {
       userReview.value = undefined;
       postsReview.value = [];
-      const data = await getUserPreview(hoveredUserId.value!);
-      if (data.success) {
-        userReview.value = data.result!.user;
-        postsReview.value = data.result!.posts;
+      const cache = reviewCache.value.find((r) => r.user.id == hoveredUserId.value);
+      if (cache) {
+        userReview.value = cache.user;
+        postsReview.value = cache.posts;
+      } else {
+        const data = await getUserPreview(hoveredUserId.value!);
+        if (data.success) {
+          userReview.value = data.result!.user;
+          postsReview.value = data.result!.posts;
+          reviewCache.value.push({ user: data.result!.user, posts: data.result!.posts });
+        }
       }
     }
   },
