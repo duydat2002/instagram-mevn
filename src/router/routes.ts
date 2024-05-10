@@ -17,7 +17,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
 
       next();
     },
-    meta: { title: "Instagram" },
+    meta: { title: "Instagram", layout: AppLayout },
   },
   {
     path: "/explore",

@@ -10,10 +10,19 @@ import type { IPost } from "@/types";
 import { formatNumberToSuffix } from "@/helpers";
 import { storeToRefs } from "pinia";
 import { usePostStore } from "@/store";
+import { useRouter } from "vue-router";
 
-const props = defineProps<{
-  post: IPost;
-}>();
+const props = withDefaults(
+  defineProps<{
+    post: IPost;
+    openModal?: boolean;
+  }>(),
+  {
+    openModal: true,
+  }
+);
+
+const router = useRouter();
 
 const { postIdModal } = storeToRefs(usePostStore());
 
@@ -26,7 +35,8 @@ const commentCountComp = computed(() => {
 });
 
 const handleClickReview = () => {
-  postIdModal.value = props.post.id;
+  if (props.openModal) postIdModal.value = props.post.id;
+  else router.push({ name: "Post", params: { postId: props.post.id } });
 };
 </script>
 

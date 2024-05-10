@@ -23,7 +23,7 @@ const prevUrl = ref();
 
 const hanldeCancel = () => {
   postIdModal.value = null;
-  // router.back();
+  router.back();
 };
 
 watch(
@@ -35,7 +35,7 @@ watch(
       const data = await getPostById(postIdModal.value);
       if (data.success) {
         post.value = data.result!.post;
-        // history.pushState({}, "", `/p/${post.value.id}`);
+        history.pushState({}, "", `/p/${post.value.id}`);
       }
     }
   },
@@ -51,13 +51,15 @@ watch(
     >
       <div
         v-if="screen != 'mobile'"
-        class="flex-grow self-center flex flex-center overflow-hidden bg-black h-full aspect-square"
+        class="bg-black h-full aspect-square"
         :style="{ aspectRatio: post.ratio }"
       >
-        <PostSwiper />
+        <div class="">
+          <PostSwiper />
+        </div>
       </div>
       <div
-        class="flex flex-col w-[400px] min-[1160px]:w-[500px] flex-shrink-0 border-l-0 min-[736px]:border-l border-borderColor box-content"
+        class="flex flex-col w-[400px] min-h-[450px] min-[1160px]:w-[500px] flex-shrink-0 border-l-0 min-[736px]:border-l border-borderColor box-content"
       >
         <PostHeader />
         <PostComments v-if="screen != 'mobile'" />

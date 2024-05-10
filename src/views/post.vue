@@ -41,6 +41,7 @@ watch(
           v-for="post in otherPosts"
           :key="post.id"
           :post="post"
+          :openModal="false"
         />
       </div>
     </div>

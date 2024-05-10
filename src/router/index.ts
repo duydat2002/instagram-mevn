@@ -1,8 +1,9 @@
 import { useCommonStore, useLoadingStore, useModalStore, useUserStore } from "@/store";
 import routes from "./routes";
-import { createRouter, createWebHistory } from "vue-router";
+import { createMemoryHistory, createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
+  // history: createMemoryHistory(import.meta.env.BASE_URL),
   history: createWebHistory(import.meta.env.BASE_URL),
   linkActiveClass: "link-active",
   linkExactActiveClass: "exact-link-active",
