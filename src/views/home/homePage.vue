@@ -8,7 +8,7 @@ import { ref, onMounted } from "vue";
 import { useUserStore, useUsersModalStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
-import { getPostsIsFollow } from "@/services/post";
+import { getNewFeeds } from "@/services/post";
 import { IPost } from "@/types";
 
 const router = useRouter();
@@ -24,7 +24,7 @@ const handleLogout = async () => {
 };
 
 onMounted(async () => {
-  const data = await getPostsIsFollow();
+  const data = await getNewFeeds();
   if (data.success) {
     newFeeds.value = data.result!.posts;
   }

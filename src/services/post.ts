@@ -51,6 +51,10 @@ export async function getPostsIsFollow() {
   return await api.get<any, IServerData<{ posts: IPost[] }>>(prefix + "get-posts-follow/");
 }
 
+export async function getNewFeeds() {
+  return await api.get<any, IServerData<{ posts: IPost[] }>>(prefix + "get-newfeeds");
+}
+
 export async function getPostsByAuthor(authorId: string) {
   return await api.get<any, IServerData<{ posts: IPost[] }>>(prefix + "get-posts/" + authorId);
 }

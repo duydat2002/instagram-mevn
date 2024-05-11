@@ -16,7 +16,7 @@ const handleEnterFollowModal: NavigationGuardWithThis<any> = (to, from, next) =>
     if (to.matched[currentViewIndex]) {
       to.matched[currentViewIndex]!.components = {
         default: from.matched[prevViewIndex].components!.default,
-        modal: () => import("@/components/Modal/FollowsModal.vue"),
+        modal: () => import("@/views/profile/follows.vue"),
       };
     }
 
@@ -29,7 +29,7 @@ const handleEnterFollowModal: NavigationGuardWithThis<any> = (to, from, next) =>
   } else {
     to.matched[currentViewIndex].components = {
       default: () => import("@/views/profile/posts.vue"),
-      modal: () => import("@/components/Modal/FollowsModal.vue"),
+      modal: () => import("@/views/profile/follows.vue"),
     };
   }
 
