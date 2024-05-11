@@ -43,6 +43,10 @@ export async function unsavePost(postId: string) {
   return await api.post<any, IServerData>(prefix + postId + "/unsave");
 }
 
+export async function viewedPost(postId: string) {
+  return await api.post<any, IServerData>(prefix + postId + "/viewed");
+}
+
 export async function getPostsIsFollow() {
   return await api.get<any, IServerData<{ posts: IPost[] }>>(prefix + "get-posts-follow/");
 }

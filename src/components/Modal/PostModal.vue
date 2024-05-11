@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Post from "@/components/Pages/Post/Post.vue";
 import Modal from "./Modal.vue";
 import PostHeader from "@/components/Pages/Post/PostHeader.vue";
 import PostComments from "@/components/Pages/Post/PostComments.vue";
@@ -7,19 +6,17 @@ import PostActions from "@/components/Pages/Post/PostActions.vue";
 import CommentInput from "@/components/Pages/Post/CommentInput.vue";
 import PostSwiper from "@/components/Pages/Post/PostSwiper.vue";
 
-import { ref, computed, watch } from "vue";
+import { watch } from "vue";
 import { storeToRefs } from "pinia";
-import { usePostStore, useResizeStore } from "@/store";
-import { getPostById } from "@/services/post";
-import { useRoute, useRouter } from "vue-router";
+import { usePostStore, useResizeStore, useUserStore } from "@/store";
+import { getPostById, viewedPost } from "@/services/post";
+import { useRouter } from "vue-router";
 
 const { postIdModal, post } = storeToRefs(usePostStore());
 const { screen } = storeToRefs(useResizeStore());
+const { user } = storeToRefs(useUserStore());
 
-const route = useRoute();
 const router = useRouter();
-
-const prevUrl = ref();
 
 const hanldeCancel = () => {
   postIdModal.value = null;
@@ -30,12 +27,16 @@ watch(
   postIdModal,
   async () => {
     if (postIdModal.value) {
-      prevUrl.value = route.fullPath;
       post.value = null;
       const data = await getPostById(postIdModal.value);
       if (data.success) {
         post.value = data.result!.post;
         history.pushState({}, "", `/p/${post.value.id}`);
+
+        if (user.value && !post.value.viewers.includes(user.value.id)) {
+          const data = await viewedPost(post.value.id);
+          if (data.success) post.value.viewers.push(user.value.id);
+        }
       }
     }
   },

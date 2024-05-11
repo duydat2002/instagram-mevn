@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Post from "@/components/Pages/Post/Post.vue";
 import PostReviewItem from "@/components/Pages/Profile/PostReviewItem.vue";
-import { getOtherPostsByAuthor } from "@/services/post";
+import { getOtherPostsByAuthor, viewedPost } from "@/services/post";
 
 import { usePostStore, useUserStore } from "@/store";
 import { IPost } from "@/types";
@@ -16,6 +16,11 @@ watch(
   post,
   async (newPost) => {
     if (newPost) {
+      if (user.value && !newPost.viewers.includes(user.value.id)) {
+        const data = await viewedPost(newPost.id);
+        if (data.success) newPost.viewers.push(user.value.id);
+      }
+
       const data = await getOtherPostsByAuthor(newPost.id, newPost.author.id);
       if (data.success) otherPosts.value = data.result!.posts;
     }
