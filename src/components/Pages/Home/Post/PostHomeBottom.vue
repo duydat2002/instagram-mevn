@@ -102,6 +102,7 @@ onMounted(() => {
         v-model="comment"
         ref="commentRef"
         placeholder="Thêm bình luận..."
+        name="comment"
         class="h-[20px] w-full resize-none leading-[18px] overflow-y-hidden"
         @input="handleInputComment"
         @keydown.enter.exact.prevent="handleComment"

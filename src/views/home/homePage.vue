@@ -3,31 +3,41 @@ import StoryList from "@/components/Molecules/Story/StoryList.vue";
 import UserItem from "@/components/Molecules/User/UserItem.vue";
 import PostHome from "@/components/Pages/Home/Post/PostHome.vue";
 import UsersModal from "@/components/Modal/UsersModal.vue";
+import Loading from "@/components/Common/Loading.vue";
 
 import { ref, onMounted } from "vue";
 import { useUserStore, useUsersModalStore } from "@/store";
 import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
 import { getNewFeeds } from "@/services/post";
 import { IPost } from "@/types";
 
-const router = useRouter();
 const { user } = storeToRefs(useUserStore());
 const { isShow: isShowUsersModal } = storeToRefs(useUsersModalStore());
-const newFeeds = ref<IPost[]>();
+const newFeeds = ref<IPost[]>([]);
+const isLoadNewFeed = ref(false);
+const start = ref(0);
+const outOfPost = ref(false);
+const PAGE_SIZE = 5;
 
-const handleLogout = async () => {
-  const { logout } = useUserStore();
+const getNewFeedFetch = async () => {
+  if (!outOfPost.value) {
+    isLoadNewFeed.value = true;
 
-  await logout();
-  router.go(0);
+    const data = await getNewFeeds(start.value, PAGE_SIZE);
+    if (data.success) {
+      const posts = data.result!.posts;
+      if (posts.length > 0) {
+        newFeeds.value!.push(...posts);
+        start.value += PAGE_SIZE;
+      } else outOfPost.value = true;
+    }
+
+    isLoadNewFeed.value = false;
+  }
 };
 
 onMounted(async () => {
-  const data = await getNewFeeds();
-  if (data.success) {
-    newFeeds.value = data.result!.posts;
-  }
+  await getNewFeedFetch();
 });
 </script>
 
@@ -35,8 +45,9 @@ onMounted(async () => {
   <div class="w-full flex min-h-screen justify-center">
     <div class="w-full max-w-[630px] mt-4">
       <StoryList class="py-2 mb-4" />
-      <div class="flex flex-col items-center">
+      <div v-infinite-scroll="getNewFeedFetch" class="flex flex-col items-center">
         <PostHome v-for="post in newFeeds" :key="post.id" :post="post" />
+        <Loading v-if="isLoadNewFeed" />
       </div>
     </div>
     <div class="hidden min-[1160px]:flex w-[320px] ml-16 flex-col mt-9">

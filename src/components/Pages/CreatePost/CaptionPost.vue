@@ -53,6 +53,7 @@ watch(caption, (newCaption, oldCaption) => {
           v-model="caption"
           ref="captionInputRef"
           placeholder="Viết chú thích..."
+          name="caption"
         ></textarea>
       </div>
       <div class="flex items-center justify-between px-2 flex-shrink-0">

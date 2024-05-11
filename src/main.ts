@@ -6,7 +6,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { FontAwesomeIcon } from "@/plugins/fontAwesome";
 import { useUserStore } from "./store";
-import { ClickOutside, ClickInside, Intersect } from "@/directives";
+import { ClickOutside, ClickInside, Intersect, InfiniteScroll } from "@/directives";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import VueDOMPurifyHTML from "vue-dompurify-html";
 
@@ -22,6 +22,7 @@ app.component("fa", FontAwesomeIcon);
 app.directive("click-outside", ClickOutside);
 app.directive("click-inside", ClickInside);
 app.directive("intersect", Intersect);
+app.directive("infinite-scroll", InfiniteScroll);
 
 const { isLogged, fetchUserInfo } = useUserStore();
 
