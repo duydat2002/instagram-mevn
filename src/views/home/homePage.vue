@@ -9,11 +9,13 @@ import { ref, onMounted } from "vue";
 import { useUserStore, useUsersModalStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { getNewFeeds } from "@/services/post";
-import { IPost } from "@/types";
+import { IPost, IUser } from "@/types";
+import { getFriendSuggestion } from "@/services/user";
 
 const { user } = storeToRefs(useUserStore());
 const { isShow: isShowUsersModal } = storeToRefs(useUsersModalStore());
 const newFeeds = ref<IPost[]>([]);
+const friendSuggest = ref<IUser[]>([]);
 const isLoadNewFeed = ref(false);
 const start = ref(0);
 const outOfPost = ref(false);
@@ -38,6 +40,8 @@ const getNewFeedFetch = async () => {
 
 onMounted(async () => {
   await getNewFeedFetch();
+  const data = await getFriendSuggestion();
+  if (data.success) friendSuggest.value = data.result!.users;
 });
 </script>
 
@@ -64,7 +68,7 @@ onMounted(async () => {
           >
         </div>
         <div class="flex flex-col">
-          <UserItem v-for="i in 5" :key="i" :user="user!" hasTrigger>
+          <UserItem v-for="suggest in friendSuggest" :key="suggest.id" :user="suggest" hasTrigger>
             <span class="text-xs font-semibold ml-3 text-buttonColor-primary hover:text-link"
               >Theo dõi</span
             >
