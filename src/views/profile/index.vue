@@ -2,6 +2,7 @@
 import { getUserByUsername } from "@/services/user";
 import { useUserStore } from "@/store";
 import Loading from "@/components/Common/Loading.vue";
+import { useFollow } from "@/composables";
 
 const { setProfileUser } = useUserStore();
 
@@ -47,10 +48,10 @@ import {
 } from "@/services/user";
 import { formatNumberToSuffix } from "@/helpers";
 
+const { isLoadingFollow, follow, unfollow } = useFollow();
+
 const { user, profileUser } = storeToRefs(useUserStore());
 const mutualFollowed = ref<IUser[]>([]);
-const isLoadingFollow = ref(false);
-const isFollowed = ref(false);
 const inputAvatar = ref<HTMLInputElement>();
 const isLoadingAvatar = ref(false);
 const avatarPopupActive = ref(false);
@@ -107,39 +108,16 @@ const deleteAvatar = async () => {
 };
 
 const handleClickFollow = async () => {
-  if (user.value) {
-    isLoadingFollow.value = true;
-
-    const data = await followUser(user.value.id, profileUser.value!.id);
-    if (data.success) {
-      profileUser.value?.followers.push(user.value.id);
-      isFollowed.value = true;
-    }
-
-    isLoadingFollow.value = false;
-  }
+  if (user.value) await follow(profileUser.value!.id);
 };
 
 const handleClickUnfollow = async () => {
-  if (user.value) {
-    isLoadingFollow.value = true;
-
-    const data = await unfollowUser(user.value.id, profileUser.value!.id);
-    if (data.success) {
-      const index = profileUser.value!.followers.indexOf(user.value.id);
-      if (index != -1) profileUser.value?.followers.splice(index, 1);
-      isFollowed.value = false;
-    }
-
-    isLoadingFollow.value = false;
-  }
+  if (user.value) await unfollow(profileUser.value!.id);
 };
 
 watch(
   profileUser,
   async (current) => {
-    isFollowed.value = (user.value && current?.followers.includes(user.value.id)) as boolean;
-
     if (user.value && current && !isSameUser.value) {
       const mutualData = await getMutualFollowedBy(current.id);
       mutualFollowed.value = mutualData.result?.users || [];
@@ -197,7 +175,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
                   <UButton v-if="isSameUser" secondary>Chỉnh sửa trang cá nhân</UButton>
                   <template v-else>
                     <UButton
-                      v-if="!isFollowed"
+                      v-if="!user?.followings.includes(profileUser.id)"
                       class=""
                       primary
                       :isLoading="isLoadingFollow"
@@ -258,7 +236,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
                 <span v-if="profileUser.bio" class="">{{ profileUser.bio }}</span>
               </div>
               <RouterLink
-                v-if="!isFollowed && mutualFollowed.length != 0"
+                v-if="!user?.followings.includes(profileUser.id) && mutualFollowed.length != 0"
                 :to="{ name: 'MutualFollowers' }"
                 class="text-xs text-textColor-secondary cursor-pointer"
               >

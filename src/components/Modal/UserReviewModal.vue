@@ -9,18 +9,18 @@ import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserReviewStore, useUserStore } from "@/store";
 import { IPost, IUser } from "@/types";
-import { followUser, getUserPreview, unfollowUser } from "@/services/user";
-import { useHoverUser } from "@/composables";
+import { getUserPreview } from "@/services/user";
+import { useFollow, useHoverUser } from "@/composables";
 import { formatNumberToSuffix } from "@/helpers";
+
+const { leaveTrigger } = useHoverUser();
+const { isLoadingFollow, follow, unfollow } = useFollow();
 
 const { user } = storeToRefs(useUserStore());
 const { hoveredUserId, modalPosition, triggerRef, reviewCache } = storeToRefs(useUserReviewStore());
-const { leaveTrigger } = useHoverUser();
-
 const userReviewRef = ref<HTMLDivElement>();
 const userReview = ref<IUser>();
 const postsReview = ref<IPost[]>([]);
-const isLoadingFollow = ref(false);
 
 const position = computed(() => ({
   left: `${modalPosition.value.x}px`,
@@ -28,29 +28,14 @@ const position = computed(() => ({
 }));
 
 const handleClickFollow = async () => {
-  if (user.value && userReview.value) {
-    isLoadingFollow.value = true;
-
-    const data = await followUser(user.value.id, userReview.value.id);
-    if (data.success) {
-      user.value.followers.push(userReview.value.id);
-    }
-
-    isLoadingFollow.value = false;
+  if (userReview.value) {
+    await follow(userReview.value.id);
   }
 };
 
 const handleClickUnfollow = async () => {
-  if (user.value && userReview.value) {
-    isLoadingFollow.value = true;
-
-    const data = await unfollowUser(user.value.id, userReview.value.id);
-    if (data.success) {
-      const index = user.value!.followers.indexOf(userReview.value.id);
-      if (index != -1) user.value?.followers.splice(index, 1);
-    }
-
-    isLoadingFollow.value = false;
+  if (userReview.value) {
+    await unfollow(userReview.value.id);
   }
 };
 
@@ -175,9 +160,9 @@ onBeforeUnmount(() => {
         </div>
         <div class="flex items-center gap-2 px-4">
           <UButton v-if="user?.id == userReview.id" secondary class="flex-1"
-            ><span>Theo dõi</span></UButton
+            ><span>Chỉnh sửa trang cá nhân</span></UButton
           >
-          <template v-else-if="user?.followers.includes(userReview.id)">
+          <template v-else-if="user?.followings.includes(userReview.id)">
             <UButton primary class="flex-1">
               <div class="flex items-center justify-center">
                 <MessengerIcon class="mr-2 w-5 fill-white text-white" />

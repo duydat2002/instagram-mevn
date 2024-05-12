@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
       </div>
       <div class="flex-1 overflow-y-scroll">
         <UserItemSkeleton v-if="!users" v-for="i in 10" :key="i" />
-        <UserItem v-for="user in users" :key="user.id" :user="user">
+        <UserItem v-for="user in users" :key="user.id" :user="user" hasTrigger>
           <div v-if="user.id != authUser?.id" class="ml-4">
             <FollowButton :user="user" />
           </div>

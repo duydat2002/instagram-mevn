@@ -3,11 +3,10 @@ import EllipsisIcon from "@icons/ellipsis.svg";
 import Avatar from "@/components/Common/Avatar.vue";
 import UButton from "@/components/UI/UButton.vue";
 
-import { followUser, unfollowUser } from "@/services/user";
 import { useUserStore } from "@/store";
 import { IAction, IPost } from "@/types";
 import { storeToRefs } from "pinia";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 
 const props = defineProps<{
   post: IPost;
@@ -15,15 +14,14 @@ const props = defineProps<{
 
 import { convertToFullDate, dateDistanceToNowMaxWeek } from "@/helpers";
 import ActionsPopup from "@/components/Popup/ActionsPopup.vue";
-import { useHoverUser } from "@/composables";
+import { useFollow, useHoverUser } from "@/composables";
 
 const { hoverTrigger } = useHoverUser();
+const { isLoadingFollow, follow, unfollow } = useFollow();
 
 const { user } = storeToRefs(useUserStore());
 
-const isLoadingFollow = ref(false);
 const actionsPopupActive = ref(false);
-const isFollow = ref(user.value!.followings.includes(props.post.author.id));
 
 const userPostActions = computed(() => {
   const actions = [
@@ -51,13 +49,9 @@ const userPostActions = computed(() => {
   return actions;
 });
 
-const follow = async () => {
+const handleClickFollow = async () => {
   if (user.value) {
-    isLoadingFollow.value = true;
-    const data = await followUser(user.value.id, props.post.author.id);
-    if (data.success) isFollow.value = true;
-
-    isLoadingFollow.value = false;
+    await follow(props.post.author.id);
   }
 };
 </script>
@@ -86,9 +80,14 @@ const follow = async () => {
         >
           • {{ dateDistanceToNowMaxWeek(post!.createdAt, false, false) }}</RouterLink
         >
-        <template v-if="!isFollow">
+        <template v-if="!user?.followings.includes(post.author.id)">
           <span class="mx-1 text-textColor-secondary">•</span>
-          <UButton primary variant="text" class="!p-0" @click="follow" :is-loading="isLoadingFollow"
+          <UButton
+            primary
+            variant="text"
+            class="!p-0"
+            @click="handleClickFollow"
+            :is-loading="isLoadingFollow"
             ><span>Theo dõi</span></UButton
           >
         </template>

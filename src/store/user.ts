@@ -50,5 +50,18 @@ export const useUserStore = defineStore("user", {
       this.user = null;
       this.isLogged = false;
     },
+    addUserFollowing(userId: string) {
+      if (this.user) this.user.followings.push(userId);
+    },
+    removeUserFollowing(userId: string) {
+      if (this.user) {
+        const followings = this.user.followings;
+        const index = followings.indexOf(userId);
+        if (index != -1) {
+          followings.splice(index, 1);
+          this.user.followings = followings;
+        }
+      }
+    },
   },
 });

@@ -44,6 +44,8 @@ const { isLogged } = storeToRefs(useUserStore());
       <Footer />
     </div>
   </section>
-  <UserReviewModal />
+  <Transition name="fade">
+    <UserReviewModal />
+  </Transition>
   <PostModal />
 </template>

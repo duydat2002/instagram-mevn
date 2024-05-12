@@ -5,25 +5,24 @@ import UButton from "@/components/UI/UButton.vue";
 import ConfirmPopup from "@/components/Popup/ConfirmPopup.vue";
 import ActionsPopup from "@/components/Popup/ActionsPopup.vue";
 
-import { ref, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 import { storeToRefs } from "pinia";
 import { usePostStore, useUserStore } from "@/store";
 import { IAction } from "@/types";
-import { checkIsFollowing, followUser, unfollowUser } from "@/services/user";
 import { deletePost } from "@/services/post";
 import { useRouter } from "vue-router";
-import { useHoverUser } from "@/composables";
+import { useFollow, useHoverUser } from "@/composables";
 
 const { hoverTrigger } = useHoverUser();
 
 const router = useRouter();
+const { isLoadingFollow, follow, unfollow } = useFollow();
+
 const { post, updatePostModal } = storeToRefs(usePostStore());
 const { user } = storeToRefs(useUserStore());
-const isLoadingFollow = ref(false);
 const deletePopupActive = ref(false);
 const unfollowPopupActive = ref(false);
 const actionsPopupActive = ref(false);
-const isFollow = ref(false);
 
 const userPostActions = computed(() => {
   if (post.value!.author.id == user.value?.id)
@@ -79,24 +78,16 @@ const userPostActions = computed(() => {
     ] as IAction[];
 });
 
-const follow = async () => {
+const handleClickFollow = async () => {
   if (user.value) {
-    isLoadingFollow.value = true;
-    const data = await followUser(user.value.id, post.value!.author.id);
-    if (data.success) isFollow.value = true;
-
-    isLoadingFollow.value = false;
+    await follow(post.value!.author.id);
   }
 };
 
-const unfollow = async () => {
+const handleClickUnfollow = async () => {
   if (user.value) {
     unfollowPopupActive.value = false;
-    isLoadingFollow.value = true;
-    const data = await unfollowUser(user.value.id, post.value!.author.id);
-    if (data.success) isFollow.value = false;
-
-    isLoadingFollow.value = false;
+    await unfollow(post.value!.author.id);
   }
 };
 
@@ -105,14 +96,6 @@ const handleDeletePost = async () => {
   const data = await deletePost(post.value!.id);
   if (data.success) router.push({ name: "Profile", params: { username: user.value?.username } });
 };
-
-onMounted(async () => {
-  if (user.value) {
-    const data = await checkIsFollowing(post.value!.author.id);
-
-    isFollow.value = !!data.result;
-  }
-});
 </script>
 
 <template>
@@ -133,7 +116,7 @@ onMounted(async () => {
           <span class="hover:opacity-60">{{ post?.author.username }}</span>
         </RouterLink>
         <template v-if="user && user.id != post!.author.id">
-          <template v-if="isFollow">
+          <template v-if="user.followings.includes(post!.author.id)">
             <span class="mx-1">•</span>
             <UButton
               secondary
@@ -154,7 +137,7 @@ onMounted(async () => {
               primary
               variant="text"
               class="!p-0"
-              @click="follow"
+              @click="handleClickFollow"
               :is-loading="isLoadingFollow"
               ><span>Theo dõi</span></UButton
             >
@@ -175,7 +158,7 @@ onMounted(async () => {
   <ConfirmPopup
     v-if="unfollowPopupActive"
     confirm-message="Bỏ theo dõi"
-    @confirm="unfollow"
+    @confirm="handleClickUnfollow"
     @cancel="
       () => {
         unfollowPopupActive = false;

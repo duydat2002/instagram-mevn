@@ -252,6 +252,17 @@ svg {
   transform-origin: center;
 }
 
+/* fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 100ms ease-in;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 /* === Swiper === */
 .swiper-pagination-bullet {
   width: 6px;

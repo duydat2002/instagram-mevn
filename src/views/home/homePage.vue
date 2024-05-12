@@ -5,7 +5,7 @@ import PostHome from "@/components/Pages/Home/Post/PostHome.vue";
 import UsersModal from "@/components/Modal/UsersModal.vue";
 import Loading from "@/components/Common/Loading.vue";
 
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
 import { useUserStore, useUsersModalStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { getNewFeeds } from "@/services/post";
@@ -38,7 +38,7 @@ const getNewFeedFetch = async () => {
   }
 };
 
-onMounted(async () => {
+onBeforeMount(async () => {
   await getNewFeedFetch();
   const data = await getFriendSuggestion();
   if (data.success) friendSuggest.value = data.result!.users;
