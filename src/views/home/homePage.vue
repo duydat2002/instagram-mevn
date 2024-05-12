@@ -4,18 +4,18 @@ import UserItem from "@/components/Molecules/User/UserItem.vue";
 import PostHome from "@/components/Pages/Home/Post/PostHome.vue";
 import UsersModal from "@/components/Modal/UsersModal.vue";
 import Loading from "@/components/Common/Loading.vue";
+import FriendSuggestion from "@/components/Pages/Home/FriendSuggestion/index.vue";
 
-import { ref, onMounted, onBeforeMount } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useUserStore, useUsersModalStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { getNewFeeds } from "@/services/post";
 import { IPost, IUser } from "@/types";
-import { getFriendSuggestion } from "@/services/user";
 
 const { user } = storeToRefs(useUserStore());
 const { isShow: isShowUsersModal } = storeToRefs(useUsersModalStore());
 const newFeeds = ref<IPost[]>([]);
-const friendSuggest = ref<IUser[]>([]);
+
 const isLoadNewFeed = ref(false);
 const start = ref(0);
 const outOfPost = ref(false);
@@ -40,8 +40,6 @@ const getNewFeedFetch = async () => {
 
 onBeforeMount(async () => {
   await getNewFeedFetch();
-  const data = await getFriendSuggestion();
-  if (data.success) friendSuggest.value = data.result!.users;
 });
 </script>
 
@@ -60,21 +58,7 @@ onBeforeMount(async () => {
           >Chuyển</span
         >
       </UserItem>
-      <div class="flex flex-col mt-6">
-        <div class="flex w-full px-4 items-center justify-between">
-          <span class="text-sm font-semibold text-textColor-secondary">Gợi ý cho bạn</span>
-          <RouterLink to="/" class="text-xs font-semibold text-textColor-primary hover:opacity-60"
-            >Xem tất cả</RouterLink
-          >
-        </div>
-        <div class="flex flex-col">
-          <UserItem v-for="suggest in friendSuggest" :key="suggest.id" :user="suggest" hasTrigger>
-            <span class="text-xs font-semibold ml-3 text-buttonColor-primary hover:text-link"
-              >Theo dõi</span
-            >
-          </UserItem>
-        </div>
-      </div>
+      <FriendSuggestion />
     </div>
   </div>
   <UsersModal

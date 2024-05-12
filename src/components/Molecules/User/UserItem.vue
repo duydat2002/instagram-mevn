@@ -34,7 +34,7 @@ const handleTrigger = (event: Event) => {
       <div>
         <RouterLink
           :to="{ name: 'Profile', params: { username: user.username } }"
-          class="block font-semibold text-dots"
+          class="inline font-semibold text-dots"
           @mouseenter="handleTrigger($event)"
           >{{ user.username }}</RouterLink
         >
@@ -43,9 +43,9 @@ const handleTrigger = (event: Event) => {
       <template v-if="slots.bottom">
         <slot name="bottom" />
       </template>
-      <span v-else-if="user.fullname" class="text-textColor-secondary text-dots flex-shrink-0">{{
-        user.fullname
-      }}</span>
+      <div v-else-if="user.fullname">
+        <span class="text-textColor-secondary text-dots flex-shrink-0">{{ user.fullname }}</span>
+      </div>
     </div>
     <slot />
   </div>

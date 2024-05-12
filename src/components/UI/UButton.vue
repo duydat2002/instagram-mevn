@@ -31,10 +31,10 @@ const props = defineProps({
     type: String,
   },
   size: {
-    type: String as PropType<"small" | "medium" | "large">,
+    type: String as PropType<"small" | "medium" | "large" | "none">,
     default: "medium",
     validator: (value: string) => {
-      return ["small", "medium", "large"].includes(value);
+      return ["small", "medium", "large", "none"].includes(value);
     },
   },
   classProps: {
@@ -113,6 +113,9 @@ button[secondary]:hover {
 .button--variant-outlined {
 }
 
+.button--size-none {
+  @apply text-xs rounded-md;
+}
 .button--size-small {
   @apply text-[13px] leading-[17px] py-[4px] px-[10px] rounded-md;
 }
