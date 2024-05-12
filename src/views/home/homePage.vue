@@ -11,6 +11,7 @@ import { useUserStore, useUsersModalStore } from "@/store";
 import { storeToRefs } from "pinia";
 import { getNewFeeds } from "@/services/post";
 import { IPost, IUser } from "@/types";
+import PostSkeleton from "@/components/Skeleton/PostSkeleton.vue";
 
 const { user } = storeToRefs(useUserStore());
 const { isShow: isShowUsersModal } = storeToRefs(useUsersModalStore());
@@ -47,7 +48,10 @@ onBeforeMount(async () => {
   <div class="w-full flex min-h-screen justify-center">
     <div class="w-full max-w-[630px] mt-4">
       <StoryList class="py-2 mb-4" />
-      <div v-infinite-scroll="getNewFeedFetch" class="flex flex-col items-center">
+      <div v-if="newFeeds.length == 0" class="flex flex-col items-center">
+        <PostSkeleton v-for="i in 5" :key="i" />
+      </div>
+      <div v-else v-infinite-scroll="getNewFeedFetch" class="flex flex-col items-center">
         <PostHome v-for="post in newFeeds" :key="post.id" :post="post" />
         <Loading v-if="isLoadNewFeed" />
       </div>
