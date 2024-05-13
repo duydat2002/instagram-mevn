@@ -2,6 +2,7 @@
 import UserItemSkeleton from "@/components/Skeleton/UserItemSkeleton.vue";
 import UserItem from "@/components/Molecules/User/UserItem.vue";
 import FollowButton from "@/components/Molecules/User/FollowButton.vue";
+import Footer from "@/components/Layout/Footer.vue";
 
 import { ref, onMounted } from "vue";
 import { IUser } from "@/types";
@@ -20,11 +21,12 @@ onMounted(async () => {
     <div>
       <span class="text-base font-semibold text-textColor-primary p-4">Gợi ý</span>
     </div>
-    <div class="flex flex-col mt-2">
+    <div class="flex flex-1 flex-col mt-2">
       <UserItemSkeleton v-if="!friendSuggest" v-for="i in 5" :key="i" />
       <UserItem v-for="suggest in friendSuggest" :key="suggest.id" :user="suggest" hasTrigger>
         <FollowButton :user="suggest" />
       </UserItem>
     </div>
+    <Footer class="mb-0" />
   </div>
 </template>

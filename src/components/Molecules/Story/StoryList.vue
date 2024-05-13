@@ -27,7 +27,7 @@ const { user } = storeToRefs(useUserStore());
 
 const optionsComp = computed(() => ({
   modules: [Navigation],
-  slidesPerView: props.slidesPerView,
+  slidesPerView: 5,
   slidesPerGroup: 4,
   spaceBetween: props.spaceBetween,
   allowTouchMove: true,
@@ -35,6 +35,16 @@ const optionsComp = computed(() => ({
     nextEl: ".navigation-next",
     prevEl: ".navigation-prev",
     disabledClass: "disabled",
+  },
+  breakpoints: {
+    520: {
+      slidesPerView: 6,
+      spaceBetween: props.spaceBetween,
+    },
+    678: {
+      slidesPerView: props.slidesPerView,
+      spaceBetween: props.spaceBetween,
+    },
   },
 }));
 
@@ -70,7 +80,7 @@ const addStory = () => {
           </div>
         </SwiperSlide>
       </Swiper>
-      <div class="hidden navigations min-[736px]:block">
+      <div class="block navigations min-[736px]:block">
         <div
           class="absolute px-2 py-4 top-1/2 left-0 -translate-y-1/2 opacity-80 cursor-pointer z-10 has-[disabled]:hidden navigation-prev"
         >

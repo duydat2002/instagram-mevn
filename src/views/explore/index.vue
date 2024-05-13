@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Loading from "@/components/Common/Loading.vue";
 import PostReviewItem from "@/components/Pages/Profile/PostReviewItem.vue";
+import Footer from "@/components/Layout/Footer.vue";
 
 import { ref, onMounted } from "vue";
 import { getExplores } from "@/services/post";
@@ -39,6 +40,7 @@ onMounted(async () => {
     <div v-infinite-scroll="getExploresFetch" class="flex w-full flex-wrap -mx-[2px]">
       <PostReviewItem class="w-1/3 p-[2px]" v-for="post in explores" :key="post.id" :post="post" />
     </div>
-    <Loading v-if="isLoadExplores" class="mt-4" />
+    <Loading v-if="isLoadExplores" class="mt-5" />
+    <Footer class="mb-0 mt-20" />
   </div>
 </template>
