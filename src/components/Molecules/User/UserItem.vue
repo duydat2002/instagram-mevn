@@ -20,7 +20,7 @@ const handleTrigger = (event: Event) => {
 </script>
 
 <template>
-  <div class="flex items-center px-4 py-2 cursor-pointer">
+  <div class="flex items-center px-4 py-2">
     <RouterLink :to="{ name: 'Profile', params: { username: user.username } }">
       <Avatar
         :hasStory="Math.random() > 0.5"

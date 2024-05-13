@@ -18,7 +18,9 @@ onMounted(async () => {
   <div class="flex flex-col mt-6">
     <div class="flex w-full px-4 items-center justify-between">
       <span class="text-sm font-semibold text-textColor-secondary">Gợi ý cho bạn</span>
-      <RouterLink to="/" class="text-xs font-semibold text-textColor-primary hover:opacity-60"
+      <RouterLink
+        :to="{ name: 'FriendSuggestion' }"
+        class="text-xs font-semibold text-textColor-primary hover:opacity-60"
         >Xem tất cả</RouterLink
       >
     </div>

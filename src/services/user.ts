@@ -15,8 +15,10 @@ export async function getUserByUsername(username: string) {
   return await api.get<any, IServerData<{ user: IUser }>>(prefix + "by-username/" + username);
 }
 
-export async function getFriendSuggestion() {
-  return await api.get<any, IServerData<{ users: IUser[] }>>(prefix + "get-friend-suggestion");
+export async function getFriendSuggestion(limit: number = 5) {
+  return await api.get<any, IServerData<{ users: IUser[] }>>(prefix + "get-friend-suggestion", {
+    params: { limit },
+  });
 }
 
 export async function getUserPreview(id: string) {

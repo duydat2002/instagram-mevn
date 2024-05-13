@@ -22,7 +22,13 @@ const routes: Readonly<RouteRecordRaw[]> = [
   {
     path: "/explore",
     name: "Explore",
-    component: () => import("@/views/explore.vue"),
+    component: () => import("@/views/explore/index.vue"),
+    meta: { title: "Instagram", layout: AppLayout, requiresAuth: true },
+  },
+  {
+    path: "/explore/people",
+    name: "FriendSuggestion",
+    component: () => import("@/views/explore/people.vue"),
     meta: { title: "Instagram", layout: AppLayout, requiresAuth: true },
   },
   {

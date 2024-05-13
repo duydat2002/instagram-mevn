@@ -19,10 +19,8 @@ export const ClickOutside: Directive = {
       let mouseDownPosition: Nullable<IPoint> = null;
 
       el._mouseDownEvent = (event: MouseEvent) => {
-        console.log("down", el, event.target);
         if (checkClickOutside(el, event.target as ExtendHTMLElement)) {
           mouseDownPosition = { x: event.clientX, y: event.clientY };
-          console.log("ok");
         }
       };
 
@@ -39,7 +37,6 @@ export const ClickOutside: Directive = {
               const dom = document.querySelector(exclude);
               return dom && dom.contains(event.target as ExtendHTMLElement);
             });
-            console.log("object");
             if (!inExclude) binding.value.handle();
           } else {
             binding.value(event);

@@ -3,11 +3,11 @@ import UButton from "@/components/UI/UButton.vue";
 
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store";
-import { IFollowUser } from "@/types";
+import { IFollowUser, IUser } from "@/types";
 import { useFollow } from "@/composables";
 
 const props = defineProps<{
-  user: IFollowUser;
+  user: IFollowUser | IUser;
 }>();
 
 const { isLoadingFollow, follow, unfollow } = useFollow();
