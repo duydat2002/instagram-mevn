@@ -8,3 +8,4 @@ export * from "./common";
 export * from "./post";
 export * from "./usersModal";
 export * from "./userReview";
+export * from "./search";

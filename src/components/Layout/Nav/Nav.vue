@@ -110,7 +110,7 @@ watch(screen, (value) => {
         <SearchPanel
           v-if="currentPanel == 'Search'"
           @close="clickOutsideTab"
-          v-click-outside="clickOutsideTab"
+          v-click-outside="{ handle: clickOutsideTab, excludes: ['#deleteAllSearchPopup'] }"
         />
       </Transition>
       <Transition name="fadeRight">

@@ -6,10 +6,11 @@ import Footer from "@/components/Layout/Footer.vue";
 import UserReviewModal from "@/components/Modal/UserReviewModal.vue";
 import PostModal from "@/components/Modal/PostModal.vue";
 
-import { useUserStore } from "@/store";
+import { useResizeStore, useUserStore } from "@/store";
 import { storeToRefs } from "pinia";
 
 const { isLogged } = storeToRefs(useUserStore());
+const { screen } = storeToRefs(useResizeStore());
 </script>
 
 <template>

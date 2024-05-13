@@ -15,7 +15,6 @@ const postSwiperOptions = {
   slidesPerView: 1,
   slidesPerGroup: 1,
   spaceBetween: 0,
-  allowTouchMove: true,
   navigation: {
     nextEl: `#navigation-next-${props.post.id}`,
     prevEl: `#navigation-prev-${props.post.id}`,
@@ -34,14 +33,12 @@ const ratio = computed(() => ({
     class="relative w-full border border-borderColor rounded overflow-hidden"
     :instanceName="post.id"
   >
+    <div class="absolute top-0 left-0 w-full h-full z-10"></div>
     <Swiper v-bind="postSwiperOptions">
       <SwiperSlide v-for="url in post!.contents" :key="url">
         <div class="relative w-full pb-[100%]" :style="ratio">
           <img :src="url" class="absolute top-0 left-0 w-full h-full object-cover" />
         </div>
-        <!-- <div>
-          <img :src="url" class="w-full object-cover" />
-        </div> -->
       </SwiperSlide>
     </Swiper>
     <div>
