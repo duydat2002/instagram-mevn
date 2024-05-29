@@ -9,3 +9,4 @@ export * from "./post";
 export * from "./usersModal";
 export * from "./userReview";
 export * from "./search";
+export * from "./usersOnline";

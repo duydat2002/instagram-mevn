@@ -14,6 +14,8 @@ export interface IUser {
   tagged_posts: string[];
   liked_posts: string[];
   isPrivate: boolean;
+  isOnline: boolean;
+  lastOnline: string;
 }
 
 export interface IFollowUser extends IUser {
