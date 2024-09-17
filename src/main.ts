@@ -5,10 +5,11 @@ import router from "./router";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { FontAwesomeIcon } from "@/plugins/fontAwesome";
-import { useUserStore } from "./store";
+import { useChatStore, useUsersOnlineStore, useUserStore } from "./store";
 import { ClickOutside, ClickInside, Intersect, InfiniteScroll } from "@/directives";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import VueDOMPurifyHTML from "vue-dompurify-html";
+import { initializeSocket } from "./plugins/socket";
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
@@ -23,6 +24,13 @@ app.directive("click-outside", ClickOutside);
 app.directive("click-inside", ClickInside);
 app.directive("intersect", Intersect);
 app.directive("infinite-scroll", InfiniteScroll);
+
+const { initializeChatSocket, init: initConversation } = useChatStore();
+const { initializeOnlineSocket } = useUsersOnlineStore();
+initializeSocket(pinia);
+initializeChatSocket();
+await initConversation();
+initializeOnlineSocket();
 
 const { isLogged, fetchUserInfo } = useUserStore();
 

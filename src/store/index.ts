@@ -10,3 +10,4 @@ export * from "./usersModal";
 export * from "./userReview";
 export * from "./search";
 export * from "./usersOnline";
+export * from "./chat";

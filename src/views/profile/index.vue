@@ -3,6 +3,7 @@ import { getUserByUsername } from "@/services/user";
 import { useUserStore } from "@/store";
 import Loading from "@/components/Common/Loading.vue";
 import { useFollow } from "@/composables";
+import { createConversation } from "@/services/chat";
 
 const { setProfileUser } = useUserStore();
 
@@ -36,7 +37,7 @@ import UButton from "@/components/UI/UButton.vue";
 import ChangeAvatarPopup from "@/components/Popup/Profile/ChangeAvatarPopup.vue";
 
 import { ref, computed, watch } from "vue";
-import { onBeforeRouteUpdate } from "vue-router";
+import { onBeforeRouteUpdate, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { IUser } from "@/types";
 import {
@@ -48,12 +49,14 @@ import {
 } from "@/services/user";
 import { formatNumberToSuffix } from "@/helpers";
 
+const router = useRouter();
 const { isLoadingFollow, follow, unfollow } = useFollow();
 
 const { user, profileUser } = storeToRefs(useUserStore());
 const mutualFollowed = ref<IUser[]>([]);
 const inputAvatar = ref<HTMLInputElement>();
 const isLoadingAvatar = ref(false);
+const isLoadingInbox = ref(false);
 const avatarPopupActive = ref(false);
 
 const isSameUser = computed(() => {
@@ -115,6 +118,17 @@ const handleClickUnfollow = async () => {
   if (user.value) await unfollow(profileUser.value!.id);
 };
 
+const handleClickInbox = async () => {
+  isLoadingInbox.value = true;
+
+  const data = await createConversation("duo", [user.value!.id, profileUser.value!.id]);
+  if (data.success) {
+    router.push({ name: "Conversation", params: { conversationId: data.result!.conversation.id } });
+  }
+
+  isLoadingInbox.value = false;
+};
+
 watch(
   profileUser,
   async (current) => {
@@ -171,7 +185,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
                 <RouterLink :to="`/${profileUser.username}`" class="text-xl">{{
                   profileUser.username
                 }}</RouterLink>
-                <div class="flex">
+                <div class="flex gap-2">
                   <UButton v-if="isSameUser" secondary>Chỉnh sửa trang cá nhân</UButton>
                   <template v-else>
                     <UButton
@@ -194,6 +208,9 @@ onBeforeRouteUpdate(async (to, from, next) => {
                       <fa class="text-xs ml-1" :icon="['fas', 'chevron-down']" />
                     </UButton>
                   </template>
+                  <UButton secondary :isLoading="isLoadingInbox" @click="handleClickInbox">
+                    <span>Nhắn tin</span>
+                  </UButton>
                 </div>
                 <div class="flex flex-center cursor-pointer">
                   <SettingIcon v-if="isSameUser" />

@@ -23,7 +23,10 @@ const handleLikePost = async () => {
   isLoadingLike.value = true;
 
   const data = await likePost(post.value!.id);
-  if (data.success) user.value?.liked_posts.push(post.value!.id);
+  if (data.success) {
+    user.value?.liked_posts.push(post.value!.id);
+    post.value?.likes.push(user.value!.id);
+  }
 
   isLoadingLike.value = false;
 };
@@ -32,8 +35,11 @@ const handleUnlikePost = async () => {
   isLoadingLike.value = true;
 
   const data = await unlikePost(post.value!.id);
-  if (data.success)
+  if (data.success) {
     user.value!.liked_posts = user.value!.liked_posts.filter((p) => p != post.value!.id);
+    const likeIndex = post.value!.likes.findIndex((l) => l == user.value!.id);
+    if (likeIndex != -1) post.value!.likes.splice(likeIndex, 1);
+  }
 
   isLoadingLike.value = false;
 };
@@ -42,7 +48,9 @@ const handleSavePost = async () => {
   isLoadingSave.value = true;
 
   const data = await savePost(post.value!.id);
-  if (data.success) user.value?.saved_posts.push(post.value!.id);
+  if (data.success) {
+    user.value?.saved_posts.push(post.value!.id);
+  }
 
   isLoadingSave.value = false;
 };

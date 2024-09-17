@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Avatar from "@/components/Common/Avatar.vue";
 
-import { useUserStore } from "@/store";
+import { useChatStore, useUserStore } from "@/store";
 import { INav, INavTab } from "@/types";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
@@ -15,6 +15,7 @@ const props = defineProps<{
 
 const route = useRoute();
 const { user } = storeToRefs(useUserStore());
+const { unreadConversation } = storeToRefs(useChatStore());
 
 const handleChangeTab = (nav: INavTab) => {
   emit("changeTab", nav);
@@ -38,21 +39,29 @@ const disableNavHasExtend = computed(() => {
       :class="disableNavHasExtend"
       @click="handleChangeTab(nav.name)"
     ></div>
-    <component
-      v-if="nav.name != 'Profile'"
-      :is="currentNav == nav.name ? nav.iconActive : nav.icon"
-      class="w-6 flex-shrink-0 group-hover/nav-item:scale-105 transition-transform duration-300"
-    />
-    <div v-else class="w-6 h-6 relative flex-shrink-0">
-      <Avatar
-        :avatarUrl="user?.avatar"
-        class="absolute-center"
-        :class="{
-          'shadow-[inset_0_0_0_2px_#000]':
-            currentNav == 'Profile' && route.params.username == user?.username,
-        }"
-        width="26"
+    <div class="relative">
+      <component
+        v-if="nav.name != 'Profile'"
+        :is="currentNav == nav.name ? nav.iconActive : nav.icon"
+        class="w-6 flex-shrink-0 group-hover/nav-item:scale-105 transition-transform duration-300"
       />
+      <div v-else class="w-6 h-6 relative flex-shrink-0">
+        <Avatar
+          :avatarUrl="user?.avatar"
+          class="absolute-center"
+          :class="{
+            'shadow-[inset_0_0_0_2px_#000]':
+              currentNav == 'Profile' && route.params.username == user?.username,
+          }"
+          width="26"
+        />
+      </div>
+      <div
+        v-if="nav.name == 'Messenger' && unreadConversation > 0"
+        class="badge absolute -top-1 -right-2 flex flex-center w-5 h-5 rounded-full bg-badge border-2 border-white"
+      >
+        <span class="text-xs text-white">{{ unreadConversation }}</span>
+      </div>
     </div>
     <span
       class="hidden desktop:block parent-[.is-narrow]:hidden min-w-max pl-4 text-base text-textColor-primary parent-[.active]:font-bold"

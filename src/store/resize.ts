@@ -3,6 +3,7 @@ import type { ISize } from "@/types";
 
 interface IState {
   screen: "mobile" | "tablet" | "desktop";
+  isNarrow: boolean;
   dimensions: ISize;
   timeout: {
     width: Nullable<NodeJS.Timeout>;
@@ -13,6 +14,7 @@ interface IState {
 export const useResizeStore = defineStore("resize", {
   state: (): IState => ({
     screen: "desktop",
+    isNarrow: false,
     dimensions: {
       width: 0,
       height: 0,

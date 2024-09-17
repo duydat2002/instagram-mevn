@@ -60,7 +60,7 @@ watch(
         </div>
       </div>
       <div
-        class="flex flex-col w-[400px] min-h-[450px] min-[1160px]:w-[500px] flex-shrink-0 border-l-0 min-[736px]:border-l border-borderColor box-content"
+        class="flex flex-col w-[400px] min-h-[450px] min-[1160px]:w-[500px] border-l-0 min-[736px]:border-l border-borderColor box-content"
       >
         <PostHeader />
         <PostComments v-if="screen != 'mobile'" />

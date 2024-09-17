@@ -18,6 +18,7 @@ import {
   faCircleXmark,
   faMagnifyingGlass,
   faStar,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
@@ -52,7 +53,8 @@ library.add(
   farComment,
   faBookmark,
   faMagnifyingGlass,
-  faStar
+  faStar,
+  faCheck
 );
 
 export { FontAwesomeIcon };

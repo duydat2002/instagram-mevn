@@ -40,8 +40,15 @@ const routes: Readonly<RouteRecordRaw[]> = [
   {
     path: "/inbox",
     name: "Messenger",
-    component: () => import("@/views/messenger.vue"),
+    component: () => import("@/views/messenger/messenger.vue"),
     meta: { title: "Hộp thư • Chat", layout: AppLayout, requiresAuth: true },
+    children: [
+      {
+        path: ":conversationId",
+        name: "Conversation",
+        component: () => import("@/views/messenger/chatDetail.vue"),
+      },
+    ],
   },
   ...profile,
   {

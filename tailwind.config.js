@@ -46,7 +46,12 @@ export default {
           red: "rgb(255, 48, 64)",
           yellow: "rgb(255, 214, 0)",
         },
+        message: {
+          DEFAULT: "#efefef",
+          primary: "#3797f0",
+        },
         overlay: "rgba(26, 26, 26, 0.8)",
+        badge: "rgb(255, 48, 64)",
         thumb: "var(--thumb-color)",
         link: "var(--link-color)",
         error: "var(--error-color)",

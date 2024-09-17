@@ -6,10 +6,11 @@ import Footer from "@/components/Layout/Footer.vue";
 import UserReviewModal from "@/components/Modal/UserReviewModal.vue";
 import PostModal from "@/components/Modal/PostModal.vue";
 
-import { useResizeStore, useUserStore } from "@/store";
+import { usePostStore, useResizeStore, useUserStore } from "@/store";
 import { storeToRefs } from "pinia";
 
 const { isLogged } = storeToRefs(useUserStore());
+const { postIdModal } = storeToRefs(usePostStore());
 const { screen } = storeToRefs(useResizeStore());
 </script>
 
@@ -18,7 +19,7 @@ const { screen } = storeToRefs(useResizeStore());
     <div v-if="isLogged">
       <Nav />
       <main
-        class="flex min-h-[100vh] ml-0 pb-12 w-full tablet:ml-nav-narrow tablet:w-[calc(100%-theme(spacing.nav-narrow))] desktop:ml-nav-medium desktop:w-[calc(100%-theme(spacing.nav-medium))]"
+        class="flex min-h-[100vh] ml-0 w-full tablet:ml-nav-narrow tablet:w-[calc(100%-theme(spacing.nav-narrow))] desktop:ml-nav-medium desktop:w-[calc(100%-theme(spacing.nav-medium))]"
       >
         <slot />
       </main>
@@ -48,5 +49,5 @@ const { screen } = storeToRefs(useResizeStore());
   <Transition name="fade">
     <UserReviewModal />
   </Transition>
-  <PostModal />
+  <PostModal v-if="postIdModal" />
 </template>

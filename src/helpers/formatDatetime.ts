@@ -11,6 +11,10 @@ const capitalizeFirst = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
+export function dateDistanceToNowStrict(date: Date | string) {
+  return formatDistanceToNowStrict(date, { locale: vi, addSuffix: true });
+}
+
 export function dateDistanceToNow(
   date: Date | string,
   suffix: boolean = true,

@@ -7,7 +7,7 @@ import NotificationPanel from "./NavPanel/NotificationPanel.vue";
 import NavExtend from "./NavExtend.vue";
 import CreatePost from "@/components/Pages/CreatePost/index.vue";
 
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, watchEffect } from "vue";
 import { storeToRefs } from "pinia";
 import { useResizeStore } from "@/store";
 import { useNav } from "@/composables/useNav";
@@ -17,7 +17,7 @@ import { useCreatePostStore } from "@/store/createPost";
 
 const route = useRoute();
 
-const { screen } = storeToRefs(useResizeStore());
+const { screen, isNarrow } = storeToRefs(useResizeStore());
 const { currentTab, isShowModal, removePostPopupShow, isUploadding } = storeToRefs(
   useCreatePostStore()
 );
@@ -26,12 +26,12 @@ const { navs, bottomNav } = useNav();
 const currentNav = ref<INavTab>("Home");
 const currentPanel = ref<"Search" | "Notification" | "Bar" | null>(null);
 
-const isNarrow = computed(() => {
-  if (screen.value == "mobile") return false;
-  return screen.value == "tablet" || (currentPanel.value && currentPanel.value != "Bar")
-    ? true
-    : false;
-});
+// const isNarrow = computed(() => {
+//   if (screen.value == "mobile") return false;
+//   return screen.value == "tablet" || (currentPanel.value && currentPanel.value != "Bar")
+//     ? true
+//     : false;
+// });
 
 const changeTab = (nav: INavTab) => {
   if (nav == "CreatePost") {
@@ -66,6 +66,14 @@ watch(
 
 watch(screen, (value) => {
   if (value == "mobile") clickOutsideTab();
+});
+
+watchEffect(() => {
+  if (screen.value == "mobile") isNarrow.value = false;
+  else {
+    isNarrow.value =
+      screen.value == "tablet" || (currentPanel.value && currentPanel.value != "Bar") || false;
+  }
 });
 </script>
 

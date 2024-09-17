@@ -27,7 +27,10 @@ const handleLikePost = async () => {
   isLoadingLike.value = true;
 
   const data = await likePost(props.post.id);
-  if (data.success) user.value?.liked_posts.push(props.post.id);
+  if (data.success) {
+    user.value?.liked_posts.push(props.post.id);
+    props.post.likes.push(user.value!.id);
+  }
 
   isLoadingLike.value = false;
 };
@@ -36,8 +39,11 @@ const handleUnlikePost = async () => {
   isLoadingLike.value = true;
 
   const data = await unlikePost(props.post.id);
-  if (data.success)
+  if (data.success) {
     user.value!.liked_posts = user.value!.liked_posts.filter((p) => p != props.post.id);
+    const likeIndex = props.post.likes.findIndex((l) => l == user.value!.id);
+    if (likeIndex != -1) props.post.likes.splice(likeIndex, 1);
+  }
 
   isLoadingLike.value = false;
 };

@@ -25,7 +25,7 @@ service.interceptors.response.use(
     const data = error?.response?.data;
     const refreshToken = localStorage.getItem("refresh_token");
 
-    if (error?.response.status == 401 && refreshToken) {
+    if (error?.response?.status == 401 && refreshToken) {
       const res = await refreshTokenFn(refreshToken);
 
       error.config.headers.Authorization = `Bearer ${res.result?.accessToken}`;
