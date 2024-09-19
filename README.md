@@ -15,43 +15,19 @@ https://instagram-mevn.vercel.app/
 
 ## Preview
 
-## App Features
+https://github.com/user-attachments/assets/ea642ec0-7d45-4d05-ab53-e9760b008fe2
 
-### Common
+Create post
 
-- Dark / light mode
-- Loading progress when change route
-- Route as modal: /:username/followers, /:username/followings,...
+https://github.com/user-attachments/assets/b39084e1-07b9-452f-a835-2013d6f5a0b2
 
-### Auth
+Route as Modal
 
-- JWT with AccessToken/ RefreshToken
-- Login / Register
-- Unique username / email check
+https://github.com/user-attachments/assets/40542f89-ca86-4944-8799-86c6c3e5fd24
 
-### Nav
+Realtime chat
 
-- Automatically return to the previous tab when deactivating add-on tabs: (Search, Notify, Bar)
-- Automatically select the current tab according to the route
-- Show tooltip when hover tab 1s in narrow mode
-- Change nav when resizing to mobile
-
-### Search
-
-- Related search by username and full name, sorted by user relevance (follow)
-
-### Profile
-
-- Show modal followers, followings, mutual followers, mutual first followers by route
-
-### Other
-
-- ...
-
-## Installation
-
-1. npm install
-2. npm run dev
+https://github.com/user-attachments/assets/258c9a66-86de-42fa-8cd7-71fa10625462
 
 ## Notes
 
