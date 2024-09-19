@@ -117,6 +117,7 @@ const toggleMessage = () => {
 }
 
 .start {
+  margin-top: 4px;
   border-top-left-radius: 18px;
 }
 .mine.start {

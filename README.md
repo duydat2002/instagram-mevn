@@ -10,8 +10,10 @@ https://instagram-mevn.vercel.app/
 2. Vue router
 3. Pinia
 4. Typescript
-5. Axios - (Nodejs-Mongodb)
-6. Other - Swiper, Vuedraggable, some lodash functions, date-fns, fontawesome,...
+5. Axios
+6. Other - Swiper, Vuedraggable, lodash, date-fns, fontawesome,...
+
+## Preview
 
 ## App Features
 

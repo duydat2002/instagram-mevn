@@ -208,7 +208,12 @@ onBeforeRouteUpdate(async (to, from, next) => {
                       <fa class="text-xs ml-1" :icon="['fas', 'chevron-down']" />
                     </UButton>
                   </template>
-                  <UButton secondary :isLoading="isLoadingInbox" @click="handleClickInbox">
+                  <UButton
+                    v-if="!isSameUser"
+                    secondary
+                    :isLoading="isLoadingInbox"
+                    @click="handleClickInbox"
+                  >
                     <span>Nhắn tin</span>
                   </UButton>
                 </div>

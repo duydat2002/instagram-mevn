@@ -27,9 +27,8 @@ app.directive("infinite-scroll", InfiniteScroll);
 
 const { initializeChatSocket, init: initConversation } = useChatStore();
 const { initializeOnlineSocket } = useUsersOnlineStore();
-initializeSocket(pinia);
+// initializeSocket(pinia);
 initializeChatSocket();
-await initConversation();
 initializeOnlineSocket();
 
 const { isLogged, fetchUserInfo } = useUserStore();

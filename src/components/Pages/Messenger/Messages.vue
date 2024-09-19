@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import Avatar from "@/components/Common/Avatar.vue";
 import Message from "@/components/Pages/Messenger/Message.vue";
 
-import { onBeforeMount, ref, computed, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useChatStore, useUserStore } from "@/store";
-import { getMessagesInChat } from "@/services/chat";
-import { IMessage, IMessageUI } from "@/types/chat";
-import { differenceInMilliseconds, intervalToDuration } from "date-fns";
+import { IMessageUI } from "@/types/chat";
+import { intervalToDuration } from "date-fns";
 import { nextTick } from "vue";
 
 const { loadMessagesForSelected } = useChatStore();
@@ -41,9 +39,8 @@ const messagesComp = computed<IMessageUI[]>(() => {
       prevBySameAuthor = prevMessage.author == m.author;
 
       if (!timestampDuration.hours || timestampDuration.hours < 1) {
-        showTimeStamp = false;
-
         if (prevBySameAuthor) {
+          showTimeStamp = false;
           startSequence = false;
         }
       }
@@ -73,7 +70,11 @@ const messagesComp = computed<IMessageUI[]>(() => {
 
 const someoneTyping = computed(() => {
   if (conversation.value?.typingUser?.size) {
-    const usernames = Array.from(conversation.value.typingUser.keys());
+    const typings = Array.from(conversation.value.typingUser.keys());
+
+    const usernames = conversation.value.members
+      .filter((m) => typings.includes(m.id))
+      .map((m) => m.username);
 
     return usernames.join(", ") + " đang nhập...";
   }

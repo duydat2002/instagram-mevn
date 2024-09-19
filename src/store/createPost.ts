@@ -99,6 +99,7 @@ export const useCreatePostStore = defineStore("createPost", {
     deleteMedia(mediaIndex: number) {
       this.medias.splice(mediaIndex, 1);
       this.currentMedia = this.medias[0];
+      this.currentMediaIndex = 0;
     },
     setCurrentMedia(currentMedia: IMedia) {
       this.currentMedia = currentMedia;
@@ -201,6 +202,7 @@ export const useCreatePostStore = defineStore("createPost", {
       this.currentMedia = null;
       this.currentRatio = "1:1";
       this.filter = {} as IFilters;
+      this.caption = "";
     },
   },
 });

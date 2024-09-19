@@ -11,12 +11,14 @@ import {
   useLoadingStore,
   useCommonStore,
   useUserStore,
+  useChatStore,
 } from "./store";
 import { socket } from "@/plugins/socket";
 
 useResize();
 const route = useRoute();
 
+const { init: initChat } = useChatStore();
 const { darkMode } = storeToRefs(useThemeStore());
 const { screen } = storeToRefs(useResizeStore());
 const { stopScroll } = storeToRefs(useModalStore());
@@ -42,9 +44,11 @@ watch(title, (title) => {
 
 watch(
   isLogged,
-  () => {
-    if (isLogged.value) socket.connect();
-    else socket.disconnect();
+  async () => {
+    if (isLogged.value) {
+      await initChat();
+      socket.connect();
+    } else socket.disconnect();
   },
   { immediate: true }
 );

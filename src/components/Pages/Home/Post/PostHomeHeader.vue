@@ -80,7 +80,7 @@ const handleClickFollow = async () => {
         >
           • {{ dateDistanceToNowMaxWeek(post!.createdAt, false, false) }}</RouterLink
         >
-        <template v-if="!user?.followings.includes(post.author.id)">
+        <template v-if="!user?.followings.includes(post.author.id) && user?.id != post.author.id">
           <span class="mx-1 text-textColor-secondary">•</span>
           <UButton
             primary

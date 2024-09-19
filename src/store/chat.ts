@@ -62,6 +62,8 @@ export const useChatStore = defineStore("chat", {
             m.readBy.push({ userId, readAt });
           }
         });
+
+        socket.emit("conversation:read", { conversationId: this.conversationId });
       });
 
       socket.on("message:typing", ({ userId, conversationId, isTyping }) => {

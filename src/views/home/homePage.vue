@@ -76,9 +76,3 @@ onBeforeMount(async () => {
     "
   />
 </template>
-
-<style>
-.navigations > div {
-  margin-bottom: 12px;
-}
-</style>
