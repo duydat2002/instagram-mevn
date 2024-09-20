@@ -4,14 +4,27 @@ This project is still under development 🔥🔥🔥
 
 https://instagram-mevn.vercel.app/
 
-## Stack used
+## Features
+- **JWT Authentication**: Secure login with access and refresh tokens.
+- **Photo Sharing**: Upload, crop, edit, and apply filters to photos before sharing.
+- **Real-time Chat**: Send and receive messages instantly using Socket.io.
+- **Follow System**: Follow/unfollow users and view their posts in your feed.
+- **Likes and Comments**: Interact with posts by liking and commenting.
 
-1. Vue 3
-2. Vue router
-3. Pinia
-4. Typescript
-5. Axios
-6. Other - Swiper, Vuedraggable, lodash, date-fns, fontawesome,...
+## Technologies Used
+
+- **Frontend**:
+  - Vue.js
+  - Pinia
+  - Tailwind CSS
+  - Swiper
+  - Vuedraggable
+
+- **Backend**:
+  - Node.js with Express
+  - MongoDB for storing tasks, boards, and user data
+  - Socket.io for real-time chat
+  - Firebase for cloud storage
 
 ## Preview
 
